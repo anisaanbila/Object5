@@ -1,5 +1,6 @@
 streamlit
-tensorflow
 ultralytics
-pillow
-opencv-python
+tensorflow
+opencv-python-headless
+Pillow
+numpy

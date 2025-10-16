@@ -9,7 +9,11 @@ import cv2
 import pandas as pd
 from collections import Counter
 
-st.set_page_config(page_title="Rock–Paper–Scissors (RPS) Vision Dashboard", page_icon="🧠", layout="wide")
+st.set_page_config(
+    page_title="Rock–Paper–Scissors (RPS) Vision Dashboard",
+    page_icon="🧠",
+    layout="wide",
+)
 
 # =========================
 # THEME (gradient + Poppins + futuristic network)
@@ -44,7 +48,6 @@ header[data-testid="stHeader"]{ display:none; }
 [data-testid="stAppViewContainer"]::before{
   content:""; position:fixed; inset:0; pointer-events:none; opacity:.25;
   background:
-    /* grid */
     linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
   background-size: 60px 60px, 60px 60px;
@@ -94,7 +97,7 @@ header[data-testid="stHeader"]{ display:none; }
   border:2px solid rgba(255,255,255,.85); box-shadow:0 0 18px rgba(255,255,255,.25), inset 0 0 10px rgba(255,255,255,.12);}
 .icon-bubble svg{ width:60px; height:60px; }
 
-/* Architecture flow (perfectly aligned) */
+/* Architecture flow (aligned perfectly) */
 .flow{ position:relative; padding-left:46px; }
 .flow:before{ content:""; position:absolute; left:26px; top:6px; bottom:6px; width:4px; background:linear-gradient(#160078,#7226FF); border-radius:4px; }
 .flow .node{ position:relative; margin:18px 0; padding-left:0; color:#fff; font-weight:700; font-size:1.05rem;}
@@ -103,8 +106,12 @@ header[data-testid="stHeader"]{ display:none; }
 /* Big result title */
 .big-result{ font-size:2.2rem; font-weight:800; letter-spacing:.3px; margin:.6rem 0 0 0; color:#fff; }
 
-/* Header RPS SVG (no box) */
-.rps-svg{ width:100%; max-width:360px; height:auto; filter: drop-shadow(0 0 14px rgba(255,255,255,.18)); }
+/* Header right image (no box) */
+.header-rps-img{ width:100%; max-width:360px; height:auto;
+  filter: drop-shadow(0 0 18px rgba(255,255,255,.28)) drop-shadow(0 0 6px rgba(255,255,255,.25)); }
+
+/* Force select label & generic labels to white */
+label, .stSelectbox label{ color:#FFFFFF !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -120,8 +127,9 @@ def load_models():
 yolo_model, classifier = load_models()
 
 # =========================
-# HEADER (text left + RPS outline icons in a circle, NO BOX for the svg)
+# HEADER (left text + your PNG icon on right, NO BOX)
 # =========================
+ICON_PATH = "/mnt/data/22ad456f-eacb-4486-9108-08d1d482dddf.png"  # ganti jika lokasi file beda
 c1, c2 = st.columns([1.6,1.0], vertical_alignment="center")
 with c1:
     st.markdown(
@@ -130,41 +138,12 @@ with c1:
         "<h1>Detection & Classification for<br/>Rock–Paper–Scissors (RPS)</h1>"
         "<p class='caption'>Dashboard futuristik untuk <b>deteksi objek</b> (YOLOv8) dan <b>klasifikasi gambar</b> (CNN) pada gestur tangan RPS.</p>"
         "</div>", unsafe_allow_html=True)
-
 with c2:
-    st.markdown("""
-    <div style="display:flex;justify-content:center;align-items:center;padding:8px 0 12px 0;">
-      <!-- Neon white circle with 3 outline icons around -->
-      <svg class="rps-svg" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <style>
-            .stroke{ stroke:white; stroke-width:3; filter:url(#glow); }
-            .icon{ stroke:white; stroke-width:3; fill:none; }
-          </style>
-        </defs>
-        <circle cx="160" cy="170" r="110" class="stroke"/>
-        <!-- Rock (fist) -->
-        <g transform="translate(150,32)">
-          <circle cx="10" cy="10" r="18" class="stroke"/>
-          <path d="M0,10 c2,-8 18,-8 20,2 v8 c0,6 -6,10 -10,10 -6,0 -10,-5 -10,-10z" class="icon"/>
-        </g>
-        <!-- Paper (open hand) -->
-        <g transform="translate(262,190)">
-          <circle cx="10" cy="10" r="18" class="stroke"/>
-          <path d="M6,22 c-2,-10 2,-18 8,-18 5,0 6,5 6,10 v8" class="icon"/>
-          <path d="M2,18 c-1,-7 2,-12 6,-12" class="icon"/>
-        </g>
-        <!-- Scissors (peace sign) -->
-        <g transform="translate(48,190)">
-          <circle cx="10" cy="10" r="18" class="stroke"/>
-          <path d="M4,6 l8,12 M16,6 l-6,10 M6,20 c4,4 10,4 12,0" class="icon"/>
-        </g>
-      </svg>
-    </div>
-    """, unsafe_allow_html=True)
+    try:
+        rps_icon = Image.open(ICON_PATH).convert("RGBA")
+        st.image(rps_icon, use_container_width=False, caption=None, output_format="PNG")
+    except Exception:
+        st.info("Ikon header tidak ditemukan. Periksa path ICON_PATH.")
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -182,7 +161,7 @@ def uploader_card(key_label:str, title="Unggah Gambar"):
     return f
 
 # =========================
-# TAB: DETEKSI (clean, elegant: no sliders, big class text)
+# TAB: DETEKSI (clean, elegant: no sliders/summary/table)
 # =========================
 with tab_det:
     left, right = st.columns([1.04,1])
@@ -205,13 +184,12 @@ with tab_det:
                 plotted = cv2.cvtColor(plotted, cv2.COLOR_BGR2RGB)
             st.image(plotted, use_container_width=True, caption="Bounding boxes")
 
-            # Tampilkan kelas dominan (paling banyak) dengan font besar
             names = res[0].names
             boxes = res[0].boxes
             if boxes is not None and len(boxes) > 0:
                 cls_ids = [int(c) for c in boxes.cls.tolist()]
                 dominant = Counter(cls_ids).most_common(1)[0][0]
-                st.markdown(f"<div class='big-result'>{names[dominant].upper()}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='big-result'>Prediksi Utama ⮕ {names[dominant].capitalize()}</div>", unsafe_allow_html=True)
             else:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
         st.markdown("</div>", unsafe_allow_html=True)
@@ -241,7 +219,7 @@ with tab_cls:
             labels = ["paper","rock","scissors"] if len(pred[0])==3 else [f"class_{i}" for i in range(len(pred[0]))]
             top_idx = int(np.argmax(probs)); top_name = labels[top_idx]; top_prob = float(probs[top_idx])
 
-            st.markdown(f"<div class='big-result'>Prediksi Utama: {top_name.capitalize()}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='big-result'>Prediksi Utama ⮕ {top_name.capitalize()}</div>", unsafe_allow_html=True)
             st.markdown(f"<p class='caption' style='margin:.2rem 0 1rem 0;'>Skor keyakinan: <b>{top_prob:.4f}</b></p>", unsafe_allow_html=True)
 
             for name, p in zip(labels, probs):
@@ -304,7 +282,6 @@ with tab_docs:
 **Split & Prapemrosesan.** **70/20/10** (latih/validasi/uji), **224×224** RGB, normalisasi **0–1**, augmentasi ringan.
         """)
 
-    # per-kelas count (contoh dari dataset Dicoding)
     counts = {"Rock":726, "Paper":712, "Scissors":750}
     colc = st.columns(3)
     icons = {
@@ -332,22 +309,24 @@ with tab_docs:
         st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.markdown("<div class='card-title'>Arsitektur</div>", unsafe_allow_html=True)
         if model_choice == "CNN":
-            st.markdown("<div class='flow'>"
-                        "<div class='node'>Conv2D(32, 3×3, ReLU) → MaxPool(2×2)</div>"
-                        "<div class='node'>Conv2D(64, 3×3, ReLU) → MaxPool(2×2)</div>"
-                        "<div class='node'>Conv2D(128, 3×3, ReLU) → MaxPool(2×2)</div>"
-                        "<div class='node'>Flatten</div>"
-                        "<div class='node'>Dense(128, ReLU) → Dropout(0.5)</div>"
-                        "<div class='node'>Dense(3, Softmax)</div>"
-                        "</div>", unsafe_allow_html=True)
+            st.markdown(
+                "<div class='flow'>"
+                "<div class='node'>Conv2D(32, 3×3, ReLU) → MaxPool(2×2)</div>"
+                "<div class='node'>Conv2D(64, 3×3, ReLU) → MaxPool(2×2)</div>"
+                "<div class='node'>Conv2D(128, 3×3, ReLU) → MaxPool(2×2)</div>"
+                "<div class='node'>Flatten</div>"
+                "<div class='node'>Dense(128, ReLU) → Dropout(0.5)</div>"
+                "<div class='node'>Dense(3, Softmax)</div>"
+                "</div>", unsafe_allow_html=True)
             st.markdown("Optimizer **Adam**, loss **categorical_crossentropy**, **EarlyStopping** + **ModelCheckpoint**.")
         else:
-            st.markdown("<div class='flow'>"
-                        "<div class='node'>Backbone (SiLU, C2f, SPPF)</div>"
-                        "<div class='node'>Neck (FPN/PAN, multi-scale fusion)</div>"
-                        "<div class='node'>Head (stride 8/16/32, cls+box, anchor-free)</div>"
-                        "</div>", unsafe_allow_html=True)
-            st.markdown("Inferensi UI: nilai default digunakan (confidence & IoU internal).")
+            st.markdown(
+                "<div class='flow'>"
+                "<div class='node'>Backbone (SiLU, C2f, SPPF)</div>"
+                "<div class='node'>Neck (FPN/PAN, multi-scale fusion)</div>"
+                "<div class='node'>Head (stride 8/16/32, cls+box, anchor-free)</div>"
+                "</div>", unsafe_allow_html=True)
+            st.markdown("Inferensi UI menggunakan nilai default internal.")
         st.markdown("</div>", unsafe_allow_html=True)
 
     with colB:
@@ -365,7 +344,7 @@ with tab_docs:
             metric_bar("Recall", 1.00)
             metric_bar("mAP@50", 0.995)
             metric_bar("mAP@50–95", 0.925)
-            metric_bar("Latency (skala cepat)", 1-0.017)  # 17ms -> skala
+            metric_bar("Latency (skala cepat)", 1-0.017)  # 17ms ~ cepat
             st.markdown("Akurat & cepat — layak untuk **real-time**.")
         st.markdown("</div>", unsafe_allow_html=True)
 

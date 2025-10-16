@@ -29,11 +29,22 @@ st.markdown("""
   --success:#8BE28B;
   --warning:#FFD166;
 }
+
+/* ====== FIX: header nutup konten ====== */
+header[data-testid="stHeader"] { display: none; }                 /* sembunyikan header putih */
+.block-container{
+  padding-top: 3.5rem !important;  /* ruang ekstra di atas konten */
+  padding-bottom: 2rem;
+  max-width: 1300px;
+}
+/* (opsional) bersihkan menu & footer bawaan Streamlit */
+#MainMenu {visibility: hidden;} footer {visibility: hidden;}
+
 html, body, [data-testid="stAppViewContainer"]{ background: var(--bg); color: var(--text); }
-.block-container{ padding-top: 1rem; padding-bottom: 2rem; max-width: 1300px; }
 a{ color: var(--accent-2) !important; }
 h1,h2,h3,h4{ color: var(--text); }
 
+/* Cards */
 .card{
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid #23233a;
@@ -46,12 +57,16 @@ h1,h2,h3,h4{ color: var(--text); }
   font-weight: 700; font-size:1rem; margin-bottom:.4rem; color:#cfd1e6;
 }
 .caption{ color: var(--muted); font-size:.86rem; }
+
+/* KPI */
 .kpi{
   display:flex; align-items:center; gap:.6rem; padding:.6rem .9rem;
   background:#10101a; border:1px solid #23233a; border-radius:12px;
 }
 .kpi .big{ font-weight:800; font-size:1.15rem; color:var(--text); }
 .kpi .sub{ font-size:.8rem; color:var(--muted); }
+
+/* Badges & buttons */
 .pill{
   background: rgba(124,58,237,.14);
   border: 1px solid rgba(124,58,237,.45);
@@ -63,6 +78,8 @@ h1,h2,h3,h4{ color: var(--text); }
   color:white; font-weight:700; padding:.55rem 1rem; border-radius:12px;
   display:inline-flex; align-items:center; gap:.5rem; text-decoration:none;
 }
+
+/* Uploader & misc */
 .upload-box{
   border:1px dashed #353555; background:#0f0f16; border-radius:16px; padding:16px;
 }

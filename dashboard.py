@@ -1,4 +1,4 @@
-# app.py — Vision Dashboard (RPS) — Gradient UI + Clear Model Docs
+# app.py — Vision Dashboard (RPS) — Gradient + Poppins + Clear Docs
 import streamlit as st
 from ultralytics import YOLO
 import tensorflow as tf
@@ -11,13 +11,15 @@ import pandas as pd
 # -----------------------------
 # PAGE SETUP
 # -----------------------------
-st.set_page_config(page_title="Vision Dashboard — RPS", page_icon="🧠", layout="wide")
+st.set_page_config(page_title="Rock–Paper–Scissors (RPS) Vision Dashboard", page_icon="🧠", layout="wide")
 
 # -----------------------------
-# THEME (3-stop gradient + tidy)
+# THEME (3-stop gradient + Poppins)
 # -----------------------------
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
 :root{
   --bg1:#010030;        /* top */
   --bg2:#160078;        /* middle */
@@ -27,6 +29,12 @@ st.markdown("""
   --text:#E9E9F6;
   --muted:#A3A6C2;
 }
+
+* { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+h1 { font-weight:800; }
+h2, h3 { font-weight:700; }
+p, li, div { font-weight:400; }
+
 header[data-testid="stHeader"]{ display:none; }
 .block-container{ padding-top:3.6rem!important; padding-bottom:2rem; max-width:1300px; }
 
@@ -35,7 +43,6 @@ html, body, [data-testid="stAppViewContainer"]{
   color: var(--text);
 }
 a{ color:#C8CEFF!important; }
-h1,h2,h3,h4{ color: var(--text); }
 
 .card{
   background:
@@ -54,11 +61,7 @@ hr{ border-color:#2b2c44; }
   border:1px solid rgba(150,150,220,.35); color:#D7DAFF;
   padding:.35rem .7rem; border-radius:999px; font-weight:600; font-size:.82rem;
 }
-.action{
-  background: linear-gradient(90deg, #160078, #7226FF);
-  color:#fff; font-weight:700; padding:.55rem 1rem; border-radius:12px;
-  display:inline-flex; gap:.5rem; text-decoration:none;
-}
+
 .kpi{ display:flex; gap:.6rem; align-items:center; padding:.6rem .9rem;
      background:#101026; border:1px solid #2b2c44; border-radius:12px; }
 .kpi .big{ font-weight:800; font-size:1.1rem; }
@@ -73,14 +76,17 @@ hr{ border-color:#2b2c44; }
 /* File uploader text color */
 [data-testid="stFileUploader"] section div{ color:#A3A6C2!important; }
 
-/* Progress bars for probabilities */
+/* Progress bars (classification & evaluation) */
 .prog{ width:100%; height:10px; border-radius:999px; background:#23234a; overflow:hidden; }
 .prog > span{ display:block; height:100%;
   background:linear-gradient(90deg,#160078,#7226FF); width:0%;
 }
-.prog-wrap{ display:flex; align-items:center; gap:.6rem; }
-.prog-wrap .lbl{ min-width:90px; font-weight:600; font-size:.88rem; color:#D7DAFF; }
-.prog-wrap .val{ width:46px; text-align:right; color:#D7DAFF; font-variant-numeric: tabular-nums; }
+.prog-wrap{ display:flex; align-items:center; gap:.6rem; margin:.35rem 0; }
+.prog-wrap .lbl{ min-width:110px; font-weight:600; font-size:.9rem; color:#D7DAFF; }
+.prog-wrap .val{ width:56px; text-align:right; color:#D7DAFF; font-variant-numeric: tabular-nums; }
+
+/* Selectbox tidy */
+[data-baseweb="select"] div{ font-weight:600; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -96,32 +102,30 @@ def load_models():
 yolo_model, classifier = load_models()
 
 # -----------------------------
-# HEADER
+# HEADER (RPS-focused)
 # -----------------------------
-c1, c2, c3 = st.columns([1.6,1,1])
+c1, c2 = st.columns([1.9,1.1])
 with c1:
     st.markdown(
-        "<div class='card'><div class='card-title'>Dashboard</div>"
-        "<h1 style='margin:0 0 .3rem 0;'>Welcome Back, Anisa!</h1>"
-        "<div class='caption'>UI untuk <b>Rock–Paper–Scissors</b>: deteksi (YOLOv8) & klasifikasi (CNN)</div>"
+        "<div class='card'>"
+        "<div class='card-title'>RPS Vision Dashboard</div>"
+        "<h1 style='margin:0 0 .3rem 0;'>Rock–Paper–Scissors (RPS) Detection & Classification</h1>"
+        "<div class='caption'>Antarmuka untuk deteksi objek (YOLOv8) dan klasifikasi gambar (CNN) pada gestur tangan RPS.</div>"
         "</div>", unsafe_allow_html=True)
 with c2:
     st.markdown("""<div class='card compact'>
       <div class='card-title'>Model Status</div>
-      <div class='kpi'>✅<span class='big'>Ready</span><span class='caption'>YOLO & Classifier</span></div>
+      <div class='kpi'>✅<span class='big'>Ready</span><span class='caption'>YOLOv8 & CNN aktif</span></div>
+      <div style="margin-top:.6rem"><span class='pill'>Gradient UI · Poppins</span></div>
     </div>""", unsafe_allow_html=True)
-with c3:
-    st.markdown("""<div class='card compact' style='display:flex;justify-content:space-between;align-items:center;gap:.8rem'>
-      <span class='pill'>RPS Vision</span>
-      <a class='action' href='#' onclick='return false;'>＋ Create Session</a>
-    </div>""", unsafe_allow_html=True)
+
 st.markdown("<br>", unsafe_allow_html=True)
 
 # -----------------------------
 # TABS
 # -----------------------------
 tab_det, tab_cls, tab_profile, tab_docs = st.tabs([
-    "Deteksi Objek (YOLO)", "Klasifikasi Gambar", "Profil Developer", "Penjelasan Model"
+    "Deteksi Objek (YOLOv8)", "Klasifikasi Gambar (CNN)", "Profil Developer", "Penjelasan Model"
 ])
 
 def uploader_card(key_label:str, title="Unggah Gambar"):
@@ -136,7 +140,7 @@ def uploader_card(key_label:str, title="Unggah Gambar"):
 with tab_det:
     left, right = st.columns([1.04,1])
     with left:
-        f = uploader_card("up_yolo", "Unggah Gambar • Deteksi")
+        f = uploader_card("up_yolo", "Unggah Gambar • Deteksi (RPS)")
         if f:
             img = Image.open(f).convert("RGB")
             st.markdown("<div class='card'><div class='card-title'>Pratinjau</div>", unsafe_allow_html=True)
@@ -146,7 +150,7 @@ with tab_det:
         if not f:
             st.markdown("<div class='caption'>Unggah gambar di panel kiri untuk menjalankan deteksi.</div>", unsafe_allow_html=True)
         else:
-            with st.spinner("Menjalankan YOLO..."):
+            with st.spinner("Menjalankan YOLOv8..."):
                 res = yolo_model(img); plotted = res[0].plot()
                 plotted = cv2.cvtColor(plotted, cv2.COLOR_BGR2RGB)
             st.image(plotted, use_container_width=True, caption="Deteksi (bounding boxes)")
@@ -166,7 +170,7 @@ with tab_det:
 with tab_cls:
     left, right = st.columns([1.04,1])
     with left:
-        g = uploader_card("up_cls", "Unggah Gambar • Klasifikasi")
+        g = uploader_card("up_cls", "Unggah Gambar • Klasifikasi (RPS)")
         if g:
             img2 = Image.open(g).convert("RGB")
             st.markdown("<div class='card'><div class='card-title'>Pratinjau</div>", unsafe_allow_html=True)
@@ -181,19 +185,17 @@ with tab_cls:
             arr = image.img_to_array(img_resized); arr = np.expand_dims(arr,0)/255.0
             with st.spinner("Mengklasifikasikan..."): pred = classifier.predict(arr)
             probs = pred[0].astype(float)
-            labels = ["paper","rock","scissors"]     # sesuaikan dengan urutan output model Anda
-            # safety jika jumlah kelas berbeda
+            labels = ["paper","rock","scissors"]     # sesuaikan urutan output model Anda
             if len(probs) != len(labels):
                 labels = [f"class_{i}" for i in range(len(probs))]
-            # ringkasan utama
             top_idx = int(np.argmax(probs))
             top_name = labels[top_idx]
             top_prob = float(probs[top_idx])
 
-            st.markdown(f"### Prediksi Utama: **{top_name.capitalize()}**")
+            st.markdown(f"### Prediksi Utama: **{top_name.capitalize()}** — Rock–Paper–Scissors (RPS)")
             st.markdown(f"Probabilitas: **{top_prob:.4f}**")
 
-            # --- Progress bar per kelas (rapi)
+            # --- Progress bar per kelas
             for name, p in zip(labels, probs):
                 st.markdown(
                     f"<div class='prog-wrap'><span class='lbl'>{name.capitalize()}</span>"
@@ -202,13 +204,11 @@ with tab_cls:
                     unsafe_allow_html=True
                 )
 
-            # --- Tabel probabilitas
-            df = pd.DataFrame({"Kelas": labels, "Probabilitas": [float(x) for x in probs]})
-            df["Probabilitas (%)"] = (df["Probabilitas"]*100).round(2)
+            # --- Tabel ringkas
+            df = pd.DataFrame({"Kelas": labels, "Probabilitas (%)": (probs*100).round(2)})
             st.markdown("<br>", unsafe_allow_html=True)
-            st.dataframe(df[["Kelas","Probabilitas (%)"]], use_container_width=True, hide_index=True)
-
-            st.markdown("<div class='caption'>Catatan: sesuaikan urutan <code>labels</code> dengan model Anda.</div>", unsafe_allow_html=True)
+            st.dataframe(df, use_container_width=True, hide_index=True)
+            st.markdown("<div class='caption'>Pastikan urutan <code>labels</code> sesuai output model Anda.</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------
@@ -240,28 +240,37 @@ with tab_docs:
         index=0
     )
 
+    def metric_bar(label:str, value:float):
+        """Render satu bar evaluasi, value 0..1"""
+        pct = max(0.0, min(1.0, float(value))) * 100
+        st.markdown(
+            f"<div class='prog-wrap'><span class='lbl'>{label}</span>"
+            f"<div class='prog'><span style='width:{pct:.2f}%'></span></div>"
+            f"<span class='val'>{pct:.1f}%</span></div>",
+            unsafe_allow_html=True
+        )
+
     def box_dataset(kind:str):
         st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.subheader("Dataset")
         if kind=="CNN":
             st.markdown("""
-**Sumber & Kelas.** Dataset **Rock–Paper–Scissors (Dicoding)** dengan tiga kelas: *paper* (712), *rock* (726), dan *scissors* (750) — total **2.188** gambar.
+**Sumber & Kelas.** Dataset **Rock–Paper–Scissors (RPS) dari Dicoding** dengan tiga kelas: *paper* (712), *rock* (726), *scissors* (750) — total **2.188** gambar.
 
-**Pembagian Data.** Data dibagi **70% latih / 20% validasi / 10% uji**.
+**Pembagian Data.** **70%** latih, **20%** validasi, **10%** uji.
 
 **Prapemrosesan.**
 - **Resize** ke **224×224** piksel (RGB).
-- **Normalisasi** nilai piksel ke rentang **0–1**.
-- **Augmentasi** hanya untuk data latih: rotasi ≤ 10°, zoom ≤ 10%, dan horizontal flip. 
-Tujuannya memperkaya variasi sehingga model lebih robust dan tidak overfitting.
+- **Normalisasi** 0–1 untuk mempercepat konvergensi.
+- **Augmentasi** (latih saja): rotasi ≤10°, zoom ≤10%, horizontal flip → menambah variasi dan mengurangi overfitting.
             """)
         else:
             st.markdown("""
-**Sumber & Kelas.** Dataset **Rock–Paper–Scissors (Dicoding)** yang telah **dilabeli di Roboflow** untuk tugas deteksi.
+**Sumber & Kelas.** Dataset **Rock–Paper–Scissors (RPS) dari Dicoding**, dianotasi dengan **Roboflow** untuk tugas deteksi.
 
-**Pembagian Data & Ukuran.** Seluruh gambar diubah ke **640×640** piksel dengan split **80% latih / 10% validasi / 10% uji**.
+**Pembagian & Ukuran.** Gambar diubah ke **640×640**; split **80%** latih, **10%** validasi, **10%** uji.
 
-**Kesiapan Deteksi.** Anotasi bounding box tersusun rapi per kelas (*paper/rock/scissors*) sehingga kompatibel dengan pipeline **YOLOv8** (anchor-free).
+**Kesiapan Deteksi.** Bounding box tertata untuk tiga kelas (*paper*, *rock*, *scissors*), kompatibel dengan pipeline **YOLOv8** (anchor-free).
             """)
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -272,42 +281,44 @@ Tujuannya memperkaya variasi sehingga model lebih robust dan tidak overfitting.
             st.subheader("Arsitektur")
             if kind=="CNN":
                 st.markdown("""
-**Rangkaian Layer.**  
-`[Conv2D(32, 3×3, ReLU) → MaxPool(2×2)] × 1`  
-`[Conv2D(64, 3×3, ReLU) → MaxPool(2×2)] × 1`  
-`[Conv2D(128,3×3, ReLU) → MaxPool(2×2)] × 1`  
+**Rangkaian Layer**  
+`[Conv2D(32, 3×3, ReLU) → MaxPool(2×2)]`  
+`[Conv2D(64, 3×3, ReLU) → MaxPool(2×2)]`  
+`[Conv2D(128,3×3, ReLU) → MaxPool(2×2)]`  
 `Flatten → Dense(128, ReLU) → Dropout(0.5) → Dense(3, Softmax)`
 
-**Callback Penting.**  
-- **EarlyStopping** memutus training saat *val_loss* tidak membaik (mencegah overfitting).  
-- **ModelCheckpoint** menyimpan bobot terbaik sepanjang training.
+**Callback**  
+- **EarlyStopping** (monitor *val_loss*) untuk menghentikan training saat tidak membaik.  
+- **ModelCheckpoint** menyimpan bobot terbaik.
                 """)
             else:
                 st.markdown("""
-**Struktur YOLOv8n.**
-- **Backbone** mengekstraksi fitur (aktivasi **SiLU**, blok **C2f**, dan **SPPF** untuk receptive field luas).
-- **Neck** menggabungkan fitur lintas skala (**FPN** + **PAN**) agar objek kecil/besar tetap terwakili.
-- **Head (anchor-free)** langsung memprediksi kelas + box di **3 skala** (stride **8/16/32**), tanpa anchor tetap sehingga efisien.
+**YOLOv8n (anchor-free)**  
+- **Backbone**: ekstraksi fitur (SiLU, C2f, SPPF).  
+- **Neck**: **FPN/PAN** untuk penggabungan fitur multi-skala.  
+- **Head**: prediksi kelas + box pada stride **8/16/32**, tanpa anchor statis → efisien dan akurat.
                 """)
             st.markdown("</div>", unsafe_allow_html=True)
         with col2:
             st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.subheader("Evaluasi")
             if kind=="CNN":
+                st.markdown("Ringkasan metrik validasi (sekitar):")
+                metric_bar("Accuracy", 0.94)
+                metric_bar("Precision (macro)", 0.94)
+                metric_bar("Recall (macro)", 0.94)
+                metric_bar("F1-score (macro)", 0.94)
                 st.markdown("""
-**Hasil Utama.**
-- Akurasi validasi sekitar **94%**.
-- **Precision/Recall/F1** merata di ketiga kelas (sesuai laporan CM & classification report).  
-**Makna.** Model mampu membedakan *paper*, *rock*, dan *scissors* dengan konsisten—tidak bias pada kelas tertentu dan tetap generalizable pada data uji.
+Model menunjukkan performa **stabil di seluruh kelas** (lihat confusion matrix & classification report di laporan), tanpa bias dominan.
                 """)
             else:
+                st.markdown("Metrik validasi & kecepatan:")
+                metric_bar("Precision", 0.996)
+                metric_bar("Recall", 1.00)
+                metric_bar("mAP@50", 0.995)
+                metric_bar("mAP@50–95", 0.925)
                 st.markdown("""
-**Setelan & Hasil.**
-- **Training 100 epoch**; bobot terbaik diseleksi otomatis.
-- Metrik validasi: **Precision ≈ 0.996**, **Recall 1.000**, **mAP@50 0.995**, **mAP@50–95 0.925**.
-- Rata-rata latensi per gambar ~ **17 ms** (pre-process + inferensi + post-process).
-
-**Makna.** Deteksi sangat akurat sekaligus cepat — ideal untuk skenario **real-time** dengan objek tangan RPS.
+Rata-rata latensi inferensi ~ **17 ms/gambar** (pre-process + inferensi + post-process), ideal untuk aplikasi **real-time**.
                 """)
             st.markdown("</div>", unsafe_allow_html=True)
 
@@ -316,15 +327,15 @@ Tujuannya memperkaya variasi sehingga model lebih robust dan tidak overfitting.
         st.subheader("Kesimpulan")
         if kind=="CNN":
             st.markdown("""
-Arsitektur CNN sederhana dengan tiga blok konvolusi + **Dropout 0.5** dan **callback** memberikan akurasi tinggi (**≈94%**) dan generalisasi yang baik untuk 3 kelas RPS. Pipeline ini ringan untuk inferensi dan cocok sebagai **pengklasifikasi akhir** pada sistem sederhana atau setelah pemotongan ROI dari detektor.
+Arsitektur CNN yang ringkas (tiga blok konvolusi + **Dropout 0.5**) dengan **EarlyStopping** dan **ModelCheckpoint** menghasilkan akurasi **≈94%** serta generalisasi yang baik untuk 3 kelas **Rock–Paper–Scissors (RPS)**. Cocok sebagai pengklasifikasi akhir—misalnya setelah ROI dipotong dari detektor.
             """)
         else:
             st.markdown("""
-**YOLOv8n** terbukti **akurat dan efisien** pada dataset RPS. Kombinasi **FPN/PAN** dan **head anchor-free** menghasilkan metrik presisi sangat tinggi dengan latensi rendah, sehingga **layak untuk produksi** pada aplikasi **deteksi real-time** (kamera/stream) maupun batch processing.
+**YOLOv8n** mencapai presisi tinggi dan latensi rendah pada **Rock–Paper–Scissors (RPS)**. Kombinasi **FPN/PAN** dan head **anchor-free** membuatnya unggul untuk **deteksi real-time** maupun batch processing.
             """)
         st.markdown("</div>", unsafe_allow_html=True)
 
-    # RENDER per-box (layout: 1 box → 2 box sejajar → 1 box)
+    # RENDER per-box
     box_dataset(model_choice)
     box_arch_eval(model_choice)
     box_conclusion(model_choice)

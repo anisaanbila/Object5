@@ -37,7 +37,7 @@ p,li,div,span,label{ font-weight:400; color:var(--text); }
 /* Hide default header, widen container, naikkan posisi utama */
 header[data-testid="stHeader"]{ display:none; }
 .block-container{
-  padding-top:0.6rem!important;  /* sebelumnya 3.2rem */
+  padding-top:0.1rem!important;  /* sebelumnya 3.2rem */
   padding-bottom:2rem;
   max-width:1300px;
 }

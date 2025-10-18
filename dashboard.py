@@ -145,12 +145,32 @@ with c1:
     )
 
 with c2:
-    # style kecil untuk ukuran + glow (pakai class .header-rps-img yang sudah ada)
+    # Naikkan posisi ikon header biar sejajar: align ke atas + margin-top negatif
     st.markdown(
-        "<style>.header-rps-wrap{display:flex;justify-content:center;align-items:center}"
-        ".header-rps-img{max-width:360px;width:100%;height:auto;"
-        "filter:drop-shadow(0 0 18px rgba(255,255,255,.28)) drop-shadow(0 0 6px rgba(255,255,255,.25));}"
-        "</style>",
+        """
+        <style>
+          .header-rps-wrap{
+              display:flex;
+              justify-content:center;
+              align-items:flex-start;   /* ratakan ke atas kolom */
+              margin-top:-72px;         /* ⬅️ naikkan; sesuaikan -56 / -64 / -80 kalau perlu */
+          }
+          .header-rps-img{
+              max-width:360px;
+              width:100%;
+              height:auto;
+              filter:drop-shadow(0 0 18px rgba(255,255,255,.28))
+                     drop-shadow(0 0 6px rgba(255,255,255,.25));
+          }
+          /* Responsif: di layar kecil jangan terlalu naik */
+          @media (max-width: 1200px){
+            .header-rps-wrap{ margin-top:-40px; }
+          }
+          @media (max-width: 992px){
+            .header-rps-wrap{ margin-top:-16px; }
+          }
+        </style>
+        """,
         unsafe_allow_html=True,
     )
     try:
@@ -160,6 +180,7 @@ with c2:
         st.markdown("</div>", unsafe_allow_html=True)
     except Exception as e:
         st.warning(f"Ikon header tidak ditemukan di '{ICON_PATH}'. Detil: {e}")
+
 
 
 # =========================

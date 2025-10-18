@@ -1,4 +1,4 @@
-# app.py — RPS Vision Dashboard (Layout ala referensi • Sidebar + Topbar)
+# app.py — RPS Vision Dashboard (Sidebar Logo • Elegant Menu • Topbar • Hints)
 import streamlit as st
 from ultralytics import YOLO
 import tensorflow as tf
@@ -11,21 +11,27 @@ from collections import Counter
 
 st.set_page_config(page_title="RPS Vision Dashboard", page_icon="🧠", layout="wide")
 
-# ============ THEME (tetap pakai variabel warna kamu) ============
+# =========================
+# GLOBAL STYLE (semua CSS di dalam satu blok!)
+# =========================
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap');
+
 :root{
   --bg1:#010030; --bg2:#160078; --bg3:#7226FF;
   --panel:#12122A; --panel-2:#1A1A34;
   --text:#FFFFFF; --muted:#BBC0E6;
 }
+
+/* Typography & base */
 *{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
 h1{font-weight:800;line-height:1.12;color:var(--text)}
 h2,h3,h4{font-weight:700;color:var(--text)}
 p,li,div,span,label{font-weight:400;color:var(--text)}
 header[data-testid="stHeader"]{display:none;}
 .block-container{padding-top:0.1rem!important;max-width:1300px;}
+
 /* Background */
 [data-testid="stAppViewContainer"]{
   background:
@@ -33,11 +39,38 @@ header[data-testid="stHeader"]{display:none;}
     radial-gradient(900px 500px at 90% 10%, rgba(1,0,48,.30), transparent 60%),
     linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%) fixed;
 }
+
+/* ==== SIDEBAR (logo kiri atas + judul besar + menu elegan) ==== */
 [data-testid="stSidebar"]{
   background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
   border-right:1px solid rgba(255,255,255,.06);
 }
-.sidebar-title{font-weight:800;font-size:1.1rem;margin:0 0 .4rem 0;color:#fff;}
+.sb-header{
+  display:flex; align-items:center; gap:10px;
+  padding:14px 10px 0 10px; /* pojok kiri atas */
+}
+.sb-logo{
+  width:64px; height:64px; object-fit:contain; border-radius:12px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));
+}
+.sidebar-title{
+  font-weight:800;
+  font-size:1.45rem;       /* ► diperbesar */
+  letter-spacing:.2px;
+  margin:8px 10px 0 10px;
+  color:#fff;
+}
+.sb-spacer{ height:14px; } /* jarak antara judul & menu */
+
+.sb-menu [role="radiogroup"] > label{
+  padding:6px 10px; border-radius:12px;
+  color:#fff; font-weight:500; letter-spacing:.1px;
+}
+.sb-menu [role="radiogroup"] > label:hover{
+  background: rgba(255,255,255,.05);
+}
+.sb-menu [role="radiogroup"] input{ accent-color:#7226FF; } /* dot pilihan */
+
 /* Top bar */
 .topbar{
   position:sticky; top:0; z-index:5; margin:-6px 0 14px 0;
@@ -61,7 +94,7 @@ header[data-testid="stHeader"]{display:none;}
   background:
     linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)) padding-box,
     linear-gradient(90deg, rgba(114,38,255,.35), rgba(1,0,48,.35)) border-box;
-  border:1px solid transparent; border-radius:18px; padding:22px; 
+  border:1px solid transparent; border-radius:18px; padding:22px;
   box-shadow:0 16px 44px rgba(0,0,0,.42);
 }
 .card-title{font-weight:700;font-size:1.25rem;margin-bottom:.6rem;color:#fff}
@@ -74,50 +107,12 @@ header[data-testid="stHeader"]{display:none;}
 .prog-wrap{display:flex;align-items:center;gap:.8rem;margin:.55rem 0}
 .prog-wrap .lbl{min-width:160px;font-weight:700;font-size:1.02rem;color:#fff}
 .prog-wrap .val{width:78px;text-align:right;color:#fff;font-weight:700;font-variant-numeric:tabular-nums}
-
-/* Hero icon (di atas judul) */
-.header-rps-img{width:100%;max-width:320px;height:auto;
-  filter:drop-shadow(0 0 18px rgba(255,255,255,.28)) drop-shadow(0 0 6px rgba(255,255,255,.25))}
 </style>
 """, unsafe_allow_html=True)
 
-/* ==== SIDEBAR HEADER (logo kiri atas + judul besar) ==== */
-[data-testid="stSidebar"]{
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
-  border-right:1px solid rgba(255,255,255,.06);
-}
-
-.sb-header{
-  display:flex; align-items:center; gap:10px;
-  padding:14px 10px 0 10px;  /* rapat ke kiri atas */
-}
-.sb-logo{
-  width:64px; height:64px; object-fit:contain; border-radius:12px;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));
-}
-.sidebar-title{
-  font-weight:800; 
-  font-size:1.45rem;          /* <<< dibesarkan */
-  letter-spacing:.2px; 
-  margin:8px 10px 0 10px; 
-  color:#fff;
-}
-
-/* jarak besar antara judul & menu */
-.sb-spacer{ height:14px; }
-
-/* menu radio: tipografi rapi, tanpa “button look” */
-.sb-menu [role="radiogroup"] > label{
-  padding:6px 10px; border-radius:10px;
-  color:#fff; font-weight:500; letter-spacing:.1px;
-}
-.sb-menu [role="radiogroup"] > label:hover{
-  background: rgba(255,255,255,.05);
-}
-.sb-menu [role="radiogroup"] input{ accent-color:#7226FF; } /* dot pilihan */
-
-
-# ============ LOAD MODELS ============
+# =========================
+# LOAD MODELS
+# =========================
 @st.cache_resource(show_spinner=True)
 def load_models():
     yolo = YOLO("model/Anisa Nabila_Laporan 4.pt")
@@ -126,8 +121,9 @@ def load_models():
 
 yolo_model, classifier = load_models()
 
-# ============ SIDEBAR ============
-# ============ SIDEBAR ============
+# =========================
+# SIDEBAR (logo kiri atas + judul besar + menu elegan)
+# =========================
 ICON_PATH = "rps_outline.png"  # logo kecil pojok kiri atas
 
 # header sidebar: logo (ikon saja)
@@ -136,14 +132,13 @@ try:
     st.sidebar.image(ICON_PATH, use_container_width=False, width=64, caption=None)
     st.sidebar.markdown("</div>", unsafe_allow_html=True)
 except Exception:
-    # skip bila file tidak ada
     pass
 
-# judul besar
+# judul besar + jarak
 st.sidebar.markdown("<div class='sidebar-title'>RPS Vision</div>", unsafe_allow_html=True)
 st.sidebar.markdown("<div class='sb-spacer'></div>", unsafe_allow_html=True)
 
-# menu (tanpa tampilan tombol, rapi & profesional)
+# menu elegan (tanpa “button look”)
 st.sidebar.markdown("<div class='sb-menu'>", unsafe_allow_html=True)
 page = st.sidebar.radio(
     "Menu",
@@ -155,13 +150,17 @@ st.sidebar.markdown("</div>", unsafe_allow_html=True)
 
 st.sidebar.caption("Tip: Gunakan latar gelap untuk konsistensi tampilan.")
 
-
-# ============ TOP BAR (search + ikon) ============
+# =========================
+# TOP BAR (search kiri + ikon)
+# =========================
 st.markdown("""
 <div class="topbar">
   <div class="tb-left">
     <div class="search">
-      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" fill="none" stroke="white" stroke-width="1.6" opacity=".9"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24">
+        <path d="M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"
+              fill="none" stroke="white" stroke-width="1.6" opacity=".9"/>
+      </svg>
       <input placeholder="Cari apapun… (opsional)" />
     </div>
   </div>
@@ -172,17 +171,16 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ============ HEADER (ikon di atas judul) ============
-ICON_PATH = "rps_outline.png"
-try:
-    rps_icon = Image.open(ICON_PATH).convert("RGBA")
-    st.image(rps_icon, use_container_width=False, output_format="PNG", caption=None)
-except Exception:
-    pass
+# =========================
+# TITLE
+# =========================
 st.markdown("<h1>RPS Vision Dashboard</h1>", unsafe_allow_html=True)
 
-# ===== Helper: uploader card + petunjuk =====
+# =========================
+# Helpers
+# =========================
 def uploader_card(key_label:str, title:str, hint:str):
+    """Card uploader dengan hint petunjuk."""
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.markdown(f"<div class='card-title'>{title}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='caption'>{hint}</div>", unsafe_allow_html=True)
@@ -190,22 +188,21 @@ def uploader_card(key_label:str, title:str, hint:str):
     st.markdown("</div>", unsafe_allow_html=True)
     return f
 
-# ====== HALAMAN ======
-
-# --- Dashboard (ringkas seperti kartu 'overview' + grafik besar dummy/preview) ---
+# =========================
+# PAGES
+# =========================
 if page == "Dashboard":
-    col1, col2, col3 = st.columns([1.1,1,1])
-    with col1:
+    c1, c2, c3 = st.columns([1.1,1,1])
+    with c1:
         st.markdown("<div class='card'><div class='card-title'>Ringkas Deteksi</div><p class='caption'>Objek RPS terdeteksi terakhir & kelas dominan.</p></div>", unsafe_allow_html=True)
-    with col2:
+    with c2:
         st.markdown("<div class='card'><div class='card-title'>Ringkas Klasifikasi</div><p class='caption'>Prediksi utama & skor keyakinan.</p></div>", unsafe_allow_html=True)
-    with col3:
+    with c3:
         st.markdown("<div class='card'><div class='card-title'>Dataset</div><p class='caption'>Total citra & pembagian kelas.</p></div>", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("<div class='card'><div class='card-title'>Preview / Grafik</div><p class='caption'>Tampilkan pratinjau hasil atau grafik performa di sini.</p></div>", unsafe_allow_html=True)
 
-# --- Deteksi (YOLOv8) ---
 elif page == "Deteksi (YOLOv8)":
     left, right = st.columns([1.04,1])
     with left:
@@ -236,12 +233,15 @@ elif page == "Deteksi (YOLOv8)":
             if boxes is not None and len(boxes) > 0:
                 cls_ids = [int(c) for c in boxes.cls.tolist()]
                 dominant = Counter(cls_ids).most_common(1)[0][0]
-                st.markdown(f"<div class='card-title' style='margin-top:8px'>Prediksi Utama</div><div class='caption' style='font-size:1.6rem;font-weight:800;color:#fff'>{names[dominant].capitalize()}</div>", unsafe_allow_html=True)
+                st.markdown(
+                    f"<div class='card-title' style='margin-top:8px'>Prediksi Utama</div>"
+                    f"<div class='caption' style='font-size:1.6rem;font-weight:800;color:#fff'>{names[dominant].capitalize()}</div>",
+                    unsafe_allow_html=True
+                )
             else:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
         st.markdown("</div>", unsafe_allow_html=True)
 
-# --- Klasifikasi (CNN) ---
 elif page == "Klasifikasi (CNN)":
     left, right = st.columns([1.04,1])
     with left:
@@ -269,13 +269,18 @@ elif page == "Klasifikasi (CNN)":
             labels = ["paper","rock","scissors"] if len(pred[0])==3 else [f"class_{i}" for i in range(len(pred[0]))]
             top_idx = int(np.argmax(probs)); top_name = labels[top_idx]; top_prob = float(probs[top_idx])
 
-            st.markdown(f"<div class='card-title' style='margin-bottom:.2rem'>Prediksi Utama</div><div class='caption' style='font-size:1.6rem;font-weight:800;color:#fff'>{top_name.capitalize()} — {top_prob:.4f}</div>", unsafe_allow_html=True)
+            st.markdown(
+                f"<div class='card-title' style='margin-bottom:.2rem'>Prediksi Utama</div>"
+                f"<div class='caption' style='font-size:1.6rem;font-weight:800;color:#fff'>{top_name.capitalize()} — {top_prob:.4f}</div>",
+                unsafe_allow_html=True
+            )
 
             for name, p in zip(labels, probs):
                 st.markdown(
                     f"<div class='prog-wrap'><span class='lbl'>{name.capitalize()}</span>"
                     f"<div class='prog'><span style='--w:{p*100:.2f}%;'></span></div>"
-                    f"<span class='val'>{p*100:.1f}%</span></div>", unsafe_allow_html=True
+                    f"<span class='val'>{p*100:.1f}%</span></div>",
+                    unsafe_allow_html=True
                 )
 
             df = pd.DataFrame({"Kelas": [n.capitalize() for n in labels], "Probabilitas (%)": (probs*100).round(2)})
@@ -283,12 +288,10 @@ elif page == "Klasifikasi (CNN)":
             st.dataframe(df, use_container_width=True, hide_index=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-# --- Penjelasan Model ---
 elif page == "Penjelasan Model":
     st.markdown("<div class='card'><div class='card-title'>Dokumentasi Singkat</div><p class='caption'>Ringkasan dataset, arsitektur, dan metrik—sesuai versi kamu sebelumnya.</p></div>", unsafe_allow_html=True)
 
-# --- Profil Developer (paling bawah menu) ---
-else:
+else:  # Profil Developer
     st.markdown("<div class='card'><div class='card-title'>Profil Developer</div>", unsafe_allow_html=True)
     st.markdown("""
 • **Nama tampil & panggilan**  

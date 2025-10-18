@@ -1,4 +1,4 @@
-# app.py — RPS Vision Dashboard (Sidebar Logo • Elegant Menu • Topbar • Hints)
+# app.py — RPS Vision Dashboard (Top Navbar • Lucide-like Icons • No Sidebar)
 import streamlit as st
 from ultralytics import YOLO
 import tensorflow as tf
@@ -12,7 +12,7 @@ from collections import Counter
 st.set_page_config(page_title="RPS Vision Dashboard", page_icon="🧠", layout="wide")
 
 # =========================
-# GLOBAL STYLE (semua CSS di dalam satu blok!)
+# CSS (single block) — warna tetap pakai variabel kamu
 # =========================
 st.markdown("""
 <style>
@@ -24,15 +24,13 @@ st.markdown("""
   --text:#FFFFFF; --muted:#BBC0E6;
 }
 
-/* Typography & base */
 *{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
-h1{font-weight:800;line-height:1.12;color:var(--text)}
+h1{font-weight:800;line-height:1.12;color:var(--text); margin:.8rem 0 .6rem;}
 h2,h3,h4{font-weight:700;color:var(--text)}
 p,li,div,span,label{font-weight:400;color:var(--text)}
 header[data-testid="stHeader"]{display:none;}
 .block-container{padding-top:0.1rem!important;max-width:1300px;}
 
-/* Background */
 [data-testid="stAppViewContainer"]{
   background:
     radial-gradient(1000px 600px at 15% -10%, rgba(114,38,255,.28), transparent 65%),
@@ -40,54 +38,46 @@ header[data-testid="stHeader"]{display:none;}
     linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%) fixed;
 }
 
-/* ==== SIDEBAR (logo kiri atas + judul besar + menu elegan) ==== */
-[data-testid="stSidebar"]{
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
-  border-right:1px solid rgba(255,255,255,.06);
+/* ============ NAVBAR ============ */
+.navbar{
+  position:sticky; top:0; z-index:5;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; padding:10px 16px; margin:0 0 10px 0;
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px; box-shadow:0 8px 28px rgba(0,0,0,.28);
 }
-.sb-header{
-  display:flex; align-items:center; gap:10px;
-  padding:14px 10px 0 10px; /* pojok kiri atas */
-}
-.sb-logo{
-  width:64px; height:64px; object-fit:contain; border-radius:12px;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));
-}
-.sidebar-title{
-  font-weight:800;
-  font-size:1.45rem;       /* ► diperbesar */
-  letter-spacing:.2px;
-  margin:8px 10px 0 10px;
-  color:#fff;
-}
-.sb-spacer{ height:14px; } /* jarak antara judul & menu */
 
-.sb-menu [role="radiogroup"] > label{
-  padding:6px 10px; border-radius:12px;
-  color:#fff; font-weight:500; letter-spacing:.1px;
+/* Left nav (tabs) */
+.nav-left{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.nav-item{
+  display:flex; align-items:center; gap:8px;
+  padding:10px 12px; border-radius:12px;
+  color:#fff; text-decoration:none; position:relative;
+  transition: transform .15s ease;
 }
-.sb-menu [role="radiogroup"] > label:hover{
-  background: rgba(255,255,255,.05);
-}
-.sb-menu [role="radiogroup"] input{ accent-color:#7226FF; } /* dot pilihan */
+.nav-item:hover{ transform: translateY(-1px); }
+.nav-item svg{ width:18px; height:18px; stroke:#fff; opacity:.9; }
 
-/* Top bar */
-.topbar{
-  position:sticky; top:0; z-index:5; margin:-6px 0 14px 0;
-  display:flex; gap:12px; align-items:center; justify-content:space-between;
-  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0));
-  border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:10px 14px;
-  box-shadow:0 8px 28px rgba(0,0,0,.28);
+/* Underline gradient on hover/active */
+.nav-item::after{
+  content:""; position:absolute; left:12px; right:12px; bottom:6px; height:2px;
+  background:linear-gradient(90deg, var(--bg1), var(--bg3));
+  border-radius:2px; transform:scaleX(0); transform-origin:left center;
+  transition: transform .2s ease-in-out;
 }
-.tb-left{display:flex; align-items:center; gap:10px}
-.search{
-  display:flex; align-items:center; gap:8px; min-width:340px;
-  background:var(--panel-2); border:1px solid rgba(255,255,255,.08);
-  border-radius:999px; padding:8px 12px; color:var(--muted);
+.nav-item:hover::after{ transform:scaleX(1); }
+.nav-item.active::after{ transform:scaleX(1); }
+
+/* Right (profile) */
+.nav-right{ display:flex; align-items:center; gap:10px; }
+.nav-icon{
+  display:flex; align-items:center; justify-content:center;
+  width:38px; height:38px; border-radius:11px;
+  background:var(--panel-2); border:1px solid rgba(255,255,255,.10);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
 }
-.search input{all:unset; width:100%; color:#fff}
-.tb-right{display:flex; align-items:center; gap:10px}
-.badge{background:var(--panel-2); border:1px solid rgba(255,255,255,.1); padding:6px 10px; border-radius:10px; color:#fff}
+.nav-icon svg{ width:20px; height:20px; stroke:#fff; }
 
 /* Cards */
 .card{
@@ -111,7 +101,78 @@ header[data-testid="stHeader"]{display:none;}
 """, unsafe_allow_html=True)
 
 # =========================
-# LOAD MODELS
+# Helpers — query param (no button) untuk navigasi
+# =========================
+def get_query_page():
+    # Streamlit API baru
+    page = None
+    try:
+        page = st.query_params.get("page", None)
+    except Exception:
+        pass
+    if not page:
+        # fallback API lama
+        q = st.experimental_get_query_params()
+        page = q.get("page", ["Dashboard"])[0] if q else "Dashboard"
+    return page
+
+def set_query_page(p):
+    try:
+        st.query_params.update({"page": p})
+    except Exception:
+        st.experimental_set_query_params(page=p)
+
+page = get_query_page() or "Dashboard"
+
+# =========================
+# NAVBAR HTML (ikon outline ala Lucide via inline SVG)
+# =========================
+def nav_item(href, label, icon_svg, active=False):
+    cls = "nav-item active" if active else "nav-item"
+    return f"""
+      <a class="{cls}" href="?page={href}">
+        {icon_svg}<span>{label}</span>
+      </a>
+    """
+
+icons = {
+  "home":   '<svg viewBox="0 0 24 24" fill="none"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  "camera": '<svg viewBox="0 0 24 24" fill="none"><path d="M4 8h4l2-3h4l2 3h4v10H4V8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.8"/></svg>',
+  "image":  '<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M7 15l3-3 3 3 4-4 2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="9" r="1.5" stroke="currentColor" stroke-width="1.6"/></svg>',
+  "book":   '<svg viewBox="0 0 24 24" fill="none"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 0-3 3V4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 18h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  "user":   '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/><path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
+}
+
+st.markdown(f"""
+<div class="navbar">
+  <div class="nav-left">
+    {nav_item("Dashboard","Dashboard", icons['home'],   active=(page=="Dashboard"))}
+    {nav_item("Deteksi","Deteksi (YOLOv8)", icons['camera'], active=(page=="Deteksi"))}
+    {nav_item("Klasifikasi","Klasifikasi (CNN)", icons['image'], active=(page=="Klasifikasi"))}
+    {nav_item("Penjelasan","Penjelasan Model", icons['book'], active=(page=="Penjelasan"))}
+  </div>
+  <div class="nav-right">
+    <a class="nav-icon" href="?page=Profil" title="Profil">
+      {icons['user']}
+    </a>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
+# =========================
+# TITLE
+# =========================
+title_map = {
+  "Dashboard":  "RPS Vision Dashboard",
+  "Deteksi":    "Deteksi Objek • YOLOv8",
+  "Klasifikasi":"Klasifikasi Gambar • CNN",
+  "Penjelasan": "Penjelasan Model",
+  "Profil":     "Profil Developer",
+}
+st.markdown(f"<h1>{title_map.get(page,'RPS Vision Dashboard')}</h1>", unsafe_allow_html=True)
+
+# =========================
+# Load Models
 # =========================
 @st.cache_resource(show_spinner=True)
 def load_models():
@@ -122,65 +183,9 @@ def load_models():
 yolo_model, classifier = load_models()
 
 # =========================
-# SIDEBAR (logo kiri atas + judul besar + menu elegan)
-# =========================
-ICON_PATH = "rps_outline.png"  # logo kecil pojok kiri atas
-
-# header sidebar: logo (ikon saja)
-try:
-    st.sidebar.markdown("<div class='sb-header'>", unsafe_allow_html=True)
-    st.sidebar.image(ICON_PATH, use_container_width=False, width=64, caption=None)
-    st.sidebar.markdown("</div>", unsafe_allow_html=True)
-except Exception:
-    pass
-
-# judul besar + jarak
-st.sidebar.markdown("<div class='sidebar-title'>RPS Vision</div>", unsafe_allow_html=True)
-st.sidebar.markdown("<div class='sb-spacer'></div>", unsafe_allow_html=True)
-
-# menu elegan (tanpa “button look”)
-st.sidebar.markdown("<div class='sb-menu'>", unsafe_allow_html=True)
-page = st.sidebar.radio(
-    "Menu",
-    ["Dashboard", "Deteksi (YOLOv8)", "Klasifikasi (CNN)", "Penjelasan Model", "Profil Developer"],
-    index=0,
-    label_visibility="collapsed",
-)
-st.sidebar.markdown("</div>", unsafe_allow_html=True)
-
-st.sidebar.caption("Tip: Gunakan latar gelap untuk konsistensi tampilan.")
-
-# =========================
-# TOP BAR (search kiri + ikon)
-# =========================
-st.markdown("""
-<div class="topbar">
-  <div class="tb-left">
-    <div class="search">
-      <svg width="18" height="18" viewBox="0 0 24 24">
-        <path d="M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"
-              fill="none" stroke="white" stroke-width="1.6" opacity=".9"/>
-      </svg>
-      <input placeholder="Cari apapun… (opsional)" />
-    </div>
-  </div>
-  <div class="tb-right">
-    <div class="badge">🔔</div>
-    <div class="badge">👤</div>
-  </div>
-</div>
-""", unsafe_allow_html=True)
-
-# =========================
-# TITLE
-# =========================
-st.markdown("<h1>RPS Vision Dashboard</h1>", unsafe_allow_html=True)
-
-# =========================
 # Helpers
 # =========================
 def uploader_card(key_label:str, title:str, hint:str):
-    """Card uploader dengan hint petunjuk."""
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.markdown(f"<div class='card-title'>{title}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='caption'>{hint}</div>", unsafe_allow_html=True)
@@ -189,7 +194,7 @@ def uploader_card(key_label:str, title:str, hint:str):
     return f
 
 # =========================
-# PAGES
+# Routing (berdasarkan ?page=...)
 # =========================
 if page == "Dashboard":
     c1, c2, c3 = st.columns([1.1,1,1])
@@ -203,7 +208,7 @@ if page == "Dashboard":
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("<div class='card'><div class='card-title'>Preview / Grafik</div><p class='caption'>Tampilkan pratinjau hasil atau grafik performa di sini.</p></div>", unsafe_allow_html=True)
 
-elif page == "Deteksi (YOLOv8)":
+elif page == "Deteksi":
     left, right = st.columns([1.04,1])
     with left:
         f = uploader_card(
@@ -242,7 +247,7 @@ elif page == "Deteksi (YOLOv8)":
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
         st.markdown("</div>", unsafe_allow_html=True)
 
-elif page == "Klasifikasi (CNN)":
+elif page == "Klasifikasi":
     left, right = st.columns([1.04,1])
     with left:
         g = uploader_card(
@@ -288,10 +293,10 @@ elif page == "Klasifikasi (CNN)":
             st.dataframe(df, use_container_width=True, hide_index=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-elif page == "Penjelasan Model":
+elif page == "Penjelasan":
     st.markdown("<div class='card'><div class='card-title'>Dokumentasi Singkat</div><p class='caption'>Ringkasan dataset, arsitektur, dan metrik—sesuai versi kamu sebelumnya.</p></div>", unsafe_allow_html=True)
 
-else:  # Profil Developer
+elif page == "Profil":
     st.markdown("<div class='card'><div class='card-title'>Profil Developer</div>", unsafe_allow_html=True)
     st.markdown("""
 • **Nama tampil & panggilan**  

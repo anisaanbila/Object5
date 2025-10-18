@@ -34,9 +34,19 @@ h1{ font-weight:800; line-height:1.12; }
 h2,h3,h4{ font-weight:700; }
 p,li,div,span,label{ font-weight:400; color:var(--text); }
 
-/* Hide default header, widen container */
+/* Hide default header, widen container, naikkan posisi utama */
 header[data-testid="stHeader"]{ display:none; }
-.block-container{ padding-top:3.2rem!important; padding-bottom:2rem; max-width:1300px; }
+.block-container{
+  padding-top:1.2rem!important;  /* sebelumnya 3.2rem */
+  padding-bottom:2rem;
+  max-width:1300px;
+}
+
+/* Tambahkan sedikit perataan vertikal agar ikon sejajar */
+.st-emotion-cache-ocqkz7, .st-emotion-cache-1y4p8pa{
+  align-items:flex-start !important;
+}
+
 
 /* Futuristic gradient + network grid */
 [data-testid="stAppViewContainer"]{

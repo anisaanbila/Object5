@@ -81,6 +81,42 @@ header[data-testid="stHeader"]{display:none;}
 </style>
 """, unsafe_allow_html=True)
 
+/* ==== SIDEBAR HEADER (logo kiri atas + judul besar) ==== */
+[data-testid="stSidebar"]{
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+  border-right:1px solid rgba(255,255,255,.06);
+}
+
+.sb-header{
+  display:flex; align-items:center; gap:10px;
+  padding:14px 10px 0 10px;  /* rapat ke kiri atas */
+}
+.sb-logo{
+  width:64px; height:64px; object-fit:contain; border-radius:12px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));
+}
+.sidebar-title{
+  font-weight:800; 
+  font-size:1.45rem;          /* <<< dibesarkan */
+  letter-spacing:.2px; 
+  margin:8px 10px 0 10px; 
+  color:#fff;
+}
+
+/* jarak besar antara judul & menu */
+.sb-spacer{ height:14px; }
+
+/* menu radio: tipografi rapi, tanpa “button look” */
+.sb-menu [role="radiogroup"] > label{
+  padding:6px 10px; border-radius:10px;
+  color:#fff; font-weight:500; letter-spacing:.1px;
+}
+.sb-menu [role="radiogroup"] > label:hover{
+  background: rgba(255,255,255,.05);
+}
+.sb-menu [role="radiogroup"] input{ accent-color:#7226FF; } /* dot pilihan */
+
+
 # ============ LOAD MODELS ============
 @st.cache_resource(show_spinner=True)
 def load_models():
@@ -91,15 +127,34 @@ def load_models():
 yolo_model, classifier = load_models()
 
 # ============ SIDEBAR ============
+# ============ SIDEBAR ============
+ICON_PATH = "rps_outline.png"  # logo kecil pojok kiri atas
+
+# header sidebar: logo (ikon saja)
+try:
+    st.sidebar.markdown("<div class='sb-header'>", unsafe_allow_html=True)
+    st.sidebar.image(ICON_PATH, use_container_width=False, width=64, caption=None)
+    st.sidebar.markdown("</div>", unsafe_allow_html=True)
+except Exception:
+    # skip bila file tidak ada
+    pass
+
+# judul besar
 st.sidebar.markdown("<div class='sidebar-title'>RPS Vision</div>", unsafe_allow_html=True)
+st.sidebar.markdown("<div class='sb-spacer'></div>", unsafe_allow_html=True)
+
+# menu (tanpa tampilan tombol, rapi & profesional)
+st.sidebar.markdown("<div class='sb-menu'>", unsafe_allow_html=True)
 page = st.sidebar.radio(
     "Menu",
-    ["Dashboard", "Deteksi (YOLOv8)", "Klasifikasi (CNN)", "Penjelasan Model", "—", "Profil Developer"],
+    ["Dashboard", "Deteksi (YOLOv8)", "Klasifikasi (CNN)", "Penjelasan Model", "Profil Developer"],
     index=0,
     label_visibility="collapsed",
 )
+st.sidebar.markdown("</div>", unsafe_allow_html=True)
+
 st.sidebar.caption("Tip: Gunakan latar gelap untuk konsistensi tampilan.")
-# Profil diletakkan paling bawah (separator "—" cuma pemanis visual)
+
 
 # ============ TOP BAR (search + ikon) ============
 st.markdown("""

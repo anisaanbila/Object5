@@ -127,25 +127,40 @@ def load_models():
 yolo_model, classifier = load_models()
 
 # =========================
-# HEADER (left text + your PNG icon on right, NO BOX)
+# HEADER (left text + PNG icon on right, NO BOX)
 # =========================
-ICON_PATH = "/mnt/data/22ad456f-eacb-4486-9108-08d1d482dddf.png"  # ganti jika lokasi file beda
-c1, c2 = st.columns([1.6,1.0], vertical_alignment="center")
+ICON_PATH = "rps_outline.png"  # file sejajar dengan dashboard.py
+
+c1, c2 = st.columns([1.6, 1.0], vertical_alignment="center")
+
 with c1:
     st.markdown(
         "<div class='card'>"
         "<div class='card-title'>RPS Vision Dashboard</div>"
         "<h1>Detection & Classification for<br/>Rock–Paper–Scissors (RPS)</h1>"
-        "<p class='caption'>Dashboard futuristik untuk <b>deteksi objek</b> (YOLOv8) dan <b>klasifikasi gambar</b> (CNN) pada gestur tangan RPS.</p>"
-        "</div>", unsafe_allow_html=True)
+        "<p class='caption'>Dashboard futuristik untuk <b>deteksi objek</b> (YOLOv8) dan "
+        "<b>klasifikasi gambar</b> (CNN) pada gestur tangan RPS.</p>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
 with c2:
+    # style kecil untuk ukuran + glow (pakai class .header-rps-img yang sudah ada)
+    st.markdown(
+        "<style>.header-rps-wrap{display:flex;justify-content:center;align-items:center}"
+        ".header-rps-img{max-width:360px;width:100%;height:auto;"
+        "filter:drop-shadow(0 0 18px rgba(255,255,255,.28)) drop-shadow(0 0 6px rgba(255,255,255,.25));}"
+        "</style>",
+        unsafe_allow_html=True,
+    )
     try:
         rps_icon = Image.open(ICON_PATH).convert("RGBA")
-        st.image(rps_icon, use_container_width=False, caption=None, output_format="PNG")
-    except Exception:
-        st.info("Ikon header tidak ditemukan. Periksa path ICON_PATH.")
+        st.markdown("<div class='header-rps-wrap'>", unsafe_allow_html=True)
+        st.image(rps_icon, caption=None, use_container_width=False, output_format="PNG")
+        st.markdown("</div>", unsafe_allow_html=True)
+    except Exception as e:
+        st.warning(f"Ikon header tidak ditemukan di '{ICON_PATH}'. Detil: {e}")
 
-st.markdown("<br>", unsafe_allow_html=True)
 
 # =========================
 # TABS (white titles, non-bold)

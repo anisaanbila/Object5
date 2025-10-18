@@ -144,6 +144,7 @@ def nav_item(href, label, icon_svg, active=False):
       </a>
     """
 
+# ---- HTML ikon & item (biarkan fungsi nav_item seperti sebelumnya) ----
 icons = {
   "home":   '<svg viewBox="0 0 24 24" fill="none"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   "camera": '<svg viewBox="0 0 24 24" fill="none"><path d="M4 8h4l2-3h4l2 3h4v10H4V8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.8"/></svg>',
@@ -152,21 +153,26 @@ icons = {
   "user":   '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/><path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
 }
 
-st.markdown(f"""
+def nav_item(href, label, icon_svg, active=False):
+    cls = "nav-item active" if active else "nav-item"
+    return f'<a class="{cls}" href="?page={href}">{icon_svg}<span>{label}</span></a>'
+
+nav_html = f'''
 <div class="navbar">
   <div class="nav-left">
-    {nav_item("Dashboard","Dashboard", icons['home'],   active=(page=="Dashboard"))}
-    {nav_item("Deteksi","Deteksi (YOLOv8)", icons['camera'], active=(page=="Deteksi"))}
-    {nav_item("Klasifikasi","Klasifikasi (CNN)", icons['image'], active=(page=="Klasifikasi"))}
-    {nav_item("Penjelasan","Penjelasan Model", icons['book'], active=(page=="Penjelasan"))}
+    {nav_item("Dashboard","Dashboard", icons["home"],   active=(page=="Dashboard"))}
+    {nav_item("Deteksi","Deteksi (YOLOv8)", icons["camera"], active=(page=="Deteksi"))}
+    {nav_item("Klasifikasi","Klasifikasi (CNN)", icons["image"], active=(page=="Klasifikasi"))}
+    {nav_item("Penjelasan","Penjelasan Model", icons["book"], active=(page=="Penjelasan"))}
   </div>
   <div class="nav-right">
-    <a class="nav-icon" href="?page=Profil" title="Profil">
-      {icons['user']}
-    </a>
+    <a class="nav-icon" href="?page=Profil" title="Profil">{icons["user"]}</a>
   </div>
 </div>
-""", unsafe_allow_html=True)
+'''
+
+# ⬅️ WAJIB: pakai markdown + unsafe_allow_html=True (jangan st.code/jangan backticks)
+st.markdown(nav_html, unsafe_allow_html=True)
 
 # =========================
 # TITLE

@@ -116,13 +116,22 @@ def get_query_page():
         page = q.get("page", ["Dashboard"])[0] if q else "Dashboard"
     return page
 
-def set_query_page(p):
+# =========================
+# QUERY PARAM (pakai API baru saja, aman & tanpa error)
+# =========================
+def get_page():
     try:
-        st.query_params.update({"page": p})
+        p = st.query_params.get("page", "Dashboard")
     except Exception:
-        st.experimental_set_query_params(page=p)
+        p = "Dashboard"
+    # kadang return list → ambil elemen pertama
+    if isinstance(p, (list, tuple)):
+        p = p[0] if p else "Dashboard"
+    return p
 
-page = get_query_page() or "Dashboard"
+page = get_page()
+
+
 
 # =========================
 # NAVBAR HTML (ikon outline ala Lucide via inline SVG)

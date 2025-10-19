@@ -158,7 +158,7 @@ header[data-testid="stHeader"]{ display:none; }
 }
 .header-rps-img{
   width:auto;
-  max-width:300px;
+  max-width:250px;
   height:auto;
   display:block;
   filter: drop-shadow(0 0 10px rgba(255,255,255,.20))

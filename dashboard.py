@@ -292,6 +292,22 @@ header[data-testid="stHeader"]{ display:none; }
 [data-testid="stFileUploadDropzone"] {
   margin-top: 20px !important;
 }
+/* Tombol 'Browse files' */
+[data-testid="stFileUploader"] label div[data-testid="stFileUploadDropzone"] > div button {
+  color: #FFFFFF !important;           /* Warna teks */
+  font-weight: 600 !important;         /* Tebal teks */
+  background: rgba(255,255,255,0.08);  /* Warna latar belakang */
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+[data-testid="stFileUploader"] label div[data-testid="stFileUploadDropzone"] > div button:hover {
+  background: linear-gradient(90deg,#602FFF,#8D3FFF);
+  color: #fff !important;
+  box-shadow: 0 0 12px rgba(141,63,255,0.6);
+  transform: translateY(-1px);
+}
 
 </style>
 """, unsafe_allow_html=True)

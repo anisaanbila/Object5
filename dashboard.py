@@ -89,13 +89,14 @@ header[data-testid="stHeader"]{ display:none; }
 }
 /* Caption khusus di header (biar gak ganggu tab) */
 .header-caption{
+  position:relative;
+  left:10rem;        /* ⬅️ geser blok ke kanan sejauh 10rem */
   color:#DDE0FF;
   font-size:1.25rem;
   font-weight:500;
   line-height:1.6;
   margin-top:0.5rem;
-  margin-left:15rem;
-  margin-bottom:0.5;
+  margin-bottom:0.5rem;
 }
 .card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }
 .caption{ color: var(--muted); font-size:1rem; }

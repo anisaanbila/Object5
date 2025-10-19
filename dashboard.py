@@ -294,7 +294,7 @@ header[data-testid="stHeader"]{ display:none; }
 }
 /* Tombol 'Browse files' */
 [data-testid="stFileUploader"] label div[data-testid="stFileUploadDropzone"] > div button {
-  color: #FFFFFF !important;           /* Warna teks */
+  color: #210585 !important;           /* Warna teks */
   font-weight: 600 !important;         /* Tebal teks */
   background: rgba(255,255,255,0.08);  /* Warna latar belakang */
   border: 1px solid rgba(255,255,255,0.2);
@@ -304,7 +304,7 @@ header[data-testid="stHeader"]{ display:none; }
 
 [data-testid="stFileUploader"] label div[data-testid="stFileUploadDropzone"] > div button:hover {
   background: linear-gradient(90deg,#602FFF,#8D3FFF);
-  color: #fff !important;
+  color: #210585 !important;
   box-shadow: 0 0 12px rgba(141,63,255,0.6);
   transform: translateY(-1px);
 }

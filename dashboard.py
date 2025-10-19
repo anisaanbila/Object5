@@ -301,7 +301,7 @@ header[data-testid="stHeader"]{ display:none; }
 [data-testid="stFileUploader"] a, 
 [data-testid="stFileUploader"] span,
 [data-testid="stFileUploader"] p {
-  color: #FFFFFF !important;            /* putih */
+  color: #1A1A1A !important;            /* putih */
   font-weight: 500 !important;
 }
 
@@ -310,7 +310,7 @@ header[data-testid="stHeader"]{ display:none; }
   color: #1A1A1A !important;            /* teks gelap */
   background: #FFFFFF !important;       /* tombol putih */
   border-radius: 8px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   transition: all 0.25s ease !important;
 }
 

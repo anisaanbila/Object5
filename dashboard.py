@@ -16,97 +16,26 @@ st.set_page_config(
 )
 
 # =========================
-# THEME (gradient + Poppins + futuristic network) — CLEAN VERSION
+# THEME (gradient + Poppins + futuristic network)
 # =========================
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap');
 
-/* ========= ROOT COLORS ========= */
 :root{
   --bg1:#010030; --bg2:#160078; --bg3:#7226FF;
   --panel:#12122A; --panel-2:#1A1A34;
   --text:#FFFFFF; --muted:#BBC0E6;
 }
-
-/* ========= TYPOGRAPHY ========= */
-* { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-h1{ font-weight:900; line-height:1.12; font-size:3.2rem; }
-h2,h3,h4{ font-weight:700; }
-p,li,div,span,label{ font-weight:400; color:var(--text); }
-
-/* ========= LAYOUT ========= */
-header[data-testid="stHeader"]{ display:none; }
-.block-container{
-  padding-top:0rem!important;
-  padding-bottom:2rem;
-  max-width:1300px;
-}
-
-/* ========= BACKGROUND ========= */
-[data-testid="stAppViewContainer"]{
-  background:
-    radial-gradient(1000px 600px at 15% -10%, rgba(114,38,255,.28), transparent 65%),
-    radial-gradient(900px 500px at 90% 10%, rgba(1,0,48,.30), transparent 60%),
-    linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%) fixed;
-}
-[data-testid="stAppViewContainer"]::before{
-  content:""; position:fixed; inset:0; pointer-events:none; opacity:.25;
-  background:
-    linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
-  background-size: 60px 60px, 60px 60px;
-}
-[data-testid="stAppViewContainer"]::after{
-  content:""; position:fixed; inset:0; pointer-events:none; opacity:.12;
-  background:
-    radial-gradient(3px 3px at 20% 30%, #fff, transparent 40%),
-    radial-gradient(3px 3px at 70% 20%, #fff, transparent 40%),
-    radial-gradient(3px 3px at 85% 65%, #fff, transparent 40%);
-}
-
-/* ========= CARDS ========= */
-.card{
-  position:relative;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)) padding-box,
-    linear-gradient(90deg, rgba(114,38,255,.35), rgba(1,0,48,.35)) border-box;
-  border:1px solid transparent; border-radius:18px; padding:22px 22px;
-  box-shadow: 0 16px 44px rgba(0,0,0,.42);
-  transition: box-shadow .25s ease, transform .25s ease;
-}
-.card:hover{ box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset; transform: translateY(-1px); }
-.card h1{
-  font-weight:900;
-  margin-top:0.3rem;
-  margin-left:0.8rem;
-  font-size:3.3rem;
-  color:#FFFFFF;
-  text-shadow: 0 0 8px rgba(255,255,255,.2);
-}
-.card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }
-.caption{ color: var(--muted); font-size:1rem; }
-
-/* ========= HEADER CAPTION (khusus) ========= */
-.header-caption{
-  position:relative;
-  left:0.8rem;
-  color:#DDE0FF;
-  font-size:1.25rem;
-  font-weight:500;
-  line-height:1.6;
-  margin-top:0.5rem;
-  margin-bottom:1.2rem;
-}
-
-/* ========= PROFILE CHIP (BUTTON STYLE) ========= */
+st.markdown("""
+<style>
+/* --- chip profil jadi tombol --- */
 .profile-chip-btn > button {
   all: unset; cursor: pointer; display:flex; align-items:center; gap:12px;
   padding:.65rem 1rem; border-radius:999px;
   background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
   transition: all .3s ease;
-  color:#fff; font-weight:700;
 }
 .profile-chip-btn > button:hover {
   transform: translateY(-1px);
@@ -122,7 +51,7 @@ header[data-testid="stHeader"]{ display:none; }
 .profile-chip-name{ font-weight:700; color:#fff; line-height:1.05; }
 .profile-chip-email{ color:#BBC0E6; font-size:.92rem; }
 
-/* ========= PROFILE PAGE CARDS ========= */
+/* --- halaman profil --- */
 .pro-card{
   border-radius:18px; padding:22px;
   background:
@@ -157,58 +86,244 @@ header[data-testid="stHeader"]{ display:none; }
   background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
 }
 .back-btn > button:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(0,0,0,.3); }
+</style>
+""", unsafe_allow_html=True)
 
-/* ========= TABS (Stabil + Ikon 32px sejajar) ========= */
+
+/* Typography */
+* { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+h1{ 
+  font-weight:900; 
+  line-height:1.12; 
+  font-size:3.2rem;   /* ⬅️ Tambahkan baris ini */
+}
+h2,h3,h4{ font-weight:700; }
+p,li,div,span,label{ font-weight:400; color:var(--text); }
+
+/* Hide default header, widen container */
+header[data-testid="stHeader"]{ display:none; }
+.block-container{
+  padding-top:0rem!important;
+  padding-bottom:2rem;
+  max-width:1300px;
+}
+
+/* Futuristic gradient + network grid */
+[data-testid="stAppViewContainer"]{
+  background:
+    radial-gradient(1000px 600px at 15% -10%, rgba(114,38,255,.28), transparent 65%),
+    radial-gradient(900px 500px at 90% 10%, rgba(1,0,48,.30), transparent 60%),
+    linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%) fixed;
+}
+[data-testid="stAppViewContainer"]::before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.25;
+  background:
+    linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 60px 60px, 60px 60px;
+}
+[data-testid="stAppViewContainer"]::after{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.12;
+  background:
+    radial-gradient(3px 3px at 20% 30%, #fff, transparent 40%),
+    radial-gradient(3px 3px at 70% 20%, #fff, transparent 40%),
+    radial-gradient(3px 3px at 85% 65%, #fff, transparent 40%);
+}
+
+/* Cards (glass + subtle neon) */
+.card{
+  position:relative;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)) padding-box,
+    linear-gradient(90deg, rgba(114,38,255,.35), rgba(1,0,48,.35)) border-box;
+  border:1px solid transparent; border-radius:18px; padding:22px 22px;
+  box-shadow: 0 16px 44px rgba(0,0,0,.42);
+  transition: box-shadow .25s ease, transform .25s ease;
+}
+.card:hover{ box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset; transform: translateY(-1px); }
+.card h1{
+  font-weight:900;
+  margin-top:0.3rem;
+  margin-left:0.8rem;
+  font-size:3.3rem;
+  color:#FFFFFF;
+  text-shadow: 0 0 8px rgba(255,255,255,.2);
+}
+/* Caption khusus di header (biar gak ganggu tab) */
+.header-caption{
+  position:relative;
+  left:0.8rem;        /* ⬅️ geser blok ke kanan sejauh 10rem */
+  color:#DDE0FF;
+  font-size:1.25rem;
+  font-weight:500;
+  line-height:1.6;
+  margin-top:0.5rem;
+  margin-bottom:1.2rem;
+}
+.card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }
+.caption{ color: var(--muted); font-size:1rem; }
+
+/* ===== PROFILE CHIP (atas header) ===== */
+.profile-bar{
+  display:flex; align-items:center; gap:14px;
+  width:fit-content;
+  padding:.6rem .9rem; border-radius:999px;
+  background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
+  margin: 6px 0 6px 0; /* jarak bawah lebih rapat */
+}
+
+/* ===== PROFILE CHIP (dengan efek pop-up saat hover) ===== */
+/* ===== PROFILE CHIP (dengan efek sama seperti .card:hover) ===== */
+.profile-bar{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  width:fit-content;
+  padding:.6rem .9rem;
+  border-radius:999px;
+  background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
+  margin: 6px 0 6px 0;
+  transition: all 0.35s ease;       /* biar halus kayak card */
+}
+
+/* Saat diarahkan kursor */
+.profile-bar:hover{
+  box-shadow:
+    0 26px 60px rgba(0,0,0,.55),          /* bayangan lebih dalam */
+    0 0 0 1px rgba(255,255,255,.06) inset;/* garis halus dalam */
+  transform: translateY(-1px);             /* naik dikit */
+  background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+}
+
+/* Avatar tetap punya efek lembut */
+.profile-avatar{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 0 10px rgba(255,255,255,.18), inset 0 0 8px rgba(255,255,255,.12);
+  transition: all 0.3s ease;
+}
+
+/* Tambahan: avatar ikut hidup dikit pas hover */
+.profile-bar:hover .profile-avatar{
+  transform: scale(1.08);
+  box-shadow:0 0 14px rgba(255,255,255,.25), 0 0 8px rgba(141,63,255,.5);
+}
+
+/* Nama dan email tetap clean */
+.profile-name{ font-weight:700; color:#FFFFFF; line-height:1.05; }
+.profile-email{ color:#BBC0E6; font-size:.92rem; margin-top:2px; }
+
+
+/* ===== FUTURISTIC LUCIDE TABS (Versi Stabil + 32px Ikon) ===== */
 .stTabs [role="tablist"] {
-  display:flex; justify-content:flex-start; align-items:center;
-  gap:1.4rem; padding:0.8rem 1.2rem; border-radius:40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.4rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 40px;
   background: linear-gradient(90deg, #1a0066, #4b00c7);
   box-shadow: inset 0 0 20px rgba(255,255,255,0.06);
 }
+
+/* ===== Tab button ===== */
 .stTabs [role="tab"] {
-  display:flex; align-items:center; gap:.8rem;
-  color:#E0E2FF !important; font-weight:700 !important;
-  font-size:1.35rem !important; line-height:1.25 !important;
-  padding:.8rem 1.6rem; border:none; border-radius:40px;
-  background:transparent; transition:all .25s ease; white-space:nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;                        /* jarak ikon ↔ teks */
+  color: #E0E2FF !important;
+  font-weight: 500 !important;
+  font-size: 1.3rem !important;       /* ukuran teks tab */
+  line-height: 1.25 !important;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.25s ease;
 }
-.stTabs [role="tab"] *{ font-size:inherit !important; font-weight:inherit !important; line-height:inherit !important; }
-.stTabs [role="tab"]:hover { background: rgba(255,255,255,0.08); color:#FFFFFF !important; }
-.stTabs [role="tab"][aria-selected="true"]{
+
+/* pastikan semua elemen di dalam tab ikut ukuran teks */
+.stTabs [role="tab"] * {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+}
+
+/* hover & active state */
+.stTabs [role="tab"]:hover {
+  background: rgba(255,255,255,0.08);
+  color: #FFFFFF !important;
+}
+.stTabs [role="tab"][aria-selected="true"] {
   background: linear-gradient(90deg, #602FFF, #8D3FFF);
   box-shadow: 0 0 18px rgba(138,70,255,0.5);
-  color: #fff !important; transform: translateY(-1px);
+  color: #fff !important;
+  transform: translateY(-1px);
 }
-/* Ikon kiri — 32px, sejajar, tidak absolute */
+
+/* ===== Ikon semua tab (ukuran seragam 32px, sejajar) ===== */
 .stTabs [role="tab"]::before{
-  content:""; display:inline-block; width:32px; height:32px; flex:0 0 32px;
-  margin-right:.2rem; background-repeat:no-repeat; background-position:center; background-size:32px 32px;
+  content: "";
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  margin-right: 0.8rem;             /* jarak antara ikon dan teks */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 32px 32px;
 }
-/* Tab 1 */
-.stTabs [role="tab"]:nth-child(1)::before{
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5h2l2-2h10l2 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z'/><circle cx='12' cy='13' r='3'/></svg>");
+
+/* ===== Ikon per tab (Lucide outline style) ===== */
+.stTabs [role="tab"]:nth-child(1)::before {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5h2l2-2h10l2 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z'/><circle cx='12' cy='13' r='3'/></svg>");
 }
-/* Tab 2 */
-.stTabs [role="tab"]:nth-child(2)::before{
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='M21 15l-5-5L5 21'/></svg>");
+.stTabs [role="tab"]:nth-child(2)::before {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='M21 15l-5-5L5 21'/></svg>");
 }
-/* Tab 3 */
-.stTabs [role="tab"]:nth-child(3)::before{
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>");
+.stTabs [role="tab"]:nth-child(3)::before {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>");
 }
-/* Hilangkan underline default Streamlit */
+
+/* Hilangkan underline bawaan Streamlit */
 .stTabs [role="tablist"] button { border-bottom: none !important; }
 
-/* ========= HEADER RIGHT IMAGE ========= */
-.header-rps-wrap{ display:flex; justify-content:center; align-items:flex-start; margin-top:-36px; margin-bottom:0; }
-.header-rps-img{
-  width:auto; max-width:250px; height:auto; display:block;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,.20)) drop-shadow(0 0 3px rgba(255,255,255,.18));
+
+
+/* Header right image (lebih kecil & rapat) */
+.header-rps-wrap{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  margin-top:-36px;
+  margin-bottom:0;
 }
-@media (max-width: 1200px){ .header-rps-wrap{ margin-top:-24px; } .header-rps-img{ max-width:260px; } }
-@media (max-width: 992px){ .header-rps-wrap{ margin-top:-10px; } .header-rps-img{ max-width:220px; } }
+.header-rps-img{
+  width:auto;
+  max-width:250px;
+  height:auto;
+  display:block;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.20))
+          drop-shadow(0 0 3px rgba(255,255,255,.18));
+}
+@media (max-width: 1200px){
+  .header-rps-wrap{ margin-top:-24px; }
+  .header-rps-img{ max-width:260px; }
+}
+@media (max-width: 992px){
+  .header-rps-wrap{ margin-top:-10px; }
+  .header-rps-img{ max-width:220px; }
+}
 </style>
 """, unsafe_allow_html=True)
+
 
 # =========================
 # LOAD MODELS

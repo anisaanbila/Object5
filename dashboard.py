@@ -99,7 +99,7 @@ header[data-testid="stHeader"]{ display:none; }
   margin-bottom:1.2rem;
 }
 .card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }
-.caption{ color: var(--muted); font-size:2rem; margin-top:0.5rem; }
+.caption{ color: var(--muted); font-size:1.4rem; margin-top:1rem; }
 
 /* ===== PROFILE CHIP (atas header) ===== */
 .profile-bar{

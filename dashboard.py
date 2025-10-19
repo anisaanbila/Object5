@@ -174,7 +174,7 @@ header[data-testid="stHeader"]{ display:none; }
   width: 32px;
   height: 32px;
   flex: 0 0 32px;
-  margin-right: 0.5rem;             /* jarak antara ikon dan teks */
+  margin-right: 0.8rem;             /* jarak antara ikon dan teks */
   background-repeat: no-repeat;
   background-position: center;
   background-size: 32px 32px;

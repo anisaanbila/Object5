@@ -372,7 +372,7 @@ def uploader_card(key_label: str, title="Unggah Gambar"):
     st.markdown(
         f"""
         <div class='card'>
-          <div class='card-title' style='font-size:1.35rem'>{title}</div>
+          <div class='card-title' style='font-size:1.5rem'>{title}</div>
 
           <!-- Notice banner -->
           <div class="notice-banner">
@@ -406,7 +406,7 @@ with tab_det:
         f = uploader_card("up_yolo", "Unggah Gambar")
         if f:
             img = Image.open(f).convert("RGB")
-            st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Pratinjau</div>", unsafe_allow_html=True)
+            st.markdown("<div class='card'><div class='card-title' style='font-size:1.5rem'>Pratinjau</div>", unsafe_allow_html=True)
             st.image(img, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
 

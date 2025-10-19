@@ -297,10 +297,6 @@ header[data-testid="stHeader"]{ display:none; }
 """, unsafe_allow_html=True)
 
 
-</style>
-""", unsafe_allow_html=True)
-
-
 # =========================
 # LOAD MODELS
 # =========================

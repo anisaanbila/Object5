@@ -90,7 +90,7 @@ header[data-testid="stHeader"]{ display:none; }
 /* Caption khusus di header (biar gak ganggu tab) */
 .header-caption{
   position:relative;
-  left:5rem;        /* ⬅️ geser blok ke kanan sejauh 10rem */
+  left:0.8rem;        /* ⬅️ geser blok ke kanan sejauh 10rem */
   color:#DDE0FF;
   font-size:1.25rem;
   font-weight:500;

@@ -133,7 +133,7 @@ header[data-testid="stHeader"]{ display:none; }
   position:relative;
   color:#E0E2FF !important;
   font-weight:700;
-  font-size:3rem !important;              /* ⬅️ BESARIN TEKS */
+  font-size:5rem !important;              /* ⬅️ BESARIN TEKS */
   line-height:1.1;
   padding:0.85rem 1.6rem 0.85rem 4.4rem;  /* ⬅️ KIRI DIPERLEBAR utk SPACE ikon→teks */
   border:none; border-radius:40px;

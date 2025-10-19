@@ -403,7 +403,7 @@ def uploader_card(key_label: str, title="Unggah Gambar"):
 with tab_det:
     left, right = st.columns([1.04,1])
     with left:
-        f = uploader_card("up_yolo", "Unggah Gambar • Deteksi (RPS)")
+        f = uploader_card("up_yolo", "Unggah Gambar")
         if f:
             img = Image.open(f).convert("RGB")
             st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Pratinjau</div>", unsafe_allow_html=True)
@@ -426,7 +426,7 @@ with tab_det:
             if boxes is not None and len(boxes) > 0:
                 cls_ids = [int(c) for c in boxes.cls.tolist()]
                 dominant = Counter(cls_ids).most_common(1)[0][0]
-                st.markdown(f"<div class='big-result'>Prediksi Utama ⮕ {names[dominant].capitalize()}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='big-result'>Gambar ini terdeteksi sebagai {names[dominant].capitalize()}</div>", unsafe_allow_html=True)
             else:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
         st.markdown("</div>", unsafe_allow_html=True)
@@ -437,7 +437,7 @@ with tab_det:
 with tab_cls:
     left, right = st.columns([1.04,1])
     with left:
-        g = uploader_card("up_cls", "Unggah Gambar • Klasifikasi (RPS)")
+        g = uploader_card("up_cls", "Unggah Gambar")
         if g:
             img2 = Image.open(g).convert("RGB")
             st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Pratinjau</div>", unsafe_allow_html=True)
@@ -457,7 +457,7 @@ with tab_cls:
             labels = ["paper","rock","scissors"] if len(pred[0])==3 else [f"class_{i}" for i in range(len(pred[0]))]
             top_idx = int(np.argmax(probs)); top_name = labels[top_idx]; top_prob = float(probs[top_idx])
 
-            st.markdown(f"<div class='big-result'>Prediksi Utama ⮕ {top_name.capitalize()}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='big-result'>Gambar ini terdeteksi sebagai {top_name.capitalize()}</div>", unsafe_allow_html=True)
             st.markdown(f"<p class='caption' style='margin:.2rem 0 1rem 0;'>Skor keyakinan: <b>{top_prob:.4f}</b></p>", unsafe_allow_html=True)
 
             for name, p in zip(labels, probs):

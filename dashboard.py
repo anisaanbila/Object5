@@ -173,6 +173,8 @@ header[data-testid="stHeader"]{ display:none; }
 /* Big result title */
 .big-result{ font-size:2.2rem; font-weight:800; letter-spacing:.3px; margin:.6rem 0 0 0; color:#fff; }
 
+st.markdown("""
+<style>
 /* Header right image (lebih kecil & rapat) */
 .header-rps-wrap{
   display:flex;
@@ -201,6 +203,8 @@ header[data-testid="stHeader"]{ display:none; }
   .header-rps-wrap{ margin-top:-10px; }
   .header-rps-img{ max-width:220px; }
 }
+</style>
+""", unsafe_allow_html=True)
 
 
 # =========================

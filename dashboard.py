@@ -122,7 +122,7 @@ header[data-testid="stHeader"]{ display:none; }
 
 /* ===== FUTURISTIC LUCIDE TABS — IKON FLEX, TIDAK MELOROT ===== */
 .stTabs [role="tablist"]{
-  display:flex; align-items:center; gap:1.2rem;font-size:3rem;
+  display:flex; align-items:center; gap:1.2rem;
   padding:0.6rem 1rem; border-radius:40px;
   background:linear-gradient(90deg,#1a0066,#4b00c7);
   box-shadow:inset 0 0 20px rgba(255,255,255,0.06);

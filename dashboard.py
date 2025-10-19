@@ -85,6 +85,15 @@ header[data-testid="stHeader"]{ display:none; }
   color:#FFFFFF;
   text-shadow: 0 0 8px rgba(255,255,255,.2);
 }
+/* Caption khusus di header (biar gak ganggu tab) */
+.header-caption{
+  color:#DDE0FF;
+  font-size:1.25rem;
+  font-weight:500;
+  line-height:1.6;
+  margin-top:0.5rem;
+  margin-bottom:0;
+}
 .card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }
 .caption{ color: var(--muted); font-size:1rem; }
 
@@ -232,7 +241,7 @@ with c1:
     st.markdown(
         "<div class='card'>"
         "<h1>DETEKSI DAN KLASIFIKASI GAMBAR BATU, GUNTING, DAN KERTAS</h1>"
-        "<p class='caption'><b>Ayo coba unggah gambar tanganmu! </b>Sistem ini akan mengidentifikasi bentuknya "
+        "<p class='header-caption'><b>Ayo coba unggah gambar tanganmu! </b>Sistem ini akan mengidentifikasi bentuknya "
         "sebagai batu, gunting, atau kertas.</p>"
         "</div>",
         unsafe_allow_html=True,

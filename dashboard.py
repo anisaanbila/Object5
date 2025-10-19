@@ -30,7 +30,11 @@ st.markdown("""
 
 /* Typography */
 * { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-h1{ font-weight:800; line-height:1.12; }
+h1{ 
+  font-weight:900; 
+  line-height:1.12; 
+  font-size:2.8rem;   /* ⬅️ Tambahkan baris ini */
+}
 h2,h3,h4{ font-weight:700; }
 p,li,div,span,label{ font-weight:400; color:var(--text); }
 

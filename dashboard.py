@@ -104,7 +104,7 @@ header[data-testid="stHeader"]{ display:none; }
 .card-small {
   padding: 5px 16px !important;   /* lebih tipis */
   border-radius: 14px !important;  /* opsional: biar tetap halus */
-  font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff;
+  font-weight:700; font-size:2.2rem; margin-bottom:.2rem; color:#fff;
 }
 
 /* ===== PROFILE CHIP (atas header) ===== */

@@ -111,106 +111,56 @@ header[data-testid="stHeader"]{ display:none; }
   margin: 6px 0 6px 0; /* jarak bawah lebih rapat */
 }
 
-/* === PROFILE CHIP ANIMATED (glow + float + shimmer) === */
+/* ===== PROFILE CHIP (dengan efek pop-up saat hover) ===== */
 .profile-bar{
-  position: relative;
-  overflow: hidden;                           /* buat efek shimmer ga keluar */
-  isolation: isolate;                         /* pisahkan blending */
-  background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  display:flex;
+  align-items:center;
+  gap:14px;
+  width:fit-content;
+  padding:.6rem .9rem;
+  border-radius:999px;
+  background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   box-shadow:
-    0 10px 26px rgba(0,0,0,.35),
+    0 8px 26px rgba(0,0,0,.35),
     inset 0 0 14px rgba(255,255,255,.05),
     0 0 0 1px rgba(255,255,255,.08);
-  animation: floatY 6s ease-in-out infinite alternate,
-             glowPulse 4.5s ease-in-out infinite;
-  backdrop-filter: blur(2px);
-  will-change: transform, box-shadow;
+  transition: all 0.35s ease;     /* buat transisi halus */
+  transform: perspective(800px) translateZ(0);
 }
 
-/* garis highlight yang lari melintasi chip */
-.profile-bar::before{
-  content:"";
-  position:absolute; inset:0;
-  background: linear-gradient(120deg,
-    transparent 0%,
-    rgba(255,255,255,.12) 45%,
-    rgba(255,255,255,.18) 50%,
-    rgba(255,255,255,.12) 55%,
-    transparent 100%);
-  transform: translateX(-120%);
-  animation: sheenSweep 5.5s ease-in-out infinite;
-  pointer-events:none;
-  mix-blend-mode: screen;
-}
-
-/* aura halus di bawah chip */
-.profile-bar::after{
-  content:"";
-  position:absolute; left:10%; right:10%; bottom:-12px; height:20px;
-  background: radial-gradient(50% 100% at 50% 0%,
-            rgba(141,63,255,.35), transparent 70%);
-  filter: blur(10px);
-  z-index:-1;
-}
-
-/* avatar dengan ring neon berdenyut */
-.profile-avatar{
-  position: relative;
-  z-index: 1;
-}
-.profile-avatar::after{
-  content:"";
-  position:absolute; inset:-4px;
-  border-radius:50%;
-  box-shadow: 0 0 12px rgba(141,63,255,.65), inset 0 0 8px rgba(255,255,255,.25);
-  animation: ringPulse 3.6s ease-in-out infinite;
-  pointer-events:none;
-}
-
-/* interaksi hover */
+/* Saat diarahkan kursor: naik & lebih bercahaya */
 .profile-bar:hover{
-  transform: translateY(-2px) scale(1.01);
+  transform: perspective(800px) translateZ(18px) scale(1.04);
   box-shadow:
-    0 16px 34px rgba(0,0,0,.45),
-    inset 0 0 18px rgba(255,255,255,.06),
-    0 0 0 1px rgba(255,255,255,.12);
+    0 16px 38px rgba(0,0,0,.5),
+    inset 0 0 16px rgba(255,255,255,.08),
+    0 0 20px rgba(141,63,255,.35);
+  background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
 }
 
-/* --- Animations --- */
-@keyframes floatY{
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(-4px); }
-}
-@keyframes glowPulse{
-  0%,100% { box-shadow:
-      0 10px 26px rgba(0,0,0,.35),
-      inset 0 0 12px rgba(255,255,255,.04),
-      0 0 0 1px rgba(255,255,255,.08);}
-  50% { box-shadow:
-      0 14px 36px rgba(0,0,0,.45),
-      inset 0 0 18px rgba(255,255,255,.08),
-      0 0 0 1px rgba(141,63,255,.22);}
-}
-@keyframes sheenSweep{
-  0%   { transform: translateX(-120%) skewX(-10deg); opacity:.0;}
-  35%  { opacity:.9; }
-  55%  { transform: translateX(120%) skewX(-10deg); opacity:.0;}
-  100% { transform: translateX(120%) skewX(-10deg); opacity:.0;}
-}
-@keyframes ringPulse{
-  0%,100% { box-shadow: 0 0 10px rgba(141,63,255,.4), inset 0 0 6px rgba(255,255,255,.18); }
-  50%     { box-shadow: 0 0 16px rgba(141,63,255,.8), inset 0 0 10px rgba(255,255,255,.32); }
+/* Avatar tetap bersinar lembut */
+.profile-avatar{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 0 8px rgba(255,255,255,.25);
+  transition: all 0.3s ease;
 }
 
-/* Respect users who prefer less motion */
-@media (prefers-reduced-motion: reduce){
-  .profile-bar,
-  .profile-bar::before,
-  .profile-avatar::after{
-    animation: none !important;
-    transform: none !important;
-  }
+/* Avatar juga sedikit ikut muncul */
+.profile-bar:hover .profile-avatar{
+  transform: scale(1.1);
+  box-shadow:0 0 14px rgba(141,63,255,.6), 0 0 4px rgba(255,255,255,.3);
 }
+
+/* Nama & email tetap stabil */
+.profile-name{ font-weight:700; color:#FFFFFF; line-height:1.05; }
+.profile-email{ color:#BBC0E6; font-size:.92rem; margin-top:2px; }
+
 .profile-avatar{
   width:36px; height:36px; border-radius:50%;
   border:2px solid rgba(255,255,255,.85);

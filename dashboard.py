@@ -85,7 +85,7 @@ header[data-testid="stHeader"]{ display:none; }
   padding:.6rem .9rem; border-radius:999px;
   background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
-  margin: 4px 0 0 0;
+  margin: 4px 0 6px 0; /* jarak bawah lebih rapat */
 }
 .profile-avatar{
   width:36px; height:36px; border-radius:50%;
@@ -148,53 +148,22 @@ header[data-testid="stHeader"]{ display:none; }
 /* Remove Streamlit default tab underline */
 .stTabs [role="tablist"] button { border-bottom: none !important; }
 
-/* File uploader text color */
-[data-testid="stFileUploader"] section div{ color:#D9DCF6 !important; }
-
-/* Progress bars (classification & evaluation) */
-.prog{ width:100%; height:12px; border-radius:999px; background:#23234a; overflow:hidden; }
-.prog > span{ display:block; height:100%; width:0%; background:linear-gradient(90deg,#160078,#7226FF); animation: loadWidth 1s ease-out forwards; }
-@keyframes loadWidth { from{ width:0% } to{ width:var(--w,0%) } }
-.prog-wrap{ display:flex; align-items:center; gap:.8rem; margin:.55rem 0; }
-.prog-wrap .lbl{ min-width:160px; font-weight:700; font-size:1.02rem; color:#fff; }
-.prog-wrap .val{ width:78px; text-align:right; color:#fff; font-weight:700; font-variant-numeric: tabular-nums; }
-
-/* Dataset counter icons */
-.icon-bubble{ width:86px; height:86px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  border:2px solid rgba(255,255,255,.85); box-shadow:0 0 18px rgba(255,255,255,.25), inset 0 0 10px rgba(255,255,255,.12);}
-.icon-bubble svg{ width:60px; height:60px; }
-
-/* Architecture flow (aligned perfectly) */
-.flow{ position:relative; padding-left:46px; }
-.flow:before{ content:""; position:absolute; left:26px; top:6px; bottom:6px; width:4px; background:linear-gradient(#160078,#7226FF); border-radius:4px; }
-.flow .node{ position:relative; margin:18px 0; padding-left:0; color:#fff; font-weight:700; font-size:1.05rem;}
-.flow .node:before{ content:""; position:absolute; left:-36px; top:2px; width:22px; height:22px; border-radius:50%; border:3px solid rgba(255,255,255,.92); background:rgba(255,255,255,.12); box-shadow:0 0 8px rgba(255,255,255,.35); }
-
-/* Big result title */
-.big-result{ font-size:2.2rem; font-weight:800; letter-spacing:.3px; margin:.6rem 0 0 0; color:#fff; }
-
-st.markdown("""
-<style>
 /* Header right image (lebih kecil & rapat) */
 .header-rps-wrap{
   display:flex;
   justify-content:center;
   align-items:flex-start;
-  margin-top:-36px;     /* semula -72px → biar gak terlalu jauh dari profil */
-  margin-bottom:0;      /* hilangkan jarak bawah ekstra */
+  margin-top:-36px;
+  margin-bottom:0;
 }
-
 .header-rps-img{
   width:auto;
-  max-width:300px;      /* semula 360px → lebih ramping */
+  max-width:300px;
   height:auto;
   display:block;
-  /* kurangi efek glow supaya gak tampak terlalu besar */
   filter: drop-shadow(0 0 10px rgba(255,255,255,.20))
           drop-shadow(0 0 3px rgba(255,255,255,.18));
 }
-
-/* Responsif */
 @media (max-width: 1200px){
   .header-rps-wrap{ margin-top:-24px; }
   .header-rps-img{ max-width:260px; }
@@ -205,7 +174,6 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
 
 # =========================
 # LOAD MODELS

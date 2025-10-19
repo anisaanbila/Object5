@@ -84,12 +84,65 @@ header[data-testid="stHeader"]{ display:none; }
 .card-title{ font-weight:700; font-size:1.35rem; margin-bottom:.7rem; color:#fff; }
 .caption{ color: var(--muted); font-size:1rem; }
 
-/* Tabs — white, non-bold */
-.stTabs [role="tablist"]{ gap:1rem; }
-.stTabs [role="tab"]{ color:#FFFFFF !important; font-weight:400; border-bottom:2px solid transparent; }
-.stTabs [role="tab"][aria-selected="true"]{
-  border-bottom:2px solid; border-image: linear-gradient(90deg,#010030,#7226FF) 1;
+/* ===== TABS: Futuristic Capsule Style ===== */
+.stTabs [role="tablist"] {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0.6rem 1rem;
+  border-radius: 40px;
+  background: linear-gradient(90deg, #1a0066, #4b00c7);
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.06);
 }
+
+/* Semua tab */
+.stTabs [role="tab"] {
+  position: relative;
+  color: #E0E2FF !important;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.55rem 1.2rem 0.55rem 2.8rem;
+  border: none;
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.25s ease;
+}
+
+/* Icon kiri tiap tab (pakai pseudo-element) */
+.stTabs [role="tab"]::before {
+  content: "📷";
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  opacity: 0.75;
+}
+
+/* Ganti ikon untuk tab berikutnya */
+.stTabs [role="tab"]:nth-child(2)::before { content: "🖼️"; }
+.stTabs [role="tab"]:nth-child(3)::before { content: "⚙️"; }
+
+/* Saat hover */
+.stTabs [role="tab"]:hover {
+  background: rgba(255,255,255,0.08);
+  color: #FFFFFF !important;
+}
+
+/* Tab aktif (ada shape belakangnya) */
+.stTabs [role="tab"][aria-selected="true"] {
+  background: linear-gradient(90deg, #602FFF, #8D3FFF);
+  box-shadow: 0 0 18px rgba(138,70,255,0.5);
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+/* Hilangkan border bawah default */
+.stTabs [role="tablist"] button {
+  border-bottom: none !important;
+}
+
 
 /* File uploader text color */
 [data-testid="stFileUploader"] section div{ color:#D9DCF6 !important; }

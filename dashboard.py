@@ -85,7 +85,7 @@ header[data-testid="stHeader"]{ display:none; }
   padding:.6rem .9rem; border-radius:999px;
   background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
-  margin: 4px 0 6px 0;
+  margin: 4px 0 0 0;
 }
 .profile-avatar{
   width:36px; height:36px; border-radius:50%;

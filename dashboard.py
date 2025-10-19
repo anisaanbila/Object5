@@ -280,9 +280,6 @@ header[data-testid="stHeader"]{ display:none; }
 .notice-text{
   color:#EAEAFF; font-size:1.02rem; line-height:1.45; font-weight:500;
 }
-div[data-testid="stFileUploadDropzone"] {
-  margin-top: 25px !important;  /* jarak antara notice dan uploader */
-}
 
 </style>
 """, unsafe_allow_html=True)
@@ -320,6 +317,8 @@ with col_profile:
             <div class="profile-email">anisanbilaa@gmail.com</div>
           </div>
         </div>
+        <!-- Tambah jarak antara banner dan uploader -->
+        <div style="height: 20px;"></div>
         """,
         unsafe_allow_html=True
     )

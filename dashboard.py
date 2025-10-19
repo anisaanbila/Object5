@@ -314,6 +314,19 @@ header[data-testid="stHeader"]{ display:none; }
   transition: all 0.25s ease !important;
 }
 
+/* ==== 2) HASIL UPLOAD (list di bawah dropzone) — putih ==== */
+/* hanya elemen di dalam list hasil (bukan teks drag) */
+[data-testid="stFileUploader"] [role="list"] a,
+[data-testid="stFileUploader"] [role="list"] span,
+[data-testid="stFileUploader"] [role="list"] p{
+  color:#FFFFFF !important;          /* nama file & size jadi putih */
+  font-weight:500 !important;
+}
+
+/* (opsional) ikon & tombol X tetap terlihat */
+[data-testid="stFileUploader"] [role="list"] svg{ opacity:.9; }
+[data-testid="stFileUploader"] [role="list"] button{ color:#FFFFFF !important; }
+
 /* 3️⃣ Efek hover tombol */
 [data-testid="stFileUploader"] button:hover {
   background: linear-gradient(90deg,#ECECEC,#D6D6D6) !important;

@@ -137,172 +137,238 @@ def load_models():
 yolo_model, classifier = load_models()
 
 # =========================
-# HEADER (left text + PNG icon on right, NO BOX)
+# ====== HERO + NAV =======
 # =========================
-ICON_PATH = "rps_outline.png"  # file sejajar dengan dashboard.py
 
-c1, c2 = st.columns([1.6, 1.0], vertical_alignment="center")
+# ---------- CSS tambahan untuk hero, pill tabs, hint ----------
+st.markdown("""
+<style>
+/* Profile mini di kiri atas */
+.profile-mini{display:flex;align-items:center;gap:12px;margin:6px 0 18px 4px}
+.profile-mini .ava{width:34px;height:34px;border:1.6px solid rgba(255,255,255,.65);
+  border-radius:999px;display:flex;align-items:center;justify-content:center}
+.profile-mini .ava svg{width:20px;height:20px}
+.profile-mini .nm{font-weight:700}
+.profile-mini .em{color:var(--muted);font-size:.94rem}
 
-with c1:
-    st.markdown(
-        "<div class='card'>"
-        "<div class='card-title'>RPS Vision Dashboard</div>"
-        "<h1>Detection & Classification for<br/>Rock–Paper–Scissors (RPS)</h1>"
-        "<p class='caption'>Dashboard futuristik untuk <b>deteksi objek</b> (YOLOv8) dan "
-        "<b>klasifikasi gambar</b> (CNN) pada gestur tangan RPS.</p>"
-        "</div>",
-        unsafe_allow_html=True,
-    )
+/* Hero */
+.hero{display:grid;grid-template-columns:1.2fr .9fr;gap:24px;align-items:center}
+.hero-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,0)) padding-box,
+             linear-gradient(90deg,rgba(114,38,255,.35),rgba(1,0,48,.35)) border-box;
+  border:1px solid transparent;border-radius:28px;padding:28px 30px;box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+.hero h1{font-size:2.4rem;line-height:1.15;margin:2px 0 10px 0}
+.hero p{color:var(--muted);font-size:1.05rem}
 
-with c2:
-    # Naikkan posisi ikon header biar sejajar: align ke atas + margin-top negatif
+/* Ilustrasi kanan */
+.hero-ill{display:flex;justify-content:center}
+.hero-ill img{max-width:520px;width:100%;height:auto;filter:drop-shadow(0 0 22px rgba(255,255,255,.28))}
+
+/* Pill navigation (tabs) */
+.pillbar{
+  margin:18px 0 12px 0;padding:8px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);
+  border-radius:999px;box-shadow:0 14px 40px rgba(0,0,0,.35);
+}
+.pillbar .stRadio>div{display:flex;gap:8px;flex-wrap:wrap}
+.pillbar .stRadio input{display:none}
+.pillbar .stRadio label{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;
+  color:#fff;cursor:pointer;position:relative;transition:transform .12s ease,background .15s ease;
+}
+.pillbar .stRadio label:hover{transform:translateY(-1px)}
+.pillbar .stRadio [aria-checked="true"] label{
+  background:linear-gradient(90deg,#27116d 0%, #5a2fe3 100%);
+}
+.pillbar svg{width:18px;height:18px;stroke:currentColor}
+
+/* Hint bar */
+.hint{
+  display:flex;align-items:flex-start;gap:12px;margin:10px 0 8px 4px;
+  color:#fff;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,0));
+  border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:12px 14px;
+}
+.hint svg{width:18px;height:18px;margin-top:2px}
+</style>
+""", unsafe_allow_html=True)
+
+# ---------- Profile mini ----------
+PROFILE_NAME  = "Anisa Nabila"
+PROFILE_EMAIL = "anisanbilaa@gmail.com"
+st.markdown(
+    f"""
+    <div class="profile-mini">
+      <div class="ava">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7">
+          <path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="nm">{PROFILE_NAME}</div>
+        <div class="em">{PROFILE_EMAIL}</div>
+      </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+# ---------- Hero section ----------
+HERO_IMG = "rps_outline.png"   # pakai file ikonmu (neon outline)
+left, right = st.columns([1.25, .95])
+with left:
     st.markdown(
         """
-        <style>
-          .header-rps-wrap{
-              display:flex;
-              justify-content:center;
-              align-items:flex-start;   /* ratakan ke atas kolom */
-              margin-top:-72px;         /* ⬅️ naikkan; sesuaikan -56 / -64 / -80 kalau perlu */
-          }
-          .header-rps-img{
-              max-width:360px;
-              width:100%;
-              height:auto;
-              filter:drop-shadow(0 0 18px rgba(255,255,255,.28))
-                     drop-shadow(0 0 6px rgba(255,255,255,.25));
-          }
-          /* Responsif: di layar kecil jangan terlalu naik */
-          @media (max-width: 1200px){
-            .header-rps-wrap{ margin-top:-40px; }
-          }
-          @media (max-width: 992px){
-            .header-rps-wrap{ margin-top:-16px; }
-          }
-        </style>
+        <div class="hero">
+          <div class="hero-card">
+            <h1>DETEKSI DAN KLASIFIKASI<br/>GAMBAR BATU, GUNTING, DAN KERTAS</h1>
+            <p><b>Ayo coba unggah gambar tanganmu!</b> Sistem ini akan mengidentifikasi bentuknya sebagai
+            batu, gunting, atau kertas.</p>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+with right:
+    try:
+        st.markdown('<div class="hero-ill">', unsafe_allow_html=True)
+        st.image(Image.open(HERO_IMG).convert("RGBA"), use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+    except Exception:
+        pass
+
+# ---------- Pill navigation (native radio) ----------
+if "page" not in st.session_state: st.session_state.page = "Deteksi Gambar"
+
+pill_icons = {
+    "Deteksi Gambar": """
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 15l4-4 3 3 5-5 4 4"/>
+        </svg>""",
+    "Klasifikasi Gambar": """
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M4 7h16M4 12h10M4 17h6"/>
+        </svg>""",
+    "Penjelasan Model": """
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01"/>
+        </svg>"""
+}
+
+st.markdown('<div class="pillbar">', unsafe_allow_html=True)
+choice = st.radio(
+    "Menu",
+    ["Deteksi Gambar", "Klasifikasi Gambar", "Penjelasan Model"],
+    index=["Deteksi Gambar","Klasifikasi Gambar","Penjelasan Model"].index(st.session_state.page),
+    format_func=lambda x: f"""{x}""",
+    horizontal=True,
+    label_visibility="collapsed",
+)
+st.session_state.page = choice
+st.markdown('</div>', unsafe_allow_html=True)
+
+# inject ikon ke label radio (menyisipkan HTML ikon di depan teks)
+for label in pill_icons:
+    st.markdown(
+        f"""
+        <script>
+        const radios = Array.from(parent.document.querySelectorAll('.pillbar [role="radio"] > label'));
+        const map = {{"Deteksi Gambar": `{pill_icons["Deteksi Gambar"]}`,
+                      "Klasifikasi Gambar": `{pill_icons["Klasifikasi Gambar"]}`,
+                      "Penjelasan Model": `{pill_icons["Penjelasan Model"]}`}};
+        radios.forEach(l=>{{ const t=l.innerText.trim(); if(map[t] && !l.dataset.icon){{
+          l.dataset.icon="1"; const s=document.createElement('span'); s.innerHTML=map[t]; s.style.display='inline-flex';
+          s.style.alignItems='center'; s.style.marginRight='6px'; l.prepend(s); }} }});
+        </script>
         """,
         unsafe_allow_html=True,
     )
-    try:
-        rps_icon = Image.open(ICON_PATH).convert("RGBA")
-        st.markdown("<div class='header-rps-wrap'>", unsafe_allow_html=True)
-        st.image(rps_icon, caption=None, use_container_width=False, output_format="PNG")
-        st.markdown("</div>", unsafe_allow_html=True)
-    except Exception as e:
-        st.warning(f"Ikon header tidak ditemukan di '{ICON_PATH}'. Detil: {e}")
 
-
+# ---------- Hint di bawah pills ----------
+st.markdown(
+    """
+    <div class="hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <path d="M12 9v4m0 4h.01"/>
+      </svg>
+      <div>Pastikan tangan terlihat jelas pada gambar yang diunggah dan gunakan <b>background polos</b> agar sistem mengenali dengan tepat.</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 # =========================
-# TABS (white titles, non-bold)
+# ======= CONTENTS ========
 # =========================
-tab_det, tab_cls, tab_profile, tab_docs = st.tabs([
-    "Deteksi Objek (YOLOv8)", "Klasifikasi Gambar (CNN)", "Profil Developer", "Penjelasan Model"
-])
 
 def uploader_card(key_label:str, title="Unggah Gambar"):
-    st.markdown(f"<div class='card'><div class='card-title' style='font-size:1.35rem'>{title}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='card'><div class='card-title' style='font-size:1.18rem'>{title}</div>", unsafe_allow_html=True)
+    st.markdown("<div class='caption'>Gunakan <b>latar belakang polos</b> & pencahayaan cukup untuk hasil terbaik.</div>", unsafe_allow_html=True)
     f = st.file_uploader(" ", type=["png","jpg","jpeg"], key=key_label, label_visibility="collapsed")
     st.markdown("</div>", unsafe_allow_html=True)
     return f
 
-# =========================
-# TAB: DETEKSI (clean, elegant: no sliders/summary/table)
-# =========================
-with tab_det:
-    left, right = st.columns([1.04,1])
-    with left:
+# ---- DETEKSI ----
+if st.session_state.page == "Deteksi Gambar":
+    c1, c2 = st.columns([1.04,1])
+    with c1:
         f = uploader_card("up_yolo", "Unggah Gambar • Deteksi (RPS)")
         if f:
             img = Image.open(f).convert("RGB")
-            st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Pratinjau</div>", unsafe_allow_html=True)
-            st.image(img, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
-
-    with right:
-        st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Hasil Deteksi</div>", unsafe_allow_html=True)
+            st.markdown("<div class='card'><div class='card-title'>Pratinjau</div>", unsafe_allow_html=True)
+            st.image(img, use_container_width=True); st.markdown("</div>", unsafe_allow_html=True)
+    with c2:
+        st.markdown("<div class='card'><div class='card-title'>Hasil Deteksi</div>", unsafe_allow_html=True)
         if not f:
             st.markdown("<div class='caption'>Unggah gambar di panel kiri untuk menjalankan deteksi.</div>", unsafe_allow_html=True)
         else:
             with st.spinner("Menjalankan YOLOv8..."):
                 res = yolo_model.predict(img, verbose=False)
-                plotted = res[0].plot()
-                plotted = cv2.cvtColor(plotted, cv2.COLOR_BGR2RGB)
+                plotted = cv2.cvtColor(res[0].plot(), cv2.COLOR_BGR2RGB)
             st.image(plotted, use_container_width=True, caption="Bounding boxes")
-
-            names = res[0].names
-            boxes = res[0].boxes
-            if boxes is not None and len(boxes) > 0:
-                cls_ids = [int(c) for c in boxes.cls.tolist()]
-                dominant = Counter(cls_ids).most_common(1)[0][0]
+            names=res[0].names; boxes=res[0].boxes
+            if boxes is not None and len(boxes)>0:
+                cls_ids=[int(c) for c in boxes.cls.tolist()]
+                dominant=Counter(cls_ids).most_common(1)[0][0]
                 st.markdown(f"<div class='big-result'>Prediksi Utama ⮕ {names[dominant].capitalize()}</div>", unsafe_allow_html=True)
             else:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
         st.markdown("</div>", unsafe_allow_html=True)
 
-# =========================
-# TAB: KLASIFIKASI (progress + tabel)
-# =========================
-with tab_cls:
-    left, right = st.columns([1.04,1])
-    with left:
+# ---- KLASIFIKASI ----
+elif st.session_state.page == "Klasifikasi Gambar":
+    c1, c2 = st.columns([1.04,1])
+    with c1:
         g = uploader_card("up_cls", "Unggah Gambar • Klasifikasi (RPS)")
         if g:
             img2 = Image.open(g).convert("RGB")
-            st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Pratinjau</div>", unsafe_allow_html=True)
-            st.image(img2, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
-
-    with right:
-        st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Hasil Klasifikasi</div>", unsafe_allow_html=True)
+            st.markdown("<div class='card'><div class='card-title'>Pratinjau</div>", unsafe_allow_html=True)
+            st.image(img2, use_container_width=True); st.markdown("</div>", unsafe_allow_html=True)
+    with c2:
+        st.markdown("<div class='card'><div class='card-title'>Hasil Klasifikasi</div>", unsafe_allow_html=True)
         if not g:
             st.markdown("<div class='caption'>Unggah gambar di panel kiri untuk menjalankan klasifikasi.</div>", unsafe_allow_html=True)
         else:
-            img_resized = img2.resize((224,224))
-            arr = image.img_to_array(img_resized); arr = np.expand_dims(arr,0)/255.0
-            with st.spinner("Mengklasifikasikan..."): pred = classifier.predict(arr)
-            probs = pred[0].astype(float)
-            labels = ["paper","rock","scissors"] if len(pred[0])==3 else [f"class_{i}" for i in range(len(pred[0]))]
-            top_idx = int(np.argmax(probs)); top_name = labels[top_idx]; top_prob = float(probs[top_idx])
-
-            st.markdown(f"<div class='big-result'>Prediksi Utama ⮕ {top_name.capitalize()}</div>", unsafe_allow_html=True)
-            st.markdown(f"<p class='caption' style='margin:.2rem 0 1rem 0;'>Skor keyakinan: <b>{top_prob:.4f}</b></p>", unsafe_allow_html=True)
-
-            for name, p in zip(labels, probs):
+            arr = np.expand_dims(image.img_to_array(img2.resize((224,224))),0)/255.0
+            with st.spinner("Mengklasifikasikan..."):
+                probs = classifier.predict(arr)[0].astype(float)
+            labels = ["paper","rock","scissors"] if len(probs)==3 else [f"class_{i}" for i in range(len(probs))]
+            top_idx=int(np.argmax(probs)); top=labels[top_idx]; p=float(probs[top_idx])
+            st.markdown(f"<div class='big-result'>Prediksi Utama ⮕ {top.capitalize()}</div>", unsafe_allow_html=True)
+            st.markdown(f"<p class='caption' style='margin:.2rem 0 1rem 0;'>Skor keyakinan: <b>{p:.4f}</b></p>", unsafe_allow_html=True)
+            for name, pv in zip(labels, probs):
                 st.markdown(
                     f"<div class='prog-wrap'><span class='lbl'>{name.capitalize()}</span>"
-                    f"<div class='prog'><span style='--w:{p*100:.2f}%;'></span></div>"
-                    f"<span class='val'>{p*100:.1f}%</span></div>",
-                    unsafe_allow_html=True
+                    f"<div class='prog'><span style='--w:{pv*100:.2f}%;'></span></div>"
+                    f"<span class='val'>{pv*100:.1f}%</span></div>", unsafe_allow_html=True
                 )
+            st.markdown("</div>", unsafe_allow_html=True)
 
-            df = pd.DataFrame({"Kelas": [n.capitalize() for n in labels], "Probabilitas (%)": (probs*100).round(2)})
-            st.markdown("<br>", unsafe_allow_html=True)
-            st.dataframe(df, use_container_width=True, hide_index=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-# =========================
-# TAB: PROFIL DEVELOPER (prompt)
-# =========================
-with tab_profile:
-    st.markdown("<div class='card'><div class='card-title'>Profil Developer — Mohon jawab di chat</div>", unsafe_allow_html=True)
-    st.markdown("""
-• **Nama yang ditampilkan** & panggilan  
-• **Peran/role utama**  
-• **Tagline singkat** (1–2 kalimat)  
-• **Skill inti (5–8)**  
-• **Proyek unggulan (≤3)**  
-• **Kontak & tautan** (email, GitHub, LinkedIn/Portofolio)  
-• **Riwayat pendidikan** (opsional) dalam format timeline  
-• **Preferensi warna/aksen tambahan** (bila ada)
-""")
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# =========================
-# TAB: PENJELASAN MODEL (dropdown + per-box)
-# =========================
-with tab_docs:
-    model_choice = st.selectbox("Pilih model yang ingin dijelaskan", ["YOLOv8", "CNN"], index=0)
+# ---- PENJELASAN ----
+else:
+    model_choice = st.selectbox("Pilih model yang ingin dijelaskan", ["YOLOv8","CNN"], index=0)
+    # (lanjutkan blok dokumentasi/evaluasi kamu seperti sebelumnya)
 
     def metric_bar(label:str, value:float):
         pct = max(0.0, min(1.0, float(value))) * 100

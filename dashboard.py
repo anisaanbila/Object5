@@ -135,7 +135,7 @@ header[data-testid="stHeader"]{ display:none; }
   position: relative;
   color: #E0E2FF !important;
   font-weight: 600;
-  font-size: 2.4rem;
+  font-size: 3rem;
   padding: 0.55rem 1.2rem 0.55rem 2.8rem;
   border: none;
   border-radius: 40px;
@@ -143,7 +143,7 @@ header[data-testid="stHeader"]{ display:none; }
   transition: all 0.25s ease;
   display: flex;
   align-items: center;
-  gap: .7rem;
+  gap: 1.2rem;
 }
 .stTabs [role="tab"]:hover {
   background: rgba(255,255,255,0.08);

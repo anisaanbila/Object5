@@ -136,7 +136,7 @@ header[data-testid="stHeader"]{ display:none; }
 .stTabs [role="tab"] {
   display: flex;
   align-items: center;
-  gap: 0.8rem;                        /* jarak ikon ↔ teks */
+  gap: 0.5rem;                        /* jarak ikon ↔ teks */
   color: #E0E2FF !important;
   font-weight: 500 !important;
   font-size: 1.3rem !important;       /* ukuran teks tab */

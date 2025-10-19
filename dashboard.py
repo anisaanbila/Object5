@@ -263,7 +263,7 @@ header[data-testid="stHeader"]{ display:none; }
 /* ===== Notice / Tips Banner (di atas uploader) ===== */
 .notice-banner{
   display:flex; align-items:center; gap:14px;
-  padding:12px 16px; margin:0 0 14px 0;
+  padding:12px 16px; margin:0 0 18px 0;
   border-radius:14px;
   background: linear-gradient(90deg, #240070, #4a00c4 55%, #6e2bff);
   border:1px solid rgba(255,255,255,.14);

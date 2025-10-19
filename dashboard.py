@@ -281,7 +281,7 @@ header[data-testid="stHeader"]{ display:none; }
   color:#EAEAFF; font-size:1.02rem; line-height:1.45; font-weight:500;
 }
 div[data-testid="stFileUploadDropzone"] {
-  margin-top: 16px !important;  /* jarak antara notice dan uploader */
+  margin-top: 25px !important;  /* jarak antara notice dan uploader */
 }
 
 </style>

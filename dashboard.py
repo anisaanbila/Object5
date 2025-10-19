@@ -252,7 +252,7 @@ with c2:
 # TABS (white titles, non-bold)
 # =========================
 tab_det, tab_cls, tab_profile, tab_docs = st.tabs([
-    "Deteksi Objek (YOLOv8)", "Klasifikasi Gambar (CNN)", "Profil Developer", "Penjelasan Model"
+    "Deteksi Objek (YOLOv8)", "Klasifikasi Gambar (CNN)", "Penjelasan Model"
 ])
 
 def uploader_card(key_label:str, title="Unggah Gambar"):

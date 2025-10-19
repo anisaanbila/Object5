@@ -112,6 +112,7 @@ header[data-testid="stHeader"]{ display:none; }
 }
 
 /* ===== PROFILE CHIP (dengan efek pop-up saat hover) ===== */
+/* ===== PROFILE CHIP (dengan efek sama seperti .card:hover) ===== */
 .profile-bar{
   display:flex;
   align-items:center;
@@ -120,25 +121,21 @@ header[data-testid="stHeader"]{ display:none; }
   padding:.6rem .9rem;
   border-radius:999px;
   background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  box-shadow:
-    0 8px 26px rgba(0,0,0,.35),
-    inset 0 0 14px rgba(255,255,255,.05),
-    0 0 0 1px rgba(255,255,255,.08);
-  transition: all 0.35s ease;     /* buat transisi halus */
-  transform: perspective(800px) translateZ(0);
+  box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
+  margin: 6px 0 6px 0;
+  transition: all 0.35s ease;       /* biar halus kayak card */
 }
 
-/* Saat diarahkan kursor: naik & lebih bercahaya */
+/* Saat diarahkan kursor */
 .profile-bar:hover{
-  transform: perspective(800px) translateZ(18px) scale(1.04);
   box-shadow:
-    0 16px 38px rgba(0,0,0,.5),
-    inset 0 0 16px rgba(255,255,255,.08),
-    0 0 20px rgba(141,63,255,.35);
+    0 26px 60px rgba(0,0,0,.55),          /* bayangan lebih dalam */
+    0 0 0 1px rgba(255,255,255,.06) inset;/* garis halus dalam */
+  transform: translateY(-1px);             /* naik dikit */
   background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
 }
 
-/* Avatar tetap bersinar lembut */
+/* Avatar tetap punya efek lembut */
 .profile-avatar{
   width:36px;
   height:36px;
@@ -147,29 +144,20 @@ header[data-testid="stHeader"]{ display:none; }
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 0 8px rgba(255,255,255,.25);
+  box-shadow:0 0 10px rgba(255,255,255,.18), inset 0 0 8px rgba(255,255,255,.12);
   transition: all 0.3s ease;
 }
 
-/* Avatar juga sedikit ikut muncul */
+/* Tambahan: avatar ikut hidup dikit pas hover */
 .profile-bar:hover .profile-avatar{
-  transform: scale(1.1);
-  box-shadow:0 0 14px rgba(141,63,255,.6), 0 0 4px rgba(255,255,255,.3);
+  transform: scale(1.08);
+  box-shadow:0 0 14px rgba(255,255,255,.25), 0 0 8px rgba(141,63,255,.5);
 }
 
-/* Nama & email tetap stabil */
+/* Nama dan email tetap clean */
 .profile-name{ font-weight:700; color:#FFFFFF; line-height:1.05; }
 .profile-email{ color:#BBC0E6; font-size:.92rem; margin-top:2px; }
 
-.profile-avatar{
-  width:36px; height:36px; border-radius:50%;
-  border:2px solid rgba(255,255,255,.85);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 10px rgba(255,255,255,.18), inset 0 0 8px rgba(255,255,255,.12);
-}
-.profile-avatar svg{ width:22px; height:22px; stroke:#FFFFFF; }
-.profile-name{ font-weight:700; color:#FFFFFF; line-height:1.05; }
-.profile-email{ color:#BBC0E6; font-size:.92rem; margin-top:2px; }
 
 /* ===== FUTURISTIC LUCIDE TABS (Versi Stabil + 32px Ikon) ===== */
 .stTabs [role="tablist"] {

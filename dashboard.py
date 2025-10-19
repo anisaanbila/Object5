@@ -79,6 +79,12 @@ header[data-testid="stHeader"]{ display:none; }
   transition: box-shadow .25s ease, transform .25s ease;
 }
 .card:hover{ box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset; transform: translateY(-1px); }
+.card h1{
+  font-weight:900;
+  font-size:2.8rem;
+  color:#FFFFFF;
+  text-shadow: 0 0 8px rgba(255,255,255,.2);
+}
 .card-title{ font-weight:700; font-size:1.35rem; margin-bottom:.7rem; color:#fff; }
 .caption{ color: var(--muted); font-size:1rem; }
 

@@ -102,8 +102,9 @@ header[data-testid="stHeader"]{ display:none; }
 .caption{ color: var(--muted); font-size:1.25rem; margin-top:1rem; margin-left:0.8rem}
 /* Box versi kecil hanya untuk hasil deteksi & klasifikasi */
 .card-small {
-  padding: 12px 16px !important;   /* lebih tipis */
+  padding: 8px 16px !important;   /* lebih tipis */
   border-radius: 14px !important;  /* opsional: biar tetap halus */
+  font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff;
 }
 
 /* ===== PROFILE CHIP (atas header) ===== */

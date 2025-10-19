@@ -173,11 +173,35 @@ header[data-testid="stHeader"]{ display:none; }
 /* Big result title */
 .big-result{ font-size:2.2rem; font-weight:800; letter-spacing:.3px; margin:.6rem 0 0 0; color:#fff; }
 
-/* Header right image (no box) */
-.header-rps-img{ width:100%; max-width:360px; height:auto;
-  filter: drop-shadow(0 0 18px rgba(255,255,255,.28)) drop-shadow(0 0 6px rgba(255,255,255,.25)); }
-</style>
-""", unsafe_allow_html=True)
+/* Header right image (lebih kecil & rapat) */
+.header-rps-wrap{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  margin-top:-36px;     /* semula -72px → biar gak terlalu jauh dari profil */
+  margin-bottom:0;      /* hilangkan jarak bawah ekstra */
+}
+
+.header-rps-img{
+  width:auto;
+  max-width:300px;      /* semula 360px → lebih ramping */
+  height:auto;
+  display:block;
+  /* kurangi efek glow supaya gak tampak terlalu besar */
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.20))
+          drop-shadow(0 0 3px rgba(255,255,255,.18));
+}
+
+/* Responsif */
+@media (max-width: 1200px){
+  .header-rps-wrap{ margin-top:-24px; }
+  .header-rps-img{ max-width:260px; }
+}
+@media (max-width: 992px){
+  .header-rps-wrap{ margin-top:-10px; }
+  .header-rps-img{ max-width:220px; }
+}
+
 
 # =========================
 # LOAD MODELS

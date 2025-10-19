@@ -34,19 +34,13 @@ h1{ font-weight:800; line-height:1.12; }
 h2,h3,h4{ font-weight:700; }
 p,li,div,span,label{ font-weight:400; color:var(--text); }
 
-/* Hide default header, widen container, naikkan posisi utama */
+/* Hide default header, widen container */
 header[data-testid="stHeader"]{ display:none; }
 .block-container{
-  padding-top:0.1rem!important;  /* sebelumnya 3.2rem */
+  padding-top:0.1rem!important;
   padding-bottom:2rem;
   max-width:1300px;
 }
-
-/* Tambahkan sedikit perataan vertikal agar ikon sejajar */
-.st-emotion-cache-ocqkz7, .st-emotion-cache-1y4p8pa{
-  align-items:flex-start !important;
-}
-
 
 /* Futuristic gradient + network grid */
 [data-testid="stAppViewContainer"]{
@@ -84,7 +78,26 @@ header[data-testid="stHeader"]{ display:none; }
 .card-title{ font-weight:700; font-size:1.35rem; margin-bottom:.7rem; color:#fff; }
 .caption{ color: var(--muted); font-size:1rem; }
 
-/* ===== FUTURISTIC LUCIDE TABS ===== */
+/* ===== PROFILE CHIP (atas header) ===== */
+.profile-bar{
+  display:flex; align-items:center; gap:14px;
+  width:fit-content;
+  padding:.6rem .9rem; border-radius:999px;
+  background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
+  margin: 4px 0 16px 0;
+}
+.profile-avatar{
+  width:36px; height:36px; border-radius:50%;
+  border:2px solid rgba(255,255,255,.85);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 10px rgba(255,255,255,.18), inset 0 0 8px rgba(255,255,255,.12);
+}
+.profile-avatar svg{ width:22px; height:22px; stroke:#FFFFFF; }
+.profile-name{ font-weight:700; color:#FFFFFF; line-height:1.05; }
+.profile-email{ color:#BBC0E6; font-size:.92rem; margin-top:2px; }
+
+/* ===== FUTURISTIC LUCIDE TABS (3 tab) ===== */
 .stTabs [role="tablist"] {
   display: flex;
   justify-content: flex-start;
@@ -95,8 +108,6 @@ header[data-testid="stHeader"]{ display:none; }
   background: linear-gradient(90deg, #1a0066, #4b00c7);
   box-shadow: inset 0 0 20px rgba(255,255,255,0.06);
 }
-
-/* Semua tab */
 .stTabs [role="tab"] {
   position: relative;
   color: #E0E2FF !important;
@@ -111,8 +122,17 @@ header[data-testid="stHeader"]{ display:none; }
   align-items: center;
   gap: .7rem;
 }
-
-/* Tambah ikon Lucide (SVG inline) */
+.stTabs [role="tab"]:hover {
+  background: rgba(255,255,255,0.08);
+  color: #FFFFFF !important;
+}
+.stTabs [role="tab"][aria-selected="true"] {
+  background: linear-gradient(90deg, #602FFF, #8D3FFF);
+  box-shadow: 0 0 18px rgba(138,70,255,0.5);
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+/* Lucide icons via inline SVG */
 .stTabs [role="tab"]:nth-child(1)::before {
   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5h2l2-2h10l2 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z'/><circle cx='12' cy='13' r='3'/></svg>");
   position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
@@ -125,26 +145,8 @@ header[data-testid="stHeader"]{ display:none; }
   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>");
   position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
 }
-
-/* Hover dan aktif */
-.stTabs [role="tab"]:hover {
-  background: rgba(255,255,255,0.08);
-  color: #FFFFFF !important;
-}
-
-.stTabs [role="tab"][aria-selected="true"] {
-  background: linear-gradient(90deg, #602FFF, #8D3FFF);
-  box-shadow: 0 0 18px rgba(138,70,255,0.5);
-  color: #fff !important;
-  transform: translateY(-1px);
-}
-
-/* Hilangkan border bawah default Streamlit */
-.stTabs [role="tablist"] button {
-  border-bottom: none !important;
-}
-
-
+/* Remove Streamlit default tab underline */
+.stTabs [role="tablist"] button { border-bottom: none !important; }
 
 /* File uploader text color */
 [data-testid="stFileUploader"] section div{ color:#D9DCF6 !important; }
@@ -174,9 +176,6 @@ header[data-testid="stHeader"]{ display:none; }
 /* Header right image (no box) */
 .header-rps-img{ width:100%; max-width:360px; height:auto;
   filter: drop-shadow(0 0 18px rgba(255,255,255,.28)) drop-shadow(0 0 6px rgba(255,255,255,.25)); }
-
-/* Force select label & generic labels to white */
-label, .stSelectbox label{ color:#FFFFFF !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -192,10 +191,34 @@ def load_models():
 yolo_model, classifier = load_models()
 
 # =========================
+# PROFILE CHIP (atas header)
+# =========================
+col_profile, _ = st.columns([1, 3])
+with col_profile:
+    st.markdown(
+        """
+        <div class="profile-bar">
+          <div class="profile-avatar">
+            <!-- Lucide user-round -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 20a6 6 0 0 0-12 0"/>
+              <circle cx="12" cy="10" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="profile-name">Anisa Nabila</div>
+            <div class="profile-email">anisanbilaa@gmail.com</div>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# =========================
 # HEADER (left text + PNG icon on right, NO BOX)
 # =========================
-ICON_PATH = "rps_outline.png"  # file sejajar dengan dashboard.py
-
+ICON_PATH = "rps_outline.png"  # file sejajar dengan app.py
 c1, c2 = st.columns([1.6, 1.0], vertical_alignment="center")
 
 with c1:
@@ -210,30 +233,15 @@ with c1:
     )
 
 with c2:
-    # Naikkan posisi ikon header biar sejajar: align ke atas + margin-top negatif
     st.markdown(
         """
         <style>
           .header-rps-wrap{
-              display:flex;
-              justify-content:center;
-              align-items:flex-start;   /* ratakan ke atas kolom */
-              margin-top:-72px;         /* ⬅️ naikkan; sesuaikan -56 / -64 / -80 kalau perlu */
+              display:flex; justify-content:center; align-items:flex-start;
+              margin-top:-72px;
           }
-          .header-rps-img{
-              max-width:360px;
-              width:100%;
-              height:auto;
-              filter:drop-shadow(0 0 18px rgba(255,255,255,.28))
-                     drop-shadow(0 0 6px rgba(255,255,255,.25));
-          }
-          /* Responsif: di layar kecil jangan terlalu naik */
-          @media (max-width: 1200px){
-            .header-rps-wrap{ margin-top:-40px; }
-          }
-          @media (max-width: 992px){
-            .header-rps-wrap{ margin-top:-16px; }
-          }
+          @media (max-width: 1200px){ .header-rps-wrap{ margin-top:-40px; } }
+          @media (max-width: 992px){ .header-rps-wrap{ margin-top:-16px; } }
         </style>
         """,
         unsafe_allow_html=True,
@@ -246,13 +254,11 @@ with c2:
     except Exception as e:
         st.warning(f"Ikon header tidak ditemukan di '{ICON_PATH}'. Detil: {e}")
 
-
-
 # =========================
-# TABS (white titles, non-bold)
+# TABS (3 tabs — Lucide capsule)
 # =========================
-tab_det, tab_cls, tab_profile, tab_docs = st.tabs([
-    "Deteksi Objek (YOLOv8)", "Klasifikasi Gambar (CNN)", "Penjelasan Model"
+tab_det, tab_cls, tab_docs = st.tabs([
+    "Deteksi Gambar", "Klasifikasi Gambar", "Penjelasan Model"
 ])
 
 def uploader_card(key_label:str, title="Unggah Gambar"):
@@ -262,7 +268,7 @@ def uploader_card(key_label:str, title="Unggah Gambar"):
     return f
 
 # =========================
-# TAB: DETEKSI (clean, elegant: no sliders/summary/table)
+# TAB: DETEKSI (YOLOv8)
 # =========================
 with tab_det:
     left, right = st.columns([1.04,1])
@@ -296,7 +302,7 @@ with tab_det:
         st.markdown("</div>", unsafe_allow_html=True)
 
 # =========================
-# TAB: KLASIFIKASI (progress + tabel)
+# TAB: KLASIFIKASI (CNN)
 # =========================
 with tab_cls:
     left, right = st.columns([1.04,1])
@@ -315,7 +321,8 @@ with tab_cls:
         else:
             img_resized = img2.resize((224,224))
             arr = image.img_to_array(img_resized); arr = np.expand_dims(arr,0)/255.0
-            with st.spinner("Mengklasifikasikan..."): pred = classifier.predict(arr)
+            with st.spinner("Mengklasifikasikan..."):
+                pred = classifier.predict(arr)
             probs = pred[0].astype(float)
             labels = ["paper","rock","scissors"] if len(pred[0])==3 else [f"class_{i}" for i in range(len(pred[0]))]
             top_idx = int(np.argmax(probs)); top_name = labels[top_idx]; top_prob = float(probs[top_idx])
@@ -337,24 +344,7 @@ with tab_cls:
         st.markdown("</div>", unsafe_allow_html=True)
 
 # =========================
-# TAB: PROFIL DEVELOPER (prompt)
-# =========================
-with tab_profile:
-    st.markdown("<div class='card'><div class='card-title'>Profil Developer — Mohon jawab di chat</div>", unsafe_allow_html=True)
-    st.markdown("""
-• **Nama yang ditampilkan** & panggilan  
-• **Peran/role utama**  
-• **Tagline singkat** (1–2 kalimat)  
-• **Skill inti (5–8)**  
-• **Proyek unggulan (≤3)**  
-• **Kontak & tautan** (email, GitHub, LinkedIn/Portofolio)  
-• **Riwayat pendidikan** (opsional) dalam format timeline  
-• **Preferensi warna/aksen tambahan** (bila ada)
-""")
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# =========================
-# TAB: PENJELASAN MODEL (dropdown + per-box)
+# TAB: PENJELASAN MODEL
 # =========================
 with tab_docs:
     model_choice = st.selectbox("Pilih model yang ingin dijelaskan", ["YOLOv8", "CNN"], index=0)

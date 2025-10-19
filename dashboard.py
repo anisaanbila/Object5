@@ -85,7 +85,7 @@ header[data-testid="stHeader"]{ display:none; }
   padding:.6rem .9rem; border-radius:999px;
   background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
-  margin: 4px 0 6px 0; /* jarak bawah lebih rapat */
+  margin: 6px 0 6px 0; /* jarak bawah lebih rapat */
 }
 .profile-avatar{
   width:36px; height:36px; border-radius:50%;
@@ -112,7 +112,7 @@ header[data-testid="stHeader"]{ display:none; }
   position: relative;
   color: #E0E2FF !important;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 2rem;
   padding: 0.55rem 1.2rem 0.55rem 2.8rem;
   border: none;
   border-radius: 40px;

@@ -317,8 +317,6 @@ with col_profile:
             <div class="profile-email">anisanbilaa@gmail.com</div>
           </div>
         </div>
-        <!-- Tambah jarak antara banner dan uploader -->
-        <div style="height: 20px;"></div>
         """,
         unsafe_allow_html=True
     )

@@ -231,8 +231,7 @@ c1, c2 = st.columns([1.6, 1.0], vertical_alignment="center")
 with c1:
     st.markdown(
         "<div class='card'>"
-        "<h1>DETEKSI DAN KLASIFIKASI GAMBAR BATU, GUNTING, 
-        DAN KERTAS</h1>"
+        "<h1>DETEKSI DAN KLASIFIKASI GAMBAR BATU, GUNTING,                              DAN KERTAS</h1>"
         "<p class='caption'>Dashboard futuristik untuk <b>deteksi objek</b> (YOLOv8) dan "
         "<b>klasifikasi gambar</b> (CNN) pada gestur tangan RPS.</p>"
         "</div>",

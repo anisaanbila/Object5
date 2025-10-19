@@ -281,6 +281,22 @@ header[data-testid="stHeader"]{ display:none; }
   color:#EAEAFF; font-size:1.02rem; line-height:1.45; font-weight:500;
 }
 
+.notice-text{
+  color:#EAEAFF; font-size:1.02rem; line-height:1.45; font-weight:500;
+}
+
+/* Tambah jarak antara box notice dan box drag uploader */
+[data-testid="stFileUploader"] {
+  margin-top: 20px !important;
+}
+[data-testid="stFileUploadDropzone"] {
+  margin-top: 20px !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
 </style>
 """, unsafe_allow_html=True)
 

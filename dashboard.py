@@ -263,7 +263,7 @@ header[data-testid="stHeader"]{ display:none; }
 /* ===== Notice / Tips Banner (di atas uploader) ===== */
 .notice-banner{
   display:flex; align-items:center; gap:14px;
-  padding:12px 16px; margin:0 0 18px 0 !important;
+  padding:12px 16px; margin:0 0 14px 0;
   border-radius:14px;
   background: linear-gradient(90deg, #240070, #4a00c4 55%, #6e2bff);
   border:1px solid rgba(255,255,255,.14);
@@ -280,8 +280,9 @@ header[data-testid="stHeader"]{ display:none; }
 .notice-text{
   color:#EAEAFF; font-size:1.02rem; line-height:1.45; font-weight:500;
 }
-
-
+div[data-testid="stFileUploadDropzone"] {
+  margin-top: 16px !important;  /* jarak antara notice dan uploader */
+}
 
 </style>
 """, unsafe_allow_html=True)

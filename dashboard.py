@@ -1,4 +1,5 @@
 # app.py — RPS Vision Dashboard (Futuristic • Gradient • Poppins)
+import base64
 import streamlit as st
 from ultralytics import YOLO
 import tensorflow as tf
@@ -14,6 +15,7 @@ st.set_page_config(
     page_icon="🧠",
     layout="wide",
 )
+
 # ====== VIEW STATE ======
 if "view" not in st.session_state:
     st.session_state["view"] = "dashboard"
@@ -33,11 +35,7 @@ st.markdown("""
 
 /* Typography */
 * { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-h1{ 
-  font-weight:900; 
-  line-height:1.12; 
-  font-size:3.2rem;   /* ⬅️ Tambahkan baris ini */
-}
+h1{ font-weight:900; line-height:1.12; font-size:3.2rem; }
 h2,h3,h4{ font-weight:700; }
 p,li,div,span,label{ font-weight:400; color:var(--text); }
 
@@ -90,10 +88,10 @@ header[data-testid="stHeader"]{ display:none; }
   color:#FFFFFF;
   text-shadow: 0 0 8px rgba(255,255,255,.2);
 }
-/* Caption khusus di header (biar gak ganggu tab) */
+/* Caption khusus di header */
 .header-caption{
   position:relative;
-  left:0.8rem;        /* ⬅️ geser blok ke kanan sejauh 10rem */
+  left:0.8rem;
   color:#DDE0FF;
   font-size:1.25rem;
   font-weight:500;
@@ -111,198 +109,92 @@ header[data-testid="stHeader"]{ display:none; }
   padding:.6rem .9rem; border-radius:999px;
   background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
-  margin: 6px 0 6px 0; /* jarak bawah lebih rapat */
-}
-
-/* ===== PROFILE CHIP (dengan efek pop-up saat hover) ===== */
-/* ===== PROFILE CHIP (dengan efek sama seperti .card:hover) ===== */
-.profile-bar{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  width:fit-content;
-  padding:.6rem .9rem;
-  border-radius:999px;
-  background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
   margin: 6px 0 6px 0;
-  transition: all 0.35s ease;       /* biar halus kayak card */
+  transition: all 0.35s ease;
 }
-
-/* Saat diarahkan kursor */
 .profile-bar:hover{
-  box-shadow:
-    0 26px 60px rgba(0,0,0,.55),          /* bayangan lebih dalam */
-    0 0 0 1px rgba(255,255,255,.06) inset;/* garis halus dalam */
-  transform: translateY(-1px);             /* naik dikit */
+  box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset;
+  transform: translateY(-1px);
   background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
 }
-
-/* Avatar tetap punya efek lembut */
 .profile-avatar{
-  width:36px;
-  height:36px;
-  border-radius:50%;
+  width:36px; height:36px; border-radius:50%;
   border:2px solid rgba(255,255,255,.85);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:flex; align-items:center; justify-content:center;
   box-shadow:0 0 10px rgba(255,255,255,.18), inset 0 0 8px rgba(255,255,255,.12);
   transition: all 0.3s ease;
 }
-
-/* Tambahan: avatar ikut hidup dikit pas hover */
-.profile-bar:hover .profile-avatar{
-  transform: scale(1.08);
-  box-shadow:0 0 14px rgba(255,255,255,.25), 0 0 8px rgba(141,63,255,.5);
-}
-
-/* Nama dan email tetap clean */
+.profile-bar:hover .profile-avatar{ transform: scale(1.08);
+  box-shadow:0 0 14px rgba(255,255,255,.25), 0 0 8px rgba(141,63,255,.5); }
 .profile-name{ font-weight:700; color:#FFFFFF; line-height:1.05; }
 .profile-email{ color:#BBC0E6; font-size:.92rem; margin-top:2px; }
 
-
-/* ===== FUTURISTIC LUCIDE TABS (Versi Stabil + 32px Ikon) ===== */
+/* ===== TABS (ikon Lucide) ===== */
 .stTabs [role="tablist"] {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 1.4rem;
-  padding: 0.8rem 1.2rem;
-  border-radius: 40px;
+  display:flex; align-items:center; gap:1.4rem;
+  padding:0.8rem 1.2rem; border-radius:40px;
   background: linear-gradient(90deg, #1a0066, #4b00c7);
   box-shadow: inset 0 0 20px rgba(255,255,255,0.06);
 }
-
-/* ===== Tab button ===== */
 .stTabs [role="tab"] {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;                        /* jarak ikon ↔ teks */
-  color: #E0E2FF !important;
-  font-weight: 500 !important;
-  font-size: 1.3rem !important;       /* ukuran teks tab */
-  line-height: 1.25 !important;
-  padding: 0.8rem 1.6rem;
-  border: none;
-  border-radius: 40px;
-  background: transparent;
-  transition: all 0.25s ease;
+  display:flex; align-items:center; gap:.8rem;
+  color:#E0E2FF !important; font-weight:500 !important;
+  font-size:1.3rem !important; line-height:1.25 !important;
+  padding:.8rem 1.6rem; border:none; border-radius:40px;
+  background:transparent; transition:all .25s ease;
 }
-
-/* pastikan semua elemen di dalam tab ikut ukuran teks */
-.stTabs [role="tab"] * {
-  font-size: inherit !important;
-  font-weight: inherit !important;
-  line-height: inherit !important;
+.stTabs [role="tab"]:hover{ background:rgba(255,255,255,.08); color:#fff !important; }
+.stTabs [role="tab"][aria-selected="true"]{
+  background:linear-gradient(90deg,#602FFF,#8D3FFF);
+  box-shadow:0 0 18px rgba(138,70,255,.5); color:#fff !important; transform:translateY(-1px);
 }
-
-/* hover & active state */
-.stTabs [role="tab"]:hover {
-  background: rgba(255,255,255,0.08);
-  color: #FFFFFF !important;
-}
-.stTabs [role="tab"][aria-selected="true"] {
-  background: linear-gradient(90deg, #602FFF, #8D3FFF);
-  box-shadow: 0 0 18px rgba(138,70,255,0.5);
-  color: #fff !important;
-  transform: translateY(-1px);
-}
-
-/* ===== Ikon semua tab (ukuran seragam 32px, sejajar) ===== */
+/* ikon */
 .stTabs [role="tab"]::before{
-  content: "";
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  flex: 0 0 32px;
-  margin-right: 0.8rem;             /* jarak antara ikon dan teks */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 32px 32px;
+  content:""; display:inline-block; width:32px; height:32px; flex:0 0 32px;
+  margin-right:.1rem; background-repeat:no-repeat; background-position:center; background-size:32px 32px;
 }
+.stTabs [role="tab"]:nth-child(1)::before{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5h2l2-2h10l2 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z'/><circle cx='12' cy='13' r='3'/></svg>");
+}
+.stTabs [role="tab"]:nth-child(2)::before{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='M21 15l-5-5L5 21'/></svg>");
+}
+.stTabs [role="tab"]:nth-child(3)::before{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h-.09a1.65 1.65 0 0 0 1.51-1z'/></svg>");
+}
+/* underline bawaan */
+.stTabs [role="tablist"] button{ border-bottom:none !important; }
 
-/* ===== Ikon per tab (Lucide outline style) ===== */
-.stTabs [role="tab"]:nth-child(1)::before {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5h2l2-2h10l2 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z'/><circle cx='12' cy='13' r='3'/></svg>");
-}
-.stTabs [role="tab"]:nth-child(2)::before {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='M21 15l-5-5L5 21'/></svg>");
-}
-.stTabs [role="tab"]:nth-child(3)::before {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>");
-}
+/* Header right image */
+.header-rps-wrap{ display:flex; justify-content:center; align-items:flex-start; margin-top:-36px; margin-bottom:0; }
+.header-rps-img{ width:auto; max-width:250px; height:auto; display:block;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.20)) drop-shadow(0 0 3px rgba(255,255,255,.18)); }
+@media (max-width: 1200px){ .header-rps-wrap{ margin-top:-24px; } .header-rps-img{ max-width:260px; } }
+@media (max-width: 992px){ .header-rps-wrap{ margin-top:-10px; } .header-rps-img{ max-width:220px; } }
 
-/* Hilangkan underline bawaan Streamlit */
-.stTabs [role="tablist"] button { border-bottom: none !important; }
-
-
-
-/* Header right image (lebih kecil & rapat) */
-.header-rps-wrap{
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  margin-top:-36px;
-  margin-bottom:0;
+/* ===== Profil Page ===== */
+.pro-card{
+  border-radius:18px; padding:22px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)) padding-box,
+    linear-gradient(90deg, rgba(114,38,255,.35), rgba(1,0,48,.35)) border-box;
+  border:1px solid transparent; color:#fff;
+  box-shadow: 0 16px 44px rgba(0,0,0,.42);
+  transition: box-shadow .25s ease, transform .25s ease;
 }
-.header-rps-img{
-  width:auto;
-  max-width:250px;
-  height:auto;
-  display:block;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,.20))
-          drop-shadow(0 0 3px rgba(255,255,255,.18));
-}
-@media (max-width: 1200px){
-  .header-rps-wrap{ margin-top:-24px; }
-  .header-rps-img{ max-width:260px; }
-}
-@media (max-width: 992px){
-  .header-rps-wrap{ margin-top:-10px; }
-  .header-rps-img{ max-width:220px; }
-}
-
-# =========================
-# PROFILE CHIP (atas header) — KLIK untuk masuk halaman Profil
-# =========================
-col_profile, _ = st.columns([1, 3])
-with col_profile:
-    st.markdown(
-        """
-        <div class="profile-trigger">
-          <div class="profile-bar">
-            <div class="profile-avatar">
-              <!-- Lucide user-round -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
-                <path d="M18 20a6 6 0 0 0-12 0"/>
-                <circle cx="12" cy="10" r="4"/>
-              </svg>
-            </div>
-            <div>
-              <div class="profile-name">Anisa Nabila</div>
-              <div class="profile-email">anisanbilaa@gmail.com</div>
-            </div>
-          </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-    # Tombol transparan menutupi chip → klik untuk buka profil
-    if st.button("OPEN_PROFILE", key="open_profile_chip"):
-        st.session_state["view"] = "profile"
-        st.experimental_rerun()
-
-/* Buat wrapper chip bisa diklik penuh (overlay tombol transparan) */
-.profile-trigger{ position:relative; display:inline-block; }
-.profile-trigger .stButton > button{
-  position:absolute; inset:0; opacity:0; border:none; background:transparent; cursor:pointer;
-}
-
+.pro-card:hover{ box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset; transform: translateY(-1px); }
+.pro-title{ font-size:1.2rem; font-weight:800; margin-bottom:.7rem; }
+.pro-kv{ color:#DDE0FF; }
+.badges{ display:flex; flex-wrap:wrap; gap:.55rem; }
+.badge{ padding:.42rem .65rem; border-radius:999px; font-size:.92rem; font-weight:700; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); }
+.link-row{ display:flex; gap:.6rem; flex-wrap:wrap; }
+.link-pill{ display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .8rem; border-radius:999px; text-decoration:none; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:#fff!important; font-weight:700; }
+.timeline{ position:relative; padding-left:28px; }
+.timeline:before{ content:""; position:absolute; left:10px; top:4px; bottom:4px; width:3px; background:linear-gradient(#160078,#7226FF); border-radius:3px; }
+.t-item{ position:relative; margin:.6rem 0; }
+.t-item:before{ content:""; position:absolute; left:-3px; top:.35rem; width:14px; height:14px; border-radius:50%; border:3px solid rgba(255,255,255,.9); background:rgba(255,255,255,.15); }
 </style>
 """, unsafe_allow_html=True)
-
 
 # =========================
 # LOAD MODELS
@@ -315,8 +207,17 @@ def load_models():
 
 yolo_model, classifier = load_models()
 
+# ========= Helper: encode local image as data-uri (for circular avatar) =========
+def img_src_datauri(path):
+    try:
+        with open(path, "rb") as f:
+            b64 = base64.b64encode(f.read()).decode("utf-8")
+        return f"data:image/jpeg;base64,{b64}"
+    except Exception:
+        return None
+
 # =========================
-# STATE & HALAMAN PROFIL
+# PROFILE PAGE
 # =========================
 def render_profile_page():
     # Tombol kembali
@@ -326,30 +227,23 @@ def render_profile_page():
             st.session_state["view"] = "dashboard"
             st.experimental_rerun()
 
-    # Judul halaman profil
+    # Judul
     st.markdown("<h1 style='margin:0 0 .5rem 0'>Profil — Anisa Nabila (Icha)</h1>", unsafe_allow_html=True)
     st.markdown("<p class='caption' style='font-size:1.05rem'>Mahasiswi S1 Statistika — minat Komputasi Statistika, desain, dan fotografi.</p>", unsafe_allow_html=True)
 
-    # Grid 2 kolom: Identitas (kiri) + Skill/Tools (kanan)
+    # Grid 2 kolom
     colL, colR = st.columns([1.15, 1])
     with colL:
         st.markdown("<div class='pro-card'>", unsafe_allow_html=True)
 
-        # Avatar bulat dari file 'profil.jpg' (kalau ada), fallback ke ikon lucide
-        try:
-            img = Image.open("profil.jpg").convert("RGB")
-            st.image(img, use_container_width=False, caption=None)
-            st.markdown(
-                "<style>.element-container img{border-radius:50%; max-width:180px;}</style>",
-                unsafe_allow_html=True
-            )
-        except Exception:
+        # Avatar bulat dari 'profil.jpg'
+        src = img_src_datauri("profil.jpg") or img_src_datauri("profil.jpeg") or img_src_datauri("profil.png")
+        if src:
+            st.markdown(f"<img src='{src}' alt='Foto Profil' style='width:180px;height:180px;object-fit:cover;border-radius:50%;border:3px solid rgba(255,255,255,.8);box-shadow:0 0 20px rgba(255,255,255,.25), inset 0 0 10px rgba(255,255,255,.12);display:block;margin:0 auto 1rem auto;'/>", unsafe_allow_html=True)
+        else:
             st.markdown("""
-            <img class="avatar-big" alt="Foto Profil" src="data:image/svg+xml;utf8,
-            <svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-              <path d='M18 20a6 6 0 0 0-12 0'/>
-              <circle cx='12' cy='10' r='4'/>
-            </svg>"/>
+            <img alt="Foto Profil" style="width:180px;height:180px;border-radius:50%;display:block;margin:0 auto 1rem auto;border:3px solid rgba(255,255,255,.8);box-shadow:0 0 20px rgba(255,255,255,.25), inset 0 0 10px rgba(255,255,255,.12);" 
+            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 20a6 6 0 0 0-12 0'/><circle cx='12' cy='10' r='4'/></svg>"/>
             """, unsafe_allow_html=True)
 
         st.markdown("""
@@ -357,9 +251,9 @@ def render_profile_page():
         <div class="pro-kv">
           <b>Nama:</b> Anisa Nabila (Icha)<br/>
           <b>Status:</b> Mahasiswi semester 5, S1 Statistika<br/><br/>
-          Seorang mahasiswi semester 5 prodi Statistika yang memiliki minat besar pada bidang Komputasi Statistika.
+          Seorang mahasiswi semester 5 prodi Statistika dengan minat kuat pada Komputasi Statistika.
           Saya juga tertarik pada desain dan fotografi untuk mengekspresikan ide secara kreatif.
-          Adaptif, suka kolaborasi tim, dan bersemangat untuk terus belajar serta mengembangkan pengetahuan dan skill.
+          Adaptif, kolaboratif, dan bersemangat untuk terus belajar serta mengembangkan pengetahuan dan keterampilan.
         </div>
         <hr style="border-color: rgba(255,255,255,.12)"/>
         <div class="pro-title">Kontak Profesional</div>
@@ -425,11 +319,19 @@ def render_profile_page():
     """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
+# =========================
+# JIKA VIEW = PROFILE, RENDER & STOP
+# =========================
+if st.session_state["view"] == "profile":
+    render_profile_page()
+    st.stop()
 
 # =========================
-# PROFILE CHIP (atas header)
+# DASHBOARD (default)
 # =========================
-col_profile, _ = st.columns([1, 3])
+
+# PROFILE CHIP + tombol buka profil
+col_profile, col_btn = st.columns([1, 3])
 with col_profile:
     st.markdown(
         """
@@ -437,7 +339,7 @@ with col_profile:
           <div class="profile-avatar">
             <!-- Lucide user-round -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
               <path d="M18 20a6 6 0 0 0-12 0"/>
               <circle cx="12" cy="10" r="4"/>
             </svg>
@@ -450,18 +352,22 @@ with col_profile:
         """,
         unsafe_allow_html=True
     )
+with col_btn:
+    if st.button("Buka Profil"):
+        st.session_state["view"] = "profile"
+        st.experimental_rerun()
 
 # =========================
 # HEADER (left text + PNG icon on right, NO BOX)
 # =========================
-ICON_PATH = "rps_outline.png"  # file sejajar dengan app.py
+ICON_PATH = "rps_outline.png"
 c1, c2 = st.columns([1.6, 1.0], vertical_alignment="center")
 
 with c1:
     st.markdown(
         "<div class='card'>"
         "<h1>DETEKSI DAN KLASIFIKASI GAMBAR BATU, GUNTING, DAN KERTAS</h1>"
-        "<p class='header-caption'><b>Ayo coba unggah gambar tanganmu! </b>Sistem ini akan mengidentifikasi bentuknya "
+        "<p class='header-caption'><b>Ayo coba unggah gambar tanganmu!</b> Sistem ini akan mengidentifikasi bentuknya "
         "sebagai batu, gunting, atau kertas.</p>"
         "</div>",
         unsafe_allow_html=True,
@@ -593,7 +499,7 @@ with tab_docs:
             unsafe_allow_html=True
         )
 
-    # ---- Dataset (with per-class counters)
+    # ---- Dataset
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.markdown("<div class='card-title'>Dataset</div>", unsafe_allow_html=True)
     if model_choice == "YOLOv8":
@@ -670,7 +576,7 @@ with tab_docs:
             metric_bar("Recall", 1.00)
             metric_bar("mAP@50", 0.995)
             metric_bar("mAP@50–95", 0.925)
-            metric_bar("Latency (skala cepat)", 1-0.017)  # 17ms ~ cepat
+            metric_bar("Latency (skala cepat)", 1-0.017)
             st.markdown("Akurat & cepat — layak untuk **real-time**.")
         st.markdown("</div>", unsafe_allow_html=True)
 

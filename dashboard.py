@@ -81,6 +81,8 @@ header[data-testid="stHeader"]{ display:none; }
 .card:hover{ box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset; transform: translateY(-1px); }
 .card h1{
   font-weight:900;
+  margin-top:0.5rem;
+  margin-left:1rem;
   font-size:3.3rem;
   color:#FFFFFF;
   text-shadow: 0 0 8px rgba(255,255,255,.2);
@@ -92,6 +94,7 @@ header[data-testid="stHeader"]{ display:none; }
   font-weight:500;
   line-height:1.6;
   margin-top:0.5rem;
+  margin-left:1rem;
   margin-bottom:0.5;
 }
 .card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }

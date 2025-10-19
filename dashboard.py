@@ -301,13 +301,13 @@ header[data-testid="stHeader"]{ display:none; }
 [data-testid="stFileUploader"] a, 
 [data-testid="stFileUploader"] span,
 [data-testid="stFileUploader"] p {
-  color: #a6a6a6 !important;            /* putih */
+  color: #545454 !important;            /* putih */
   font-weight: 500 !important;
 }
 
 /* 2️⃣ Warna tombol "Browse files" */
 [data-testid="stFileUploader"] button {
-  color: #a6a6a6 !important;            /* teks gelap */
+  color: #545454 !important;            /* teks gelap */
   background: #FFFFFF !important;       /* tombol putih */
   border-radius: 8px !important;
   font-weight: 500 !important;

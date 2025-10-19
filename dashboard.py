@@ -168,6 +168,14 @@ header[data-testid="stHeader"]{ display:none; }
 }
 
 /* ===== Ikon semua tab (ukuran seragam 32px) ===== */
+.stTabs [role="tab"]::before{
+  content:"";
+  width:32px; height:32px;                      /* ⬅️ BESARIN IKON DI SINI */
+  flex:0 0 32px;                                /* lebar tetap, tidak ikut melar */
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:32px 32px;
+}
 /* ===== Ikon per tab (Lucide outline style) ===== */
 .stTabs [role="tab"]:nth-child(1)::before {
   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5h2l2-2h10l2 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z'/><circle cx='12' cy='13' r='3'/></svg>");

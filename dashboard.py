@@ -259,6 +259,74 @@ header[data-testid="stHeader"]{ display:none; }
   .header-rps-wrap{ margin-top:-10px; }
   .header-rps-img{ max-width:220px; }
 }
+
+/* --------------- Tambahan untuk halaman Profil --------------- */
+
+/* 1) Chip profil versi tombol (biar bisa diklik tampil profil) */
+.profile-chip-btn > button{
+  all: unset; cursor: pointer; display:flex; align-items:center; gap:12px;
+  padding:.65rem 1rem; border-radius:999px;
+  background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
+  transition: all .3s ease; color:#fff; font-weight:700;
+}
+.profile-chip-btn > button:hover{
+  transform: translateY(-1px);
+  box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset;
+  background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+}
+.profile-chip-avatar{
+  width:36px; height:36px; border-radius:50%; overflow:hidden;
+  border:2px solid rgba(255,255,255,.85);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 10px rgba(255,255,255,.18), inset 0 0 8px rgba(255,255,255,.12);
+}
+
+/* 2) Avatar besar di halaman profil */
+.pro-card img.avatar-big{
+  width:180px; height:180px; object-fit:cover;
+  border-radius:50%;
+  border:3px solid rgba(255,255,255,.8);
+  box-shadow: 0 0 20px rgba(255,255,255,.25), inset 0 0 10px rgba(255,255,255,.12);
+  display:block; margin: 0 auto 1rem auto;
+}
+
+/* 3) Box profil (efek mirip card tapi khusus halaman profil) */
+.pro-card{
+  border-radius:18px; padding:22px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)) padding-box,
+    linear-gradient(90deg, rgba(114,38,255,.35), rgba(1,0,48,.35)) border-box;
+  border:1px solid transparent; color:#fff;
+  box-shadow: 0 16px 44px rgba(0,0,0,.42);
+  transition: box-shadow .25s ease, transform .25s ease;
+}
+.pro-card:hover{ box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset; transform: translateY(-1px); }
+
+/* 4) Badge dan link di bagian Skill & Kontak */
+.badges{ display:flex; flex-wrap:wrap; gap:.55rem; }
+.badge{
+  padding:.42rem .65rem; border-radius:999px; font-size:.92rem; font-weight:700;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
+}
+.link-row{ display:flex; gap:.6rem; flex-wrap:wrap; }
+.link-pill{
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.5rem .8rem; border-radius:999px; text-decoration:none;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
+  color:#fff!important; font-weight:700;
+}
+
+/* 5) Perbaikan spacing ikon ↔ teks tab */
+.stTabs [role="tab"]{
+  display:flex; align-items:center; gap:.8rem;
+}
+.stTabs [role="tab"]::before{
+  width:32px; height:32px; flex:0 0 32px;
+  margin-right:.1rem; vertical-align:middle;
+  background-repeat:no-repeat; background-position:center; background-size:32px 32px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 

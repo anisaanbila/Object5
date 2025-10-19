@@ -84,7 +84,7 @@ header[data-testid="stHeader"]{ display:none; }
 .card-title{ font-weight:700; font-size:1.35rem; margin-bottom:.7rem; color:#fff; }
 .caption{ color: var(--muted); font-size:1rem; }
 
-/* ===== TABS: Futuristic Capsule Style ===== */
+/* ===== FUTURISTIC LUCIDE TABS ===== */
 .stTabs [role="tablist"] {
   display: flex;
   justify-content: flex-start;
@@ -107,30 +107,31 @@ header[data-testid="stHeader"]{ display:none; }
   border-radius: 40px;
   background: transparent;
   transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
 }
 
-/* Icon kiri tiap tab (pakai pseudo-element) */
-.stTabs [role="tab"]::before {
-  content: "📷";
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.1rem;
-  opacity: 0.75;
+/* Tambah ikon Lucide (SVG inline) */
+.stTabs [role="tab"]:nth-child(1)::before {
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5h2l2-2h10l2 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z'/><circle cx='12' cy='13' r='3'/></svg>");
+  position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+}
+.stTabs [role="tab"]:nth-child(2)::before {
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='M21 15l-5-5L5 21'/></svg>");
+  position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+}
+.stTabs [role="tab"]:nth-child(3)::before {
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>");
+  position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
 }
 
-/* Ganti ikon untuk tab berikutnya */
-.stTabs [role="tab"]:nth-child(2)::before { content: "🖼️"; }
-.stTabs [role="tab"]:nth-child(3)::before { content: "⚙️"; }
-
-/* Saat hover */
+/* Hover dan aktif */
 .stTabs [role="tab"]:hover {
   background: rgba(255,255,255,0.08);
   color: #FFFFFF !important;
 }
 
-/* Tab aktif (ada shape belakangnya) */
 .stTabs [role="tab"][aria-selected="true"] {
   background: linear-gradient(90deg, #602FFF, #8D3FFF);
   box-shadow: 0 0 18px rgba(138,70,255,0.5);
@@ -138,10 +139,11 @@ header[data-testid="stHeader"]{ display:none; }
   transform: translateY(-1px);
 }
 
-/* Hilangkan border bawah default */
+/* Hilangkan border bawah default Streamlit */
 .stTabs [role="tablist"] button {
   border-bottom: none !important;
 }
+
 
 
 /* File uploader text color */

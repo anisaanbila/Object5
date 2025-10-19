@@ -85,7 +85,7 @@ header[data-testid="stHeader"]{ display:none; }
   color:#FFFFFF;
   text-shadow: 0 0 8px rgba(255,255,255,.2);
 }
-.card-title{ font-weight:700; font-size:1.5rem; margin-bottom:.7rem; color:#fff; }
+.card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }
 .caption{ color: var(--muted); font-size:1rem; }
 
 /* ===== PROFILE CHIP (atas header) ===== */

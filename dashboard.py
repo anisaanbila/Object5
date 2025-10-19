@@ -82,7 +82,7 @@ header[data-testid="stHeader"]{ display:none; }
 .card h1{
   font-weight:900;
   margin-top:0.5rem;
-  margin-left:1rem;
+  margin-left:0.8rem;
   font-size:3.3rem;
   color:#FFFFFF;
   text-shadow: 0 0 8px rgba(255,255,255,.2);
@@ -94,7 +94,7 @@ header[data-testid="stHeader"]{ display:none; }
   font-weight:500;
   line-height:1.6;
   margin-top:0.5rem;
-  margin-left:1rem;
+  margin-left:1.4rem;
   margin-bottom:0.5;
 }
 .card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }

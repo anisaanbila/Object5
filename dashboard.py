@@ -259,6 +259,30 @@ header[data-testid="stHeader"]{ display:none; }
   .header-rps-wrap{ margin-top:-10px; }
   .header-rps-img{ max-width:220px; }
 }
+
+/* ===== Notice / Tips Banner (di atas uploader) ===== */
+.notice-banner{
+  display:flex; align-items:center; gap:14px;
+  padding:12px 16px; margin:0 0 14px 0;
+  border-radius:14px;
+  background: linear-gradient(90deg, #240070, #4a00c4 55%, #6e2bff);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 0 18px rgba(255,255,255,.05);
+}
+.notice-icon{
+  width:38px; height:38px; min-width:38px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:10px;
+  background: rgba(255,255,255,.08);
+  box-shadow: inset 0 0 10px rgba(255,255,255,.08);
+}
+.notice-icon svg{ width:22px; height:22px; color:#FFFFFF; opacity:.95; }
+.notice-text{
+  color:#EAEAFF; font-size:1.02rem; line-height:1.45; font-weight:500;
+}
+
+
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -344,11 +368,34 @@ tab_det, tab_cls, tab_docs = st.tabs([
     "Deteksi Gambar", "Klasifikasi Gambar", "Penjelasan Model"
 ])
 
-def uploader_card(key_label:str, title="Unggah Gambar"):
-    st.markdown(f"<div class='card'><div class='card-title' style='font-size:1.35rem'>{title}</div>", unsafe_allow_html=True)
+def uploader_card(key_label: str, title="Unggah Gambar"):
+    st.markdown(
+        f"""
+        <div class='card'>
+          <div class='card-title' style='font-size:1.35rem'>{title}</div>
+
+          <!-- Notice banner -->
+          <div class="notice-banner">
+            <div class="notice-icon">
+              <!-- warning triangle (SVG) -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <div class="notice-text">
+              Pastikan tangan terlihat jelas pada gambar yang diunggah dan gunakan background polos supaya sistem dapat mengenali dengan tepat.
+            </div>
+          </div>
+        """,
+        unsafe_allow_html=True,
+    )
     f = st.file_uploader(" ", type=["png","jpg","jpeg"], key=key_label, label_visibility="collapsed")
     st.markdown("</div>", unsafe_allow_html=True)
     return f
+
 
 # =========================
 # TAB: DETEKSI (YOLOv8)

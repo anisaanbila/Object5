@@ -120,56 +120,53 @@ header[data-testid="stHeader"]{ display:none; }
 .profile-name{ font-weight:700; color:#FFFFFF; line-height:1.05; }
 .profile-email{ color:#BBC0E6; font-size:.92rem; margin-top:2px; }
 
-/* ===== FUTURISTIC LUCIDE TABS (3 tab) ===== */
-.stTabs [role="tablist"] {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 1.2rem;
-  padding: 0.6rem 1rem;
-  border-radius: 40px;
-  background: linear-gradient(90deg, #1a0066, #4b00c7);
-  box-shadow: inset 0 0 20px rgba(255,255,255,0.06);
+/* ===== FUTURISTIC LUCIDE TABS (3 tab) — bigger text + bigger icons + aligned ===== */
+.stTabs [role="tablist"]{
+  display:flex; align-items:center; gap:1.2rem;
+  padding:0.6rem 1rem; border-radius:40px;
+  background:linear-gradient(90deg,#1a0066,#4b00c7);
+  box-shadow:inset 0 0 20px rgba(255,255,255,0.06);
 }
-.stTabs [role="tab"] {
-  position: relative;
-  color: #E0E2FF !important;
-  font-weight: 600;
-  font-size: 3rem;
-  padding: 0.55rem 1.2rem 0.55rem 2.8rem;
-  border: none;
-  border-radius: 40px;
-  background: transparent;
-  transition: all 0.25s ease;
-  display: flex;
-  align-items: center;
-  gap: .7rem;
+
+/* Teks tab (lebih besar) + ruang untuk ikon di kiri */
+.stTabs [role="tab"]{
+  position:relative;
+  color:#E0E2FF !important;
+  font-weight:700;
+  font-size:1.55rem;              /* ⬅️ BESARIN TEKS */
+  line-height:1.1;
+  padding:0.85rem 1.6rem 0.85rem 4.4rem;  /* ⬅️ KIRI DIPERLEBAR utk SPACE ikon→teks */
+  border:none; border-radius:40px;
+  background:transparent;
+  transition:all .25s ease;
+  display:flex; align-items:center;  /* sejajarkan konten */
 }
-.stTabs [role="tab"]:hover {
-  background: rgba(255,255,255,0.08);
-  color: #FFFFFF !important;
+
+/* Hover & active */
+.stTabs [role="tab"]:hover{ background:rgba(255,255,255,0.08); color:#FFF !important; }
+.stTabs [role="tab"][aria-selected="true"]{
+  background:linear-gradient(90deg,#602FFF,#8D3FFF);
+  box-shadow:0 0 18px rgba(138,70,255,0.5);
+  color:#fff !important; transform:translateY(-1px);
 }
-.stTabs [role="tab"][aria-selected="true"] {
-  background: linear-gradient(90deg, #602FFF, #8D3FFF);
-  box-shadow: 0 0 18px rgba(138,70,255,0.5);
-  color: #fff !important;
-  transform: translateY(-1px);
+
+/* ===== Ikon (lebih besar & sejajar vertikal) ===== */
+.stTabs [role="tab"]:nth-child(1)::before{
+  content:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5h2l2-2h10l2 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z'/><circle cx='12' cy='13' r='3'/></svg>");
+  position:absolute; left:1.2rem; top:50%; transform:translateY(-50%);
 }
-/* Lucide icons via inline SVG */
-.stTabs [role="tab"]:nth-child(1)::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5h2l2-2h10l2 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z'/><circle cx='12' cy='13' r='3'/></svg>");
-  position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+.stTabs [role="tab"]:nth-child(2)::before{
+  content:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='M21 15l-5-5L5 21'/></svg>");
+  position:absolute; left:1.2rem; top:50%; transform:translateY(-50%);
 }
-.stTabs [role="tab"]:nth-child(2)::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='M21 15l-5-5L5 21'/></svg>");
-  position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+.stTabs [role="tab"]:nth-child(3)::before{
+  content:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>");
+  position:absolute; left:1.2rem; top:50%; transform:translateY(-50%);
 }
-.stTabs [role="tab"]:nth-child(3)::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23E0E2FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>");
-  position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
-}
-/* Remove Streamlit default tab underline */
-.stTabs [role="tablist"] button { border-bottom: none !important; }
+
+/* Hilangkan underline bawaan Streamlit */
+.stTabs [role="tablist"] button{ border-bottom:none !important; }
+
 
 /* Header right image (lebih kecil & rapat) */
 .header-rps-wrap{

@@ -336,35 +336,6 @@ header[data-testid="stHeader"]{ display:none; }
   box-shadow: 0 0 10px rgba(255,255,255,0.3);
 }
 
-/* ====== Styling khusus di dalam .uploader-scope ====== */
-
-/* Nama file yang SUDAH ter-upload (list di bawah dropzone) → putih */
-.uploader-scope [data-testid="stFileUploader"] [role="list"] a,
-.uploader-scope [data-testid="stFileUploader"] [role="list"] span,
-.uploader-scope [data-testid="stFileUploader"] [role="list"] p{
-  color:#FFFFFF !important;
-  font-weight:600 !important;
-}
-
-/* Tombol "Browse files" di area dropzone → teks gelap, tombol putih */
-.uploader-scope [data-testid="stFileUploadDropzone"] > div > button{
-  color:#1A1A1A !important;
-  background:#FFFFFF !important;
-  border-radius:10px !important;
-  font-weight:600 !important;
-  border:1px solid rgba(0,0,0,.12) !important;
-  transition:all .25s ease !important;
-}
-.uploader-scope [data-testid="stFileUploadDropzone"] > div > button:hover{
-  background:linear-gradient(90deg,#ECECEC,#D6D6D6) !important;
-  color:#000 !important;
-}
-
-/* (opsional) teks kecil dalam dropzone tetap kontras */
-.uploader-scope [data-testid="stFileUploadDropzone"] p,
-.uploader-scope [data-testid="stFileUploadDropzone"] small{
-  color:#576072 !important;
-}
 
 </style>
 """, unsafe_allow_html=True)
@@ -472,8 +443,7 @@ def uploader_card(key_label: str, title="UNGGAH GAMBAR"):
               Pastikan tangan terlihat jelas pada gambar yang diunggah dan gunakan background polos supaya sistem dapat mengenali dengan tepat.
             </div>
           </div>
-          <div class="uploader-scope">
-        """,
+          """,
         unsafe_allow_html=True,
     )
     f = st.file_uploader(" ", type=["png","jpg","jpeg"], key=key_label, label_visibility="collapsed")

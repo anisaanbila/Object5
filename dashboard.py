@@ -94,7 +94,7 @@ header[data-testid="stHeader"]{ display:none; }
   font-weight:500;
   line-height:1.6;
   margin-top:0.5rem;
-  margin-left:6rem;
+  margin-left:15rem;
   margin-bottom:0.5;
 }
 .card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }

@@ -14,6 +14,9 @@ st.set_page_config(
     page_icon="🧠",
     layout="wide",
 )
+# ====== VIEW STATE ======
+if "view" not in st.session_state:
+    st.session_state["view"] = "dashboard"
 
 # =========================
 # THEME (gradient + Poppins + futuristic network)
@@ -260,71 +263,41 @@ header[data-testid="stHeader"]{ display:none; }
   .header-rps-img{ max-width:220px; }
 }
 
-/* --------------- Tambahan untuk halaman Profil --------------- */
+# =========================
+# PROFILE CHIP (atas header) — KLIK untuk masuk halaman Profil
+# =========================
+col_profile, _ = st.columns([1, 3])
+with col_profile:
+    st.markdown(
+        """
+        <div class="profile-trigger">
+          <div class="profile-bar">
+            <div class="profile-avatar">
+              <!-- Lucide user-round -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+                <path d="M18 20a6 6 0 0 0-12 0"/>
+                <circle cx="12" cy="10" r="4"/>
+              </svg>
+            </div>
+            <div>
+              <div class="profile-name">Anisa Nabila</div>
+              <div class="profile-email">anisanbilaa@gmail.com</div>
+            </div>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    # Tombol transparan menutupi chip → klik untuk buka profil
+    if st.button("OPEN_PROFILE", key="open_profile_chip"):
+        st.session_state["view"] = "profile"
+        st.experimental_rerun()
 
-/* 1) Chip profil versi tombol (biar bisa diklik tampil profil) */
-.profile-chip-btn > button{
-  all: unset; cursor: pointer; display:flex; align-items:center; gap:12px;
-  padding:.65rem 1rem; border-radius:999px;
-  background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  box-shadow:0 8px 26px rgba(0,0,0,.35), inset 0 0 14px rgba(255,255,255,.05);
-  transition: all .3s ease; color:#fff; font-weight:700;
-}
-.profile-chip-btn > button:hover{
-  transform: translateY(-1px);
-  box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset;
-  background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
-}
-.profile-chip-avatar{
-  width:36px; height:36px; border-radius:50%; overflow:hidden;
-  border:2px solid rgba(255,255,255,.85);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 10px rgba(255,255,255,.18), inset 0 0 8px rgba(255,255,255,.12);
-}
-
-/* 2) Avatar besar di halaman profil */
-.pro-card img.avatar-big{
-  width:180px; height:180px; object-fit:cover;
-  border-radius:50%;
-  border:3px solid rgba(255,255,255,.8);
-  box-shadow: 0 0 20px rgba(255,255,255,.25), inset 0 0 10px rgba(255,255,255,.12);
-  display:block; margin: 0 auto 1rem auto;
-}
-
-/* 3) Box profil (efek mirip card tapi khusus halaman profil) */
-.pro-card{
-  border-radius:18px; padding:22px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)) padding-box,
-    linear-gradient(90deg, rgba(114,38,255,.35), rgba(1,0,48,.35)) border-box;
-  border:1px solid transparent; color:#fff;
-  box-shadow: 0 16px 44px rgba(0,0,0,.42);
-  transition: box-shadow .25s ease, transform .25s ease;
-}
-.pro-card:hover{ box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset; transform: translateY(-1px); }
-
-/* 4) Badge dan link di bagian Skill & Kontak */
-.badges{ display:flex; flex-wrap:wrap; gap:.55rem; }
-.badge{
-  padding:.42rem .65rem; border-radius:999px; font-size:.92rem; font-weight:700;
-  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
-}
-.link-row{ display:flex; gap:.6rem; flex-wrap:wrap; }
-.link-pill{
-  display:inline-flex; align-items:center; gap:.5rem;
-  padding:.5rem .8rem; border-radius:999px; text-decoration:none;
-  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
-  color:#fff!important; font-weight:700;
-}
-
-/* 5) Perbaikan spacing ikon ↔ teks tab */
-.stTabs [role="tab"]{
-  display:flex; align-items:center; gap:.8rem;
-}
-.stTabs [role="tab"]::before{
-  width:32px; height:32px; flex:0 0 32px;
-  margin-right:.1rem; vertical-align:middle;
-  background-repeat:no-repeat; background-position:center; background-size:32px 32px;
+/* Buat wrapper chip bisa diklik penuh (overlay tombol transparan) */
+.profile-trigger{ position:relative; display:inline-block; }
+.profile-trigger .stButton > button{
+  position:absolute; inset:0; opacity:0; border:none; background:transparent; cursor:pointer;
 }
 
 </style>
@@ -341,6 +314,117 @@ def load_models():
     return yolo, clf
 
 yolo_model, classifier = load_models()
+
+# =========================
+# STATE & HALAMAN PROFIL
+# =========================
+def render_profile_page():
+    # Tombol kembali
+    left, _ = st.columns([1,4])
+    with left:
+        if st.button("← Kembali ke Halaman Utama"):
+            st.session_state["view"] = "dashboard"
+            st.experimental_rerun()
+
+    # Judul halaman profil
+    st.markdown("<h1 style='margin:0 0 .5rem 0'>Profil — Anisa Nabila (Icha)</h1>", unsafe_allow_html=True)
+    st.markdown("<p class='caption' style='font-size:1.05rem'>Mahasiswi S1 Statistika — minat Komputasi Statistika, desain, dan fotografi.</p>", unsafe_allow_html=True)
+
+    # Grid 2 kolom: Identitas (kiri) + Skill/Tools (kanan)
+    colL, colR = st.columns([1.15, 1])
+    with colL:
+        st.markdown("<div class='pro-card'>", unsafe_allow_html=True)
+
+        # Avatar bulat dari file 'profil.jpg' (kalau ada), fallback ke ikon lucide
+        try:
+            img = Image.open("profil.jpg").convert("RGB")
+            st.image(img, use_container_width=False, caption=None)
+            st.markdown(
+                "<style>.element-container img{border-radius:50%; max-width:180px;}</style>",
+                unsafe_allow_html=True
+            )
+        except Exception:
+            st.markdown("""
+            <img class="avatar-big" alt="Foto Profil" src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+              <path d='M18 20a6 6 0 0 0-12 0'/>
+              <circle cx='12' cy='10' r='4'/>
+            </svg>"/>
+            """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="pro-title">Identitas Utama</div>
+        <div class="pro-kv">
+          <b>Nama:</b> Anisa Nabila (Icha)<br/>
+          <b>Status:</b> Mahasiswi semester 5, S1 Statistika<br/><br/>
+          Seorang mahasiswi semester 5 prodi Statistika yang memiliki minat besar pada bidang Komputasi Statistika.
+          Saya juga tertarik pada desain dan fotografi untuk mengekspresikan ide secara kreatif.
+          Adaptif, suka kolaborasi tim, dan bersemangat untuk terus belajar serta mengembangkan pengetahuan dan skill.
+        </div>
+        <hr style="border-color: rgba(255,255,255,.12)"/>
+        <div class="pro-title">Kontak Profesional</div>
+        <div class="link-row">
+          <a class="link-pill" href="mailto:anisanbilaa@gmail.com">✉️ Kirim Email</a>
+          <a class="link-pill" href="https://www.instagram.com/anisaanbila/?utm_source=ig_web_button_share_sheet" target="_blank">📸 Ke Instagram</a>
+          <a class="link-pill" href="https://www.linkedin.com/in/anisaanbila/" target="_blank">🔗 Ke LinkedIn</a>
+        </div>
+        <div style="margin-top:.6rem" class="pro-kv">
+          <b>Lokasi:</b> Banda Aceh, Indonesia<br/>
+          <b>Email:</b> anisanbilaa@gmail.com<br/>
+          <b>Instagram:</b> @anisaanbila
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    with colR:
+        st.markdown("<div class='pro-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='pro-title'>Skill & Tools</div>", unsafe_allow_html=True)
+
+        st.markdown("<b>Software</b>", unsafe_allow_html=True)
+        st.markdown("""
+        <div class="badges">
+          <span class="badge">Microsoft Word</span>
+          <span class="badge">Excel</span>
+          <span class="badge">PowerPoint</span>
+          <span class="badge">SQL</span>
+          <span class="badge">Tableau</span>
+          <span class="badge">Minitab</span>
+          <span class="badge">RStudio</span>
+          <span class="badge">Python</span>
+          <span class="badge">Adobe Illustrator</span>
+          <span class="badge">Canva</span>
+          <span class="badge">CapCut</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
+        st.markdown("<b>Lainnya</b>", unsafe_allow_html=True)
+        st.markdown("""
+        <div class="badges">
+          <span class="badge">Desain grafis</span>
+          <span class="badge">Fotografi</span>
+          <span class="badge">Videografi</span>
+          <span class="badge">Menulis</span>
+          <span class="badge">Manajemen media sosial</span>
+          <span class="badge">Komunikasi tim</span>
+          <span class="badge">Manajemen waktu</span>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # Riwayat pendidikan — timeline
+    st.markdown("<div class='pro-card' style='margin-top:1rem'>", unsafe_allow_html=True)
+    st.markdown("<div class='pro-title'>Riwayat Pendidikan</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="timeline">
+      <div class="t-item"><b>2023 — sekarang</b> · S1 Statistika, Universitas Syiah Kuala</div>
+      <div class="t-item"><b>2020 — 2023</b> · MAS Insan Qur'ani</div>
+      <div class="t-item"><b>2017 — 2020</b> · MTsS Insan Qur'ani</div>
+      <div class="t-item"><b>2011 — 2017</b> · SDIT Al-Azhar</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
 
 # =========================
 # PROFILE CHIP (atas header)

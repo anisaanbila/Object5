@@ -293,21 +293,34 @@ header[data-testid="stHeader"]{ display:none; }
   margin-top: 20px !important;
 }
 /* Tombol 'Browse files' */
-[data-testid="stFileUploader"] label div[data-testid="stFileUploadDropzone"] > div button {
-  color: #210585 !important;           /* Warna teks */
-  font-weight: 600 !important;         /* Tebal teks */
-  background: rgba(255,255,255,0.08);  /* Warna latar belakang */
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 10px;
-  transition: all 0.3s ease;
+
+
+/* ===== UBAH WARNA FILE UPLOADED DAN TOMBOL BROWSE FILE ===== */
+
+/* 1️⃣ Warna teks nama file yang diunggah */
+[data-testid="stFileUploader"] a, 
+[data-testid="stFileUploader"] span,
+[data-testid="stFileUploader"] p {
+  color: #FFFFFF !important;            /* putih */
+  font-weight: 500 !important;
 }
 
-[data-testid="stFileUploader"] label div[data-testid="stFileUploadDropzone"] > div button:hover {
-  background: linear-gradient(90deg,#602FFF,#8D3FFF);
-  color: #210585 !important;
-  box-shadow: 0 0 12px rgba(141,63,255,0.6);
-  transform: translateY(-1px);
+/* 2️⃣ Warna tombol "Browse files" */
+[data-testid="stFileUploader"] button {
+  color: #1A1A1A !important;            /* teks gelap */
+  background: #FFFFFF !important;       /* tombol putih */
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: all 0.25s ease !important;
 }
+
+/* 3️⃣ Efek hover tombol */
+[data-testid="stFileUploader"] button:hover {
+  background: linear-gradient(90deg,#ECECEC,#D6D6D6) !important;
+  color: #000000 !important;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
 
 </style>
 """, unsafe_allow_html=True)

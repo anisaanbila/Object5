@@ -100,6 +100,11 @@ header[data-testid="stHeader"]{ display:none; }
 }
 .card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }
 .caption{ color: var(--muted); font-size:1.25rem; margin-top:1rem; margin-left:0.8rem}
+/* Box versi kecil hanya untuk hasil deteksi & klasifikasi */
+.card-small {
+  padding: 12px 16px !important;   /* lebih tipis */
+  border-radius: 14px !important;  /* opsional: biar tetap halus */
+}
 
 /* ===== PROFILE CHIP (atas header) ===== */
 .profile-bar{
@@ -460,12 +465,12 @@ with tab_det:
         f = uploader_card("up_yolo", "UNGGAH GAMBAR")
         if f:
             img = Image.open(f).convert("RGB")
-            st.markdown("<div class='card'><div class='card-title' style='font-size:1.5rem'>Pratinjau</div>", unsafe_allow_html=True)
+            st.markdown("<div class='card'><div class='card-small' style='font-size:1.5rem'>Pratinjau</div>", unsafe_allow_html=True)
             st.image(img, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
     with right:
-        st.markdown("<div class='card'><div class='card-title' style='font-size:1.5rem'>HASIL DETEKSI</div>", unsafe_allow_html=True)
+        st.markdown("<div class='card'><div class='card-small' style='font-size:1.5rem'>HASIL DETEKSI</div>", unsafe_allow_html=True)
         if not f:
             st.markdown("<div class='caption'>Unggah gambar di panel kiri untuk menjalankan deteksi.</div>", unsafe_allow_html=True)
         else:
@@ -494,12 +499,12 @@ with tab_cls:
         g = uploader_card("up_cls", "UNGGAH GAMBAR")
         if g:
             img2 = Image.open(g).convert("RGB")
-            st.markdown("<div class='card'><div class='card-title' style='font-size:1.5rem'>Pratinjau</div>", unsafe_allow_html=True)
+            st.markdown("<div class='card'><div class='card-small' style='font-size:1.5rem'>Pratinjau</div>", unsafe_allow_html=True)
             st.image(img2, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
     with right:
-        st.markdown("<div class='card'><div class='card-title' style='font-size:1.5rem'>HASIL KLASIFIKASI</div>", unsafe_allow_html=True)
+        st.markdown("<div class='card'><div class='card-small' style='font-size:1.5rem'>HASIL KLASIFIKASI</div>", unsafe_allow_html=True)
         if not g:
             st.markdown("<div class='caption'>Unggah gambar di panel kiri untuk menjalankan klasifikasi.</div>", unsafe_allow_html=True)
         else:

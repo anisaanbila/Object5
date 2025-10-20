@@ -646,6 +646,19 @@ with tab_docs:
     }
     </style>
     """, unsafe_allow_html=True)
+    
+    # ==== Atur margin dropdown ====
+    st.markdown("""
+    <style>
+    /* Atur jarak di sekitar dropdown */
+    [data-testid="stSelectbox"] {
+        margin-top: 25px !important;     /* jarak dari elemen di atas */
+        margin-bottom: 35px !important;  /* jarak ke elemen di bawah */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 
     # ==== ikon lucide ====

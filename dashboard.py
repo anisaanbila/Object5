@@ -603,6 +603,49 @@ with tab_docs:
       }
     </style>
     """, unsafe_allow_html=True)
+    # === OVERRIDE FINAL: hanya untuk tulisan di selectbox & label ===
+    st.markdown("""
+    <style>
+    /* ===== LABEL selectbox (teks "Pilih jenis model...") ===== */
+    [data-testid="stSelectbox"] > label,
+    [data-testid="stWidgetLabel"] > p {
+      color: #C7D2FE !important;        /* bukan putih */
+      font-size: 1.15rem !important;    /* lebih besar */
+      font-weight: 800 !important;       /* tebal */
+    }
+    
+    /* ===== TEKS DI DALAM KOTAK (placeholder & nilai terpilih) ===== */
+    /* ‘palu godam’: paksa SEMUA teks di dalam combobox jadi gelap */
+    [data-testid="stSelectbox"] [data-baseweb="select"] * {
+      color: #0F172A !important;        /* gelap, bukan putih */
+      fill:  #0F172A !important;        /* untuk ikon svg */
+      opacity: 1 !important;
+      -webkit-text-fill-color: #0F172A !important; /* antisipasi Safari/Chromium */
+    }
+    
+    /* nilai terpilih sering ada di span/value container */
+    [data-testid="stSelectbox"] [role="combobox"],
+    [data-testid="stSelectbox"] [role="combobox"] *,
+    [data-testid="stSelectbox"] [class*="ValueContainer"],
+    [data-testid="stSelectbox"] [class*="Placeholder"] {
+      color: #0F172A !important;
+      -webkit-text-fill-color: #0F172A !important;
+      font-weight: 600 !important;
+    }
+    
+    /* ikon caret di kanan */
+    [data-testid="stSelectbox"] [data-baseweb="select"] svg {
+      color: #0F172A !important;
+      opacity: .9 !important;
+    }
+    
+    /* ===== TEKS OPSI SAAT DIBUKA ===== */
+    div[data-baseweb="popover"] [role="listbox"] li,
+    div[data-baseweb="popover"] [role="listbox"] li * {
+      color: #0F172A !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 
     # ==== ikon lucide ====

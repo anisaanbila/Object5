@@ -393,7 +393,7 @@ header[data-testid="stHeader"]{ display:none; }
   color:#EAEAFF;
   font-size:1.05rem;
   font-weight:500;            /* atur di sini: 500/600/700/800 */
-  margin-top:100px;
+  margin-top:40px !important;
   margin-bottom:16px;
 }
 

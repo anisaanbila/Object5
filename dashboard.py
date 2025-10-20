@@ -14,9 +14,6 @@ st.set_page_config(
     page_icon="🧠",
     layout="wide",
 )
-# ====== VIEW STATE ======
-if "view" not in st.session_state:
-    st.session_state["view"] = "dashboard"
 
 # =========================
 # THEME (gradient + Poppins + futuristic network)
@@ -95,14 +92,20 @@ header[data-testid="stHeader"]{ display:none; }
   position:relative;
   left:0.8rem;        /* ⬅️ geser blok ke kanan sejauh 10rem */
   color:#DDE0FF;
-  font-size:1.25rem;
+  font-size:1.3rem;
   font-weight:500;
   line-height:1.6;
   margin-top:0.5rem;
   margin-bottom:1.2rem;
 }
 .card-title{ font-weight:700; font-size:2.2rem; margin-bottom:.7rem; color:#fff; }
-.caption{ color: var(--muted); font-size:1rem; }
+.caption{ color: var(--muted); font-size:1.25rem; margin-top:1rem; margin-left:0.8rem}
+/* Box versi kecil hanya untuk hasil deteksi & klasifikasi */
+.card-small {
+  padding: 5px 16px !important;   /* lebih tipis */
+  border-radius: 14px !important;  /* opsional: biar tetap halus */
+  font-weight:700; font-size:2.2rem; margin-bottom:.2rem; color:#fff; margin-left:0rem
+}
 
 /* ===== PROFILE CHIP (atas header) ===== */
 .profile-bar{
@@ -167,7 +170,7 @@ header[data-testid="stHeader"]{ display:none; }
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 1.4rem;
+  gap: 1rem;
   padding: 0.8rem 1.2rem;
   border-radius: 40px;
   background: linear-gradient(90deg, #1a0066, #4b00c7);
@@ -178,10 +181,10 @@ header[data-testid="stHeader"]{ display:none; }
 .stTabs [role="tab"] {
   display: flex;
   align-items: center;
-  gap: 0.3rem;                        /* jarak ikon ↔ teks */
+  gap: 0.1rem;                        /* jarak ikon ↔ teks */
   color: #E0E2FF !important;
   font-weight: 500 !important;
-  font-size: 1.3rem !important;       /* ukuran teks tab */
+  font-size: 1.2rem !important;       /* ukuran teks tab */
   line-height: 1.25 !important;
   padding: 0.8rem 1.6rem;
   border: none;
@@ -263,42 +266,82 @@ header[data-testid="stHeader"]{ display:none; }
   .header-rps-img{ max-width:220px; }
 }
 
-# =========================
-# PROFILE CHIP (atas header) — KLIK untuk masuk halaman Profil
-# =========================
-col_profile, _ = st.columns([1, 3])
-with col_profile:
-    st.markdown(
-        """
-        <div class="profile-trigger">
-          <div class="profile-bar">
-            <div class="profile-avatar">
-              <!-- Lucide user-round -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
-                <path d="M18 20a6 6 0 0 0-12 0"/>
-                <circle cx="12" cy="10" r="4"/>
-              </svg>
-            </div>
-            <div>
-              <div class="profile-name">Anisa Nabila</div>
-              <div class="profile-email">anisanbilaa@gmail.com</div>
-            </div>
-          </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-    # Tombol transparan menutupi chip → klik untuk buka profil
-    if st.button("OPEN_PROFILE", key="open_profile_chip"):
-        st.session_state["view"] = "profile"
-        st.experimental_rerun()
-
-/* Buat wrapper chip bisa diklik penuh (overlay tombol transparan) */
-.profile-trigger{ position:relative; display:inline-block; }
-.profile-trigger .stButton > button{
-  position:absolute; inset:0; opacity:0; border:none; background:transparent; cursor:pointer;
+/* ===== Notice / Tips Banner (di atas uploader) ===== */
+.notice-banner{
+  display:flex; align-items:center; gap:14px;
+  padding:12px 16px; margin:0 0 14px 0;
+  border-radius:14px;
+  background: linear-gradient(90deg, #240070, #4a00c4 55%, #6e2bff);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 0 18px rgba(255,255,255,.05);
 }
+.notice-icon{
+  width:38px; height:38px; min-width:38px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:10px;
+  background: rgba(255,255,255,.08);
+  box-shadow: inset 0 0 10px rgba(255,255,255,.08);
+}
+.notice-icon svg{ width:22px; height:22px; color:#FFFFFF; opacity:.95; }
+.notice-text{
+  color:#EAEAFF; font-size:1.02rem; line-height:1.45; font-weight:500;
+}
+
+.notice-text{
+  color:#EAEAFF; font-size:1.02rem; line-height:1.45; font-weight:500;
+}
+
+/* Tambah jarak antara box notice dan box drag uploader */
+[data-testid="stFileUploader"] {
+  margin-top: 20px !important;
+}
+[data-testid="stFileUploadDropzone"] {
+  margin-top: 20px !important;
+}
+/* Tombol 'Browse files' */
+
+
+/* ===== UBAH WARNA FILE UPLOADED DAN TOMBOL BROWSE FILE ===== */
+
+/* 1️⃣ Warna teks nama file yang diunggah */
+[data-testid="stFileUploader"] a, 
+[data-testid="stFileUploader"] span,
+[data-testid="stFileUploader"] p {
+  color: #545454 !important;            /* putih */
+  font-weight: 500 !important;
+}
+
+/* 2️⃣ Warna tombol "Browse files" */
+[data-testid="stFileUploader"] button {
+  color: #545454 !important;            /* teks gelap */
+  background: #FFFFFF !important;       /* tombol putih */
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.25s ease !important;
+}
+
+
+
+/* ==== 2) HASIL UPLOAD (list di bawah dropzone) — putih ==== */
+/* hanya elemen di dalam list hasil (bukan teks drag) */
+[data-testid="stFileUploader"] [role="list"] a,
+[data-testid="stFileUploader"] [role="list"] span,
+[data-testid="stFileUploader"] [role="list"] p{
+  color:#FFFFFF !important;          /* nama file & size jadi putih */
+  font-weight:500 !important;
+}
+
+/* (opsional) ikon & tombol X tetap terlihat */
+[data-testid="stFileUploader"] [role="list"] svg{ opacity:.9; }
+[data-testid="stFileUploader"] [role="list"] button{ color:#FFFFFF !important; }
+
+/* 3️⃣ Efek hover tombol */
+[data-testid="stFileUploader"] button:hover {
+  background: linear-gradient(90deg,#ECECEC,#D6D6D6) !important;
+  color: #000000 !important;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
 
 </style>
 """, unsafe_allow_html=True)
@@ -314,117 +357,6 @@ def load_models():
     return yolo, clf
 
 yolo_model, classifier = load_models()
-
-# =========================
-# STATE & HALAMAN PROFIL
-# =========================
-def render_profile_page():
-    # Tombol kembali
-    left, _ = st.columns([1,4])
-    with left:
-        if st.button("← Kembali ke Halaman Utama"):
-            st.session_state["view"] = "dashboard"
-            st.experimental_rerun()
-
-    # Judul halaman profil
-    st.markdown("<h1 style='margin:0 0 .5rem 0'>Profil — Anisa Nabila (Icha)</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='caption' style='font-size:1.05rem'>Mahasiswi S1 Statistika — minat Komputasi Statistika, desain, dan fotografi.</p>", unsafe_allow_html=True)
-
-    # Grid 2 kolom: Identitas (kiri) + Skill/Tools (kanan)
-    colL, colR = st.columns([1.15, 1])
-    with colL:
-        st.markdown("<div class='pro-card'>", unsafe_allow_html=True)
-
-        # Avatar bulat dari file 'profil.jpg' (kalau ada), fallback ke ikon lucide
-        try:
-            img = Image.open("profil.jpg").convert("RGB")
-            st.image(img, use_container_width=False, caption=None)
-            st.markdown(
-                "<style>.element-container img{border-radius:50%; max-width:180px;}</style>",
-                unsafe_allow_html=True
-            )
-        except Exception:
-            st.markdown("""
-            <img class="avatar-big" alt="Foto Profil" src="data:image/svg+xml;utf8,
-            <svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-              <path d='M18 20a6 6 0 0 0-12 0'/>
-              <circle cx='12' cy='10' r='4'/>
-            </svg>"/>
-            """, unsafe_allow_html=True)
-
-        st.markdown("""
-        <div class="pro-title">Identitas Utama</div>
-        <div class="pro-kv">
-          <b>Nama:</b> Anisa Nabila (Icha)<br/>
-          <b>Status:</b> Mahasiswi semester 5, S1 Statistika<br/><br/>
-          Seorang mahasiswi semester 5 prodi Statistika yang memiliki minat besar pada bidang Komputasi Statistika.
-          Saya juga tertarik pada desain dan fotografi untuk mengekspresikan ide secara kreatif.
-          Adaptif, suka kolaborasi tim, dan bersemangat untuk terus belajar serta mengembangkan pengetahuan dan skill.
-        </div>
-        <hr style="border-color: rgba(255,255,255,.12)"/>
-        <div class="pro-title">Kontak Profesional</div>
-        <div class="link-row">
-          <a class="link-pill" href="mailto:anisanbilaa@gmail.com">✉️ Kirim Email</a>
-          <a class="link-pill" href="https://www.instagram.com/anisaanbila/?utm_source=ig_web_button_share_sheet" target="_blank">📸 Ke Instagram</a>
-          <a class="link-pill" href="https://www.linkedin.com/in/anisaanbila/" target="_blank">🔗 Ke LinkedIn</a>
-        </div>
-        <div style="margin-top:.6rem" class="pro-kv">
-          <b>Lokasi:</b> Banda Aceh, Indonesia<br/>
-          <b>Email:</b> anisanbilaa@gmail.com<br/>
-          <b>Instagram:</b> @anisaanbila
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    with colR:
-        st.markdown("<div class='pro-card'>", unsafe_allow_html=True)
-        st.markdown("<div class='pro-title'>Skill & Tools</div>", unsafe_allow_html=True)
-
-        st.markdown("<b>Software</b>", unsafe_allow_html=True)
-        st.markdown("""
-        <div class="badges">
-          <span class="badge">Microsoft Word</span>
-          <span class="badge">Excel</span>
-          <span class="badge">PowerPoint</span>
-          <span class="badge">SQL</span>
-          <span class="badge">Tableau</span>
-          <span class="badge">Minitab</span>
-          <span class="badge">RStudio</span>
-          <span class="badge">Python</span>
-          <span class="badge">Adobe Illustrator</span>
-          <span class="badge">Canva</span>
-          <span class="badge">CapCut</span>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
-        st.markdown("<b>Lainnya</b>", unsafe_allow_html=True)
-        st.markdown("""
-        <div class="badges">
-          <span class="badge">Desain grafis</span>
-          <span class="badge">Fotografi</span>
-          <span class="badge">Videografi</span>
-          <span class="badge">Menulis</span>
-          <span class="badge">Manajemen media sosial</span>
-          <span class="badge">Komunikasi tim</span>
-          <span class="badge">Manajemen waktu</span>
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    # Riwayat pendidikan — timeline
-    st.markdown("<div class='pro-card' style='margin-top:1rem'>", unsafe_allow_html=True)
-    st.markdown("<div class='pro-title'>Riwayat Pendidikan</div>", unsafe_allow_html=True)
-    st.markdown("""
-    <div class="timeline">
-      <div class="t-item"><b>2023 — sekarang</b> · S1 Statistika, Universitas Syiah Kuala</div>
-      <div class="t-item"><b>2020 — 2023</b> · MAS Insan Qur'ani</div>
-      <div class="t-item"><b>2017 — 2020</b> · MTsS Insan Qur'ani</div>
-      <div class="t-item"><b>2011 — 2017</b> · SDIT Al-Azhar</div>
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
-
 
 # =========================
 # PROFILE CHIP (atas header)
@@ -496,11 +428,34 @@ tab_det, tab_cls, tab_docs = st.tabs([
     "Deteksi Gambar", "Klasifikasi Gambar", "Penjelasan Model"
 ])
 
-def uploader_card(key_label:str, title="Unggah Gambar"):
-    st.markdown(f"<div class='card'><div class='card-title' style='font-size:1.35rem'>{title}</div>", unsafe_allow_html=True)
+def uploader_card(key_label: str, title="UNGGAH GAMBAR"):
+    st.markdown(
+        f"""
+        <div class='card'>
+          <div class='card-title' style='font-size:1.5rem'>{title}</div>
+
+          <!-- Notice banner -->
+          <div class="notice-banner">
+            <div class="notice-icon">
+              <!-- warning triangle (SVG) -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <div class="notice-text">
+              Pastikan tangan terlihat jelas pada gambar yang diunggah dan gunakan background polos supaya sistem dapat mengenali dengan tepat.
+            </div>
+          </div>
+          """,
+        unsafe_allow_html=True,
+    )
     f = st.file_uploader(" ", type=["png","jpg","jpeg"], key=key_label, label_visibility="collapsed")
     st.markdown("</div>", unsafe_allow_html=True)
     return f
+
 
 # =========================
 # TAB: DETEKSI (YOLOv8)
@@ -508,15 +463,15 @@ def uploader_card(key_label:str, title="Unggah Gambar"):
 with tab_det:
     left, right = st.columns([1.04,1])
     with left:
-        f = uploader_card("up_yolo", "Unggah Gambar • Deteksi (RPS)")
+        f = uploader_card("up_yolo", "UNGGAH GAMBAR")
         if f:
             img = Image.open(f).convert("RGB")
-            st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Pratinjau</div>", unsafe_allow_html=True)
+            st.markdown("<div class='card'><div class='card-small' style='font-size:1.5rem'>Pratinjau</div>", unsafe_allow_html=True)
             st.image(img, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
     with right:
-        st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Hasil Deteksi</div>", unsafe_allow_html=True)
+        st.markdown("<div class='card'><div class='card-small' style='font-size:1.5rem'>HASIL DETEKSI</div>", unsafe_allow_html=True)
         if not f:
             st.markdown("<div class='caption'>Unggah gambar di panel kiri untuk menjalankan deteksi.</div>", unsafe_allow_html=True)
         else:
@@ -531,7 +486,7 @@ with tab_det:
             if boxes is not None and len(boxes) > 0:
                 cls_ids = [int(c) for c in boxes.cls.tolist()]
                 dominant = Counter(cls_ids).most_common(1)[0][0]
-                st.markdown(f"<div class='big-result'>Prediksi Utama ⮕ {names[dominant].capitalize()}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='big-result'>Gambar ini terdeteksi sebagai {names[dominant].capitalize()}</div>", unsafe_allow_html=True)
             else:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
         st.markdown("</div>", unsafe_allow_html=True)
@@ -542,15 +497,15 @@ with tab_det:
 with tab_cls:
     left, right = st.columns([1.04,1])
     with left:
-        g = uploader_card("up_cls", "Unggah Gambar • Klasifikasi (RPS)")
+        g = uploader_card("up_cls", "UNGGAH GAMBAR")
         if g:
             img2 = Image.open(g).convert("RGB")
-            st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Pratinjau</div>", unsafe_allow_html=True)
+            st.markdown("<div class='card'><div class='card-small' style='font-size:1.5rem'>Pratinjau</div>", unsafe_allow_html=True)
             st.image(img2, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
     with right:
-        st.markdown("<div class='card'><div class='card-title' style='font-size:1.35rem'>Hasil Klasifikasi</div>", unsafe_allow_html=True)
+        st.markdown("<div class='card'><div class='card-small' style='font-size:1.5rem'>HASIL KLASIFIKASI</div>", unsafe_allow_html=True)
         if not g:
             st.markdown("<div class='caption'>Unggah gambar di panel kiri untuk menjalankan klasifikasi.</div>", unsafe_allow_html=True)
         else:
@@ -562,7 +517,7 @@ with tab_cls:
             labels = ["paper","rock","scissors"] if len(pred[0])==3 else [f"class_{i}" for i in range(len(pred[0]))]
             top_idx = int(np.argmax(probs)); top_name = labels[top_idx]; top_prob = float(probs[top_idx])
 
-            st.markdown(f"<div class='big-result'>Prediksi Utama ⮕ {top_name.capitalize()}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='big-result'>Gambar ini terdeteksi sebagai {top_name.capitalize()}</div>", unsafe_allow_html=True)
             st.markdown(f"<p class='caption' style='margin:.2rem 0 1rem 0;'>Skor keyakinan: <b>{top_prob:.4f}</b></p>", unsafe_allow_html=True)
 
             for name, p in zip(labels, probs):
@@ -578,107 +533,7 @@ with tab_cls:
             st.dataframe(df, use_container_width=True, hide_index=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
+
 # =========================
-# TAB: PENJELASAN MODEL
+# TAB: PENJELASAN MODEL (dropdown + per-box rapi)
 # =========================
-with tab_docs:
-    model_choice = st.selectbox("Pilih model yang ingin dijelaskan", ["YOLOv8", "CNN"], index=0)
-
-    def metric_bar(label:str, value:float):
-        pct = max(0.0, min(1.0, float(value))) * 100
-        st.markdown(
-            f"<div class='prog-wrap'><span class='lbl'>{label}</span>"
-            f"<div class='prog'><span style='--w:{pct:.2f}%;'></span></div>"
-            f"<span class='val'>{pct:.1f}%</span></div>",
-            unsafe_allow_html=True
-        )
-
-    # ---- Dataset (with per-class counters)
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    st.markdown("<div class='card-title'>Dataset</div>", unsafe_allow_html=True)
-    if model_choice == "YOLOv8":
-        st.markdown("""
-**Sumber & Kelas.** Dataset **Rock–Paper–Scissors (RPS) – Dicoding** dengan anotasi **bounding box** (Roboflow).  
-**Split & Ukuran.** Semua citra **640×640**; split **80%** latih, **10%** validasi, **10%** uji.  
-**Format.** Label kompatibel **YOLOv8** (anchor-free).
-        """)
-    else:
-        st.markdown("""
-**Sumber & Kelas.** Dataset **Rock–Paper–Scissors (RPS) – Dicoding** untuk klasifikasi.  
-**Split & Prapemrosesan.** **70/20/10** (latih/validasi/uji), **224×224** RGB, normalisasi **0–1**, augmentasi ringan.
-        """)
-
-    counts = {"Rock":726, "Paper":712, "Scissors":750}
-    colc = st.columns(3)
-    icons = {
-      "Rock": """<path d="M18,30 c-4,0 -8,-3 -8,-7 v-8 c0-6 16-6 16,2 v6 c0,4 -4,7 -8,7z" stroke="white" stroke-width="3" fill="none"/>""",
-      "Paper": """<path d="M14,30 c-3,-10 2,-18 8,-18 5,0 6,5 6,10 v8" stroke="white" stroke-width="3" fill="none"/><path d="M10,26 c-2,-7 1,-12 6,-12" stroke="white" stroke-width="3" fill="none"/>""",
-      "Scissors": """<path d="M10,12 l8,12 M22,12 l-6,10 M12,26 c4,4 10,4 12,0" stroke="white" stroke-width="3" fill="none"/>"""
-    }
-    for (k,v), col in zip(counts.items(), colc):
-        col.markdown(f"""
-        <div style="display:flex;align-items:center;gap:14px;margin-top:10px;">
-          <div class="icon-bubble">
-            <svg viewBox="0 0 36 36">{icons[k]}</svg>
-          </div>
-          <div>
-            <div style="font-weight:700;font-size:1.05rem">{k}</div>
-            <div style="font-weight:800;font-size:1.6rem">{v:,}</div>
-          </div>
-        </div>
-        """, unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
-
-    # ---- Arsitektur + Evaluasi
-    colA, colB = st.columns(2)
-    with colA:
-        st.markdown("<div class='card'>", unsafe_allow_html=True)
-        st.markdown("<div class='card-title'>Arsitektur</div>", unsafe_allow_html=True)
-        if model_choice == "CNN":
-            st.markdown(
-                "<div class='flow'>"
-                "<div class='node'>Conv2D(32, 3×3, ReLU) → MaxPool(2×2)</div>"
-                "<div class='node'>Conv2D(64, 3×3, ReLU) → MaxPool(2×2)</div>"
-                "<div class='node'>Conv2D(128, 3×3, ReLU) → MaxPool(2×2)</div>"
-                "<div class='node'>Flatten</div>"
-                "<div class='node'>Dense(128, ReLU) → Dropout(0.5)</div>"
-                "<div class='node'>Dense(3, Softmax)</div>"
-                "</div>", unsafe_allow_html=True)
-            st.markdown("Optimizer **Adam**, loss **categorical_crossentropy**, **EarlyStopping** + **ModelCheckpoint**.")
-        else:
-            st.markdown(
-                "<div class='flow'>"
-                "<div class='node'>Backbone (SiLU, C2f, SPPF)</div>"
-                "<div class='node'>Neck (FPN/PAN, multi-scale fusion)</div>"
-                "<div class='node'>Head (stride 8/16/32, cls+box, anchor-free)</div>"
-                "</div>", unsafe_allow_html=True)
-            st.markdown("Inferensi UI menggunakan nilai default internal.")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    with colB:
-        st.markdown("<div class='card'>", unsafe_allow_html=True)
-        st.markdown("<div class='card-title'>Evaluasi</div>", unsafe_allow_html=True)
-        if model_choice == "CNN":
-            metric_bar("Accuracy", 0.94)
-            metric_bar("Precision (macro)", 0.94)
-            metric_bar("Recall (macro)", 0.94)
-            metric_bar("F1-score (macro)", 0.94)
-            metric_bar("Val Loss (↓ skala)", 1-0.94)
-            st.markdown("Performa merata di tiga kelas; tidak tampak bias dominan.")
-        else:
-            metric_bar("Precision", 0.996)
-            metric_bar("Recall", 1.00)
-            metric_bar("mAP@50", 0.995)
-            metric_bar("mAP@50–95", 0.925)
-            metric_bar("Latency (skala cepat)", 1-0.017)  # 17ms ~ cepat
-            st.markdown("Akurat & cepat — layak untuk **real-time**.")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    # ---- Kesimpulan
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    st.markdown("<div class='card-title'>Kesimpulan</div>", unsafe_allow_html=True)
-    if model_choice == "CNN":
-        st.markdown("CNN ringkas (3 blok konvolusi + **Dropout 0.5**) dengan **EarlyStopping/Checkpoint** memberi akurasi ~**94%** pada **RPS**. Cocok untuk pengklasifikasi akhir.")
-    else:
-        st.markdown("**YOLOv8n** presisi tinggi (**mAP@50 ≈ 0.995**) dengan latensi ~**17 ms/gambar**. FPN/PAN + head anchor-free efektif untuk deteksi **RPS** real-time.")
-    st.markdown("</div>", unsafe_allow_html=True)

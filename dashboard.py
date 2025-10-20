@@ -10,8 +10,7 @@ import pandas as pd
 from collections import Counter
 
 st.set_page_config(
-    page_title="Rock–Paper–Scissors (RPS) Vision Dashboard",
-    page_icon="🧠",
+    page_title="DETEKSI DAN KLASIFIKASI GAMBAR BATU, GUNTING, DAN KERTAS",
     layout="wide",
 )
 

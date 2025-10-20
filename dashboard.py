@@ -580,8 +580,23 @@ with tab_cls:
             labels = ["paper","rock","scissors"] if len(pred[0])==3 else [f"class_{i}" for i in range(len(pred[0]))]
             top_idx = int(np.argmax(probs)); top_name = labels[top_idx]; top_prob = float(probs[top_idx])
 
-            st.markdown(f"<div class='big-result'>Gambar ini terdeteksi sebagai {top_name.capitalize()}</div>", unsafe_allow_html=True)
-            st.markdown(f"<p class='caption' style='margin:.2rem 0 1rem 0;'>Skor keyakinan: <b>{top_prob:.4f}</b></p>", unsafe_allow_html=True)
+            conf_top = top_prob * 100.0
+            st.markdown(f"""
+            <div class='pred-result'>
+              <div class='pred-label'>{top_name.capitalize()}</div>
+              <div class='pred-acc'>Akurasi Klasifikasi: {conf_top:.1f}%</div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # (opsional) bar kepercayaan singkat ala deteksi
+            st.markdown(f"""
+            <div class='prog-wrap' style='margin-top:10px;'>
+              <span class='lbl'>Confidence</span>
+              <div class='prog'><span style='--w:{conf_top:.2f}%;'></span></div>
+              <span class='val'>{conf_top:.1f}%</span>
+            </div>
+            """, unsafe_allow_html=True)
+
 
             for name, p in zip(labels, probs):
                 st.markdown(

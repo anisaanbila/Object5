@@ -392,8 +392,8 @@ header[data-testid="stHeader"]{ display:none; }
   text-justify: inter-word;
   color:#EAEAFF;
   font-size:1.05rem;
-  font-weight:600;            /* atur di sini: 500/600/700/800 */
-  margin-top:25px;
+  font-weight:500;            /* atur di sini: 500/600/700/800 */
+  margin-top:40px;
   margin-bottom:16px;
 }
 

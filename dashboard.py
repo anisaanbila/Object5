@@ -579,15 +579,7 @@ with tab_docs:
     </style>
     """, unsafe_allow_html=True)
 
-    def render_model(title, icon, body):
-        st.markdown(f"""
-        <div class='model-head'>
-          <div class='icon-bubble'>{icon}</div>
-          <div class='model-title'>{title}</div>
-        </div>
-        <div class='model-body'>{body}</div>
-        """, unsafe_allow_html=True)
-
+    # ==== ikon lucide ====
     ICON_BRAIN = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M10 7a2 2 0 1 1 4 0"/><path d="M7.5 11.5A2.5 2.5 0 0 1 5 9V8a3 3 0 0 1 3-3"/>
@@ -600,6 +592,38 @@ with tab_docs:
     <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
     <path d="M22 12h-4"/><path d="M6 12H2"/><path d="M12 6V2"/><path d="M12 22v-4"/></svg>"""
 
+    ICON_LIGHT = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2a7 7 0 0 0-7 7c0 3.09 1.64 5.84 4 7.23V19a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-2.77c2.36-1.39 4-4.14 4-7.23a7 7 0 0 0-7-7z"/>
+    <path d="M9 22h6"/></svg>"""
+
+    # ==== render function ====
+    def render_model(title, icon, body):
+        # pecah teks jika ada “Ilustrasi singkat:”
+        parts = body.split("Ilustrasi singkat:")
+        main_part = parts[0]
+        illus_part = parts[1] if len(parts) > 1 else ""
+
+        # judul utama
+        st.markdown(f"""
+        <div class='model-head'>
+          <div class='icon-bubble'>{icon}</div>
+          <div class='model-title'>{title}</div>
+        </div>
+        <div class='model-body'>{main_part}</div>
+        """, unsafe_allow_html=True)
+
+        # jika ada ilustrasi, tambahkan subjudul dengan ikon lampu
+        if illus_part.strip():
+            st.markdown(f"""
+            <div class='model-head' style='margin-top:28px;'>
+              <div class='icon-bubble'>{ICON_LIGHT}</div>
+              <div class='model-title'>Ilustrasi Singkat</div>
+            </div>
+            <div class='model-body'>{illus_part}</div>
+            """, unsafe_allow_html=True)
+
+    # ==== teks deskripsi ====
     cnn_text = """
 Model klasifikasi ini digunakan untuk mengenali jenis tangan pada gambar dan menentukan apakah termasuk kategori batu (rock), gunting (scissors), atau kertas (paper). 
 Model ini bekerja dengan prinsip pengenalan pola visual melalui jaringan saraf tiruan (Convolutional Neural Network/CNN) yang meniru cara kerja otak manusia dalam mengenali bentuk dan pola.
@@ -633,6 +657,7 @@ Cara kerja YOLOv8 dapat dianalogikan seperti seseorang yang sedang mencari wajah
 """
 
 
+    # ==== render ====
     if model_choice == "Model Klasifikasi":
         render_model("Model Klasifikasi (CNN)", ICON_BRAIN, cnn_text)
     else:

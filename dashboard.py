@@ -647,19 +647,22 @@ with tab_docs:
     </style>
     """, unsafe_allow_html=True)
     
-    # ==== Atur margin dropdown ====
     st.markdown("""
     <style>
-    /* Atur jarak di sekitar dropdown */
+    /* Hilangkan jarak default di bawah dropdown */
     [data-testid="stSelectbox"] {
-        margin-top: 5px !important;     /* jarak dari elemen di atas */
-        margin-bottom: 0.1px !important;  /* jarak ke elemen di bawah */
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+        margin-bottom: 0 !important;     /* hapus jarak eksternal */
+        padding-bottom: 0 !important;    /* hapus jarak internal */
+    }
+    
+    /* kadang wrapper-nya punya padding tambahan */
+    [data-testid="stSelectbox"] > div:first-child {
+        margin-bottom: 0 !important;
         padding-bottom: 0 !important;
     }
     </style>
     """, unsafe_allow_html=True)
+
 
 
     # ==== ikon lucide ====

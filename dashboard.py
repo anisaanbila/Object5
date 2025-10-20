@@ -620,7 +620,7 @@ with tab_docs:
             st.markdown(f"""
             <div class='model-head' style='margin-top:28px;'>
               <div class='icon-bubble'>{ICON_LIGHT}</div>
-              <div class='model-title'>Ilustrasi Singkat</div>
+              <div class='model-title'>Analogi Sederhana</div>
             </div>
             <div class='model-body'>{illus_part}</div>
             """, unsafe_allow_html=True)
@@ -637,7 +637,7 @@ Proses kerjanya dapat dijelaskan sebagai berikut:
 
 Dengan tahapan ini, CNN mampu mengenali bentuk tangan secara otomatis tanpa perlu diberi tahu secara eksplisit bagaimana bentuk “batu”, “gunting”, atau “kertas”.
 
-Ilustrasi singkat:
+Analogi Sederhana:
 Cara kerja CNN dapat dianalogikan seperti seseorang yang belajar mengenali teman-temannya dari foto. Awalnya ia hanya mengenali ciri umum seperti warna rambut atau bentuk wajah, lalu seiring waktu ia mengingat detail seperti mata atau ekspresi. Begitu juga CNN — model mempelajari pola sederhana hingga kompleks sehingga mampu mengenali bentuk tangan yang berbeda secara akurat.
 """
 
@@ -653,7 +653,7 @@ Secara garis besar, cara kerjanya adalah sebagai berikut:
 
 YOLOv8 dapat memproses gambar dalam waktu sangat singkat — hanya beberapa milidetik per gambar — sehingga memungkinkan penggunaan pada sistem real-time seperti kamera interaktif.
 
-Ilustrasi singkat:
+Analogi Sederhana:
 Cara kerja YOLOv8 dapat dianalogikan seperti seseorang yang sedang mencari wajah temannya di tengah kerumunan. Ia memindai seluruh area pandang dengan cepat, mengenali ciri-ciri yang cocok, lalu menunjuk posisi orang yang dimaksud. Demikian pula YOLOv8 — model “melihat” seluruh gambar sekaligus, lalu menandai area yang sesuai dengan pola tangan yang telah ia pelajari.
 """
 

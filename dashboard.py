@@ -544,8 +544,8 @@ with tab_det:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
                 
             st.markdown("""
-            <p style='text-align:center; color:#EAEAFF; font-size:1.05rem; margin-top:25px;'>
-            🎮 <b>Tertarik untuk mencoba game Rock–Paper–Scissors versi online?</b>
+            <p style='text-align:justify; color:#EAEAFF; font-size:1.05rem; font-weight:500; margin-top:25px;'>
+            <b>Tertarik untuk mencoba game Rock–Paper–Scissors versi online?</b>
             </p>
             """, unsafe_allow_html=True)
 
@@ -595,8 +595,8 @@ with tab_cls:
             """, unsafe_allow_html=True)
                 
             st.markdown("""
-            <p style='text-align:center; color:#EAEAFF; font-size:1.05rem; margin-top:25px;'>
-            🎮 <b>Tertarik untuk mencoba game Rock–Paper–Scissors versi online?</b>
+            <p style='text-align:justify; color:#EAEAFF; font-size:1.05rem; font-weight:500; margin-top:25px;'>
+            <b>Tertarik untuk mencoba game Rock–Paper–Scissors versi online?</b>
             </p>
             """, unsafe_allow_html=True)
         

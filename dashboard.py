@@ -612,6 +612,7 @@ with tab_docs:
       color: #C7D2FE !important;        /* bukan putih */
       font-size: 1.15rem !important;    /* lebih besar */
       font-weight: 800 !important;       /* tebal */
+      margin-bottom:1.2px;
     }
     
     /* ===== TEKS DI DALAM KOTAK (placeholder & nilai terpilih) ===== */

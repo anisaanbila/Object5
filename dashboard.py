@@ -542,45 +542,6 @@ with tab_docs:
         ["Model Klasifikasi", "Model Deteksi"],
         index=0
     )
-    st.markdown("""
-    <style>
-    /* ====================== */
-    /* Label di atas dropdown */
-    /* ====================== */
-    .stSelectbox > label,
-    div[data-baseweb="select"] label {
-      color: #E0E0E0 !important;        /* abu muda lembut, bukan putih */
-      font-size: 1.1rem !important;     /* sedikit lebih besar */
-      font-weight: 700 !important;
-      margin-bottom: 6px !important;
-    }
-    
-    /* ====================== */
-    /* Teks di dalam dropdown */
-    /* ====================== */
-    .stSelectbox div[data-baseweb="select"] div[role="combobox"],
-    .stSelectbox div[data-baseweb="select"] div[role="combobox"] * {
-      color: #0F172A !important;        /* teks di kotak jadi gelap */
-      font-weight: 600 !important;
-      opacity: 1 !important;
-    }
-    
-    /* ====================== */
-    /* Teks saat dropdown dibuka */
-    /* ====================== */
-    div[data-baseweb="popover"] li,
-    div[data-baseweb="popover"] li * {
-      color: #0F172A !important;        /* teks opsi hitam */
-    }
-    
-    /* Ikon panah di kanan */
-    .stSelectbox div[data-baseweb="select"] svg {
-      color: #0F172A !important;
-      opacity: 0.9 !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
 
     # ==== CSS full transparan ====
     st.markdown("""
@@ -617,6 +578,41 @@ with tab_docs:
           text-align: justify;     /* 🟢 Tambahkan ini */
           text-justify: inter-word; /* opsional biar antar kata rata */
       }
+    </style>
+    """, unsafe_allow_html=True)
+    # ==== OVERRIDE KHUSUS SELECTBOX (taruh PALING AKHIR di tab_docs) ====
+    st.markdown("""
+    <style>
+    /* LABEL selectbox (teks "Pilih jenis model...") */
+    .stSelectbox > label,
+    [data-testid="stWidgetLabel"] > p {
+      color: #C7D2FE !important;      /* ganti dari putih ke biru-keunguan lembut */
+      font-size: 1.15rem !important;  /* perbesar */
+      font-weight: 800 !important;    /* tebalkan */
+      margin-bottom: 6px !important;
+    }
+    
+    /* TEKS DI DALAM KOTAK (nilai terpilih & placeholder) */
+    .stSelectbox [data-baseweb="select"] [role="combobox"],
+    .stSelectbox [data-baseweb="select"] [role="combobox"] * ,
+    .stSelectbox [data-baseweb="select"] [class*="ValueContainer"] *,
+    .stSelectbox [data-baseweb="select"] [class*="Placeholder"] {
+      color: #0F172A !important;      /* gelap, bukan putih */
+      font-weight: 600 !important;
+      opacity: 1 !important;
+    }
+    
+    /* TEKS OPSI SAAT MENU DIBUKA */
+    div[data-baseweb="popover"] [role="listbox"] li,
+    div[data-baseweb="popover"] [role="listbox"] li * {
+      color: #0F172A !important;
+    }
+    
+    /* IKON PANAH DI KANAN */
+    .stSelectbox [data-baseweb="select"] svg {
+      color: #0F172A !important;
+      opacity: .9 !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 

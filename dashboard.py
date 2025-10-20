@@ -601,8 +601,8 @@ with tab_docs:
 
     # ==== render function ====
     def render_model(title, icon, body):
-        # pecah teks jika ada “Ilustrasi singkat:”
-        parts = body.split("Ilustrasi singkat:")
+        # pecah teks jika ada “Analogi Sederhana:”
+        parts = body.split("Analogi Sederhana:")
         main_part = parts[0]
         illus_part = parts[1] if len(parts) > 1 else ""
 

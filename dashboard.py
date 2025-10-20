@@ -11,7 +11,9 @@ from collections import Counter
 
 st.set_page_config(
     page_title="DETEKSI DAN KLASIFIKASI GAMBAR BATU, GUNTING, DAN KERTAS",
+    page_icon="icon.png",
     layout="wide",
+)
 )
 
 # =========================

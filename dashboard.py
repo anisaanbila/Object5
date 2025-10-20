@@ -537,50 +537,51 @@ with tab_cls:
 # TAB: PENJELASAN MODEL (dropdown + per-box rapi)
 # =========================
 with tab_docs:
-    # --- Dropdown pilihan
+    # --- Dropdown
     model_choice = st.selectbox(
         "Pilih jenis model yang ingin dijelaskan:",
         ["Model Deteksi", "Model Klasifikasi"],
         index=0
     )
 
-    # --- Kontainer agar CSS hanya ngaruh di tab ini
-    wrapper = st.container()
-    with wrapper:
-        # CSS KHUSUS TAB INI
-        st.markdown("""
-        <style>
-          /* kecilkan box card & judul di tab ini */
-          [data-testid="stTabContent"] .card{
-            padding: 12px 16px !important;
-            margin-bottom: 14px !important;
-            border-radius: 16px !important;
-          }
-          [data-testid="stTabContent"] .card-title{
-            font-size: 1.4rem !important;
-            margin-bottom: .5rem !important;
-          }
-          /* util style */
-          .model-intro{
-            margin:10px 0 18px 0; padding:12px 16px; border-radius:12px;
-            background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
-            color:#EAEAFF; line-height:1.55;
-          }
-          .model-intro b{ color:#fff; }
-          .card-small{ padding:12px 16px !important; }
-          .icon-bubble{
-            width:40px; height:40px; display:flex; align-items:center; justify-content:center;
-            border-radius:10px; background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.12);
-          }
-          .icon-bubble svg{ width:22px; height:22px; color:#fff; opacity:.95; }
-          .prog-wrap{ display:flex; align-items:center; gap:10px; margin:.35rem 0; }
-          .prog-wrap .lbl{ width:190px; color:#E0E2FF; }
-          .prog-wrap .prog{ flex:1; height:10px; border-radius:999px; background:rgba(255,255,255,.12); overflow:hidden; }
-          .prog-wrap .prog span{ display:block; height:100%; width:var(--w,0%); background:linear-gradient(90deg,#602FFF,#8D3FFF); }
-          .prog-wrap .val{ width:80px; text-align:right; color:#E0E2FF; }
-        </style>
-        """, unsafe_allow_html=True)
+    # --- CSS KHUSUS TAB INI (langsung di bawah selectbox, masih di dalam with tab_docs:)
+    st.markdown("""
+    <style>
+      /* kecilkan box card & judul di tab ini */
+      [data-testid="stTabContent"] .card{
+        padding: 12px 16px !important;
+        margin-bottom: 14px !important;
+        border-radius: 16px !important;
+      }
+      [data-testid="stTabContent"] .card-title{
+        font-size: 1.4rem !important;
+        margin-bottom: .5rem !important;
+      }
+      /* util style */
+      .model-intro{
+        margin:10px 0 18px 0; padding:12px 16px; border-radius:12px;
+        background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+        color:#EAEAFF; line-height:1.55;
+      }
+      .model-intro b{ color:#fff; }
+      .card-small{ padding:12px 16px !important; }
+      .icon-bubble{
+        width:40px; height:40px; display:flex; align-items:center; justify-content:center;
+        border-radius:10px; background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.12);
+      }
+      .icon-bubble svg{ width:22px; height:22px; color:#fff; opacity:.95; }
+      .prog-wrap{ display:flex; align-items:center; gap:10px; margin:.35rem 0; }
+      .prog-wrap .lbl{ width:190px; color:#E0E2FF; }
+      .prog-wrap .prog{ flex:1; height:10px; border-radius:999px; background:rgba(255,255,255,.12); overflow:hidden; }
+      .prog-wrap .prog span{ display:block; height:100%; width:var(--w,0%); background:linear-gradient(90deg,#602FFF,#8D3FFF); }
+      .prog-wrap .val{ width:80px; text-align:right; color:#E0E2FF; }
+    </style>
+    """, unsafe_allow_html=True)
 
+    # ...lanjutkan fungsi metric_bar(), intro, dan render_cards_* di sini...
+
+
+    
         # Util: progress bar
         def metric_bar(label: str, value: float):
             pct = max(0.0, min(1.0, float(value))) * 100

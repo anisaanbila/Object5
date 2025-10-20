@@ -598,17 +598,7 @@ with tab_cls:
             """, unsafe_allow_html=True)
 
 
-            for name, p in zip(labels, probs):
-                st.markdown(
-                    f"<div class='prog-wrap'><span class='lbl'>{name.capitalize()}</span>"
-                    f"<div class='prog'><span style='--w:{p*100:.2f}%;'></span></div>"
-                    f"<span class='val'>{p*100:.1f}%</span></div>",
-                    unsafe_allow_html=True
-                )
 
-            df = pd.DataFrame({"Kelas": [n.capitalize() for n in labels], "Probabilitas (%)": (probs*100).round(2)})
-            st.markdown("<br>", unsafe_allow_html=True)
-            st.dataframe(df, use_container_width=True, hide_index=True)
             # Tombol game online (Deteksi)
             st.markdown("""
             <div class='game-link'>

@@ -627,8 +627,8 @@ with tab_docs:
     cnn_text = """
 Model klasifikasi ini digunakan untuk mengenali jenis tangan pada gambar dan menentukan apakah termasuk kategori batu <i>(rock)</i>, gunting <i>(scissors)</i>, atau kertas <i>(paper)</i>. 
 Model ini bekerja dengan prinsip pengenalan pola visual melalui jaringan saraf tiruan <b>(Convolutional Neural Network/CNN)</b> yang meniru cara kerja otak manusia dalam mengenali bentuk dan pola.
-
-\nProses kerjanya dapat dijelaskan sebagai berikut:
+\n\n
+Proses kerjanya dapat dijelaskan sebagai berikut:
 • <b>Input gambar:</b> setiap gambar tangan diubah menjadi susunan angka berdasarkan nilai warna dan kecerahan piksel. 
 • <b>Ekstraksi pola:</b> lapisan konvolusi menganalisis bagian-bagian kecil dari gambar seperti tepi jari dan lekukan tangan untuk menemukan pola visual yang khas.
 • <b>Pembelajaran fitur:</b> semakin dalam lapisan jaringan, semakin kompleks pula pola yang dipelajari — dari garis sederhana hingga keseluruhan bentuk tangan.

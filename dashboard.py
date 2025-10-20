@@ -341,6 +341,20 @@ header[data-testid="stHeader"]{ display:none; }
   color: #000000 !important;
   box-shadow: 0 0 10px rgba(255,255,255,0.3);
 }
+/* ===== Game Link Button ===== */
+.game-link { margin-top: 18px; text-align: center; }
+.game-link a {
+  display:inline-block; text-decoration:none;
+  font-weight:600; font-size:1.05rem; color:#FFFFFF;
+  background: linear-gradient(90deg, #5C4DFF, #9B6DFF);
+  padding:10px 22px; border-radius:12px;
+  box-shadow:0 0 12px rgba(156,122,255,.35);
+  transition: all .25s ease;
+}
+.game-link a:hover {
+  box-shadow:0 0 18px rgba(156,122,255,.6);
+  transform: translateY(-1px);
+}
 
 </style>
 """, unsafe_allow_html=True)
@@ -488,6 +502,15 @@ with tab_det:
                 st.markdown(f"<div class='big-result'>Gambar ini terdeteksi sebagai {names[dominant].capitalize()}</div>", unsafe_allow_html=True)
             else:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
+        # Tombol game online (Deteksi)
+        st.markdown("""
+        <div class='https://bloob.io/id/rps'>
+          <a href='https://www.rpsgame.org/' target='_blank' rel='noopener'>
+            🎮 Mainkan Rock–Paper–Scissors Online
+          </a>
+        </div>
+        """, unsafe_allow_html=True)
+
         st.markdown("</div>", unsafe_allow_html=True)
 
 # =========================
@@ -530,6 +553,14 @@ with tab_cls:
             df = pd.DataFrame({"Kelas": [n.capitalize() for n in labels], "Probabilitas (%)": (probs*100).round(2)})
             st.markdown("<br>", unsafe_allow_html=True)
             st.dataframe(df, use_container_width=True, hide_index=True)
+        # Tombol game online (Deteksi)
+        st.markdown("""
+        <div class='https://bloob.io/id/rps'>
+          <a href='https://www.rpsgame.org/' target='_blank' rel='noopener'>
+            🎮 Mainkan Rock–Paper–Scissors Online
+          </a>
+        </div>
+        """, unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
 

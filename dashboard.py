@@ -573,7 +573,7 @@ with tab_docs:
         display:flex;
         align-items:center;
         gap:12px;
-        margin-top:1px;
+        margin-top:0px;
         margin-bottom:12px;
       }
       .icon-bubble{
@@ -612,7 +612,6 @@ with tab_docs:
       color: #C7D2FE !important;        /* bukan putih */
       font-size: 1.15rem !important;    /* lebih besar */
       font-weight: 800 !important;       /* tebal */
-      margin-bottom:1.2px;
     }
     
     /* ===== TEKS DI DALAM KOTAK (placeholder & nilai terpilih) ===== */

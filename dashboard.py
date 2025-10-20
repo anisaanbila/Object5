@@ -538,125 +538,125 @@ with tab_cls:
 # TAB: PENJELASAN MODEL — dropdown → deskripsi → cards (rapi)
 # ============================================================
 with tab_docs:
-    # === Dropdown
-model_choice = st.selectbox(
-    "Pilih jenis model yang ingin dijelaskan:",
-    ["Model Klasifikasi", "Model Deteksi"],
-    index=0
-)
-
-# === CSS kecil khusus tab ini (padding card lebih rapat + header dengan ikon)
-st.markdown("""
-<style>
-  [data-testid="stTabContent"] .card{
-    position:relative;
-    background:
-      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)) padding-box,
-      linear-gradient(90deg, rgba(114,38,255,.35), rgba(1,0,48,.35)) border-box;
-    border:1px solid transparent; border-radius:16px;
-    padding:14px 16px !important; margin-bottom:14px !important;
-    box-shadow:0 16px 44px rgba(0,0,0,.38);
-  }
-  .card-head{
-    display:flex; align-items:center; gap:12px; margin-bottom:.6rem;
-  }
-  .icon-bubble{
-    width:40px; height:40px; min-width:40px;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:10px;
-    background:rgba(255,255,255,.09);
-    border:1px solid rgba(255,255,255,.12);
-  }
-  .icon-bubble svg{ width:22px; height:22px; color:#fff; opacity:.95; }
-  .card-title-mini{
-    font-weight:700; font-size:1.25rem; color:#fff; line-height:1.2;
-  }
-  .model-body{ color:#EAEAFF; line-height:1.6; }
-</style>
-""", unsafe_allow_html=True)
-
-def model_card(title:str, icon_svg:str, body_md:str):
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    st.markdown(
-        f"""
-        <div class="card-head">
-          <div class="icon-bubble">
-            {icon_svg}
-          </div>
-          <div class="card-title-mini">{title}</div>
-        </div>
-        """, unsafe_allow_html=True
+        # === Dropdown
+    model_choice = st.selectbox(
+        "Pilih jenis model yang ingin dijelaskan:",
+        ["Model Klasifikasi", "Model Deteksi"],
+        index=0
     )
-    # >>> isi PERSIS seperti yang kamu kirim (tanpa perubahan redaksi)
-    st.markdown(f"<div class='model-body'>{body_md}</div>", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# === SVG ikon lucide (inline)
-ICON_BRAIN = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-<path d="M10 7a2 2 0 1 1 4 0"/><path d="M7.5 11.5A2.5 2.5 0 0 1 5 9V8a3 3 0 0 1 3-3"/>
-<path d="M16 5a3 3 0 0 1 3 3v1a2.5 2.5 0 0 1-2.5 2.5"/>
-<path d="M8 14a2 2 0 0 0-2 2v1a3 3 0 0 0 3 3h1"/><path d="M16 14a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3h-1"/>
-<path d="M12 5v14"/></svg>"""
-
-ICON_TARGET = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
-<path d="M22 12h-4"/><path d="M6 12H2"/><path d="M12 6V2"/><path d="M12 22v-4"/></svg>"""
-
-# === Konten persis (markdown aman di-render; baris dibiarkan sesuai naskah)
-cnn_body = """
-**🧠 Model Klasifikasi (CNN)**
-
-Model ini digunakan untuk mengenali jenis tangan (batu, gunting, atau kertas) dari gambar statis. Sistem bekerja dengan cara mengekstraksi pola visual dari setiap gambar menggunakan lapisan-lapisan konvolusi, lalu menentukan kelas berdasarkan probabilitas tertinggi.
-
-Dataset yang digunakan berasal dari Dicoding Academy Rock–Paper–Scissors Dataset, yang berisi 2.188 gambar dengan tiga kelas utama, yaitu paper (712 gambar), rock (726 gambar), dan scissors (750 gambar). Seluruh gambar diseragamkan ke ukuran 224×224 piksel, kemudian dibagi menjadi 70% data latih, 20% validasi, dan 10% uji untuk memastikan proses pelatihan berjalan seimbang dan evaluasi akurat.
-
-Sebelum masuk ke model, dilakukan tahap preprocessing agar data seragam dan tidak menyebabkan overfitting, meliputi:
-
-- Resize gambar menjadi 224×224 piksel.
-- Normalisasi nilai piksel ke skala 0–1 agar proses pembelajaran lebih stabil.
-- Augmentasi pada data latih seperti rotasi ±10°, zoom 10%, dan horizontal flip untuk memperkaya variasi data.
-
-Model CNN ini terdiri atas beberapa lapisan utama:
-
-- Tiga lapisan konvolusi dan pooling yang bertugas mengekstraksi pola visual dari sederhana (tepi) hingga kompleks (bentuk tangan).
-- Lapisan Flatten dan Dense (128 neuron, ReLU) untuk memahami representasi global dari gambar.
-- Lapisan Dropout (0.5) agar model tidak overfitting.
-- Lapisan output Softmax (3 neuron) untuk memprediksi probabilitas tiap kelas.
-
-Selama pelatihan, digunakan callback EarlyStopping untuk menghentikan proses jika tidak ada peningkatan validation loss, serta ModelCheckpoint untuk menyimpan bobot terbaik. Kombinasi ini membuat model efisien dan stabil.
-
-Hasil akhirnya menunjukkan performa yang sangat baik dengan akurasi total 94%. Setiap kelas juga menunjukkan nilai precision, recall, dan F1-score di atas 0.9, menandakan model mampu mengenali pola tangan dengan sangat baik tanpa bias antar kelas. Dengan hasil tersebut, model CNN ini cocok digunakan untuk sistem klasifikasi gambar sederhana berbasis tangan secara cepat dan akurat.
-"""
-
-yolo_body = """
-**🎯 Model Deteksi (YOLOv8n)**
-
-Berbeda dari model sebelumnya, model YOLOv8n digunakan untuk mendeteksi sekaligus mengklasifikasikan objek tangan langsung di dalam gambar. Artinya, model tidak hanya menentukan jenis tangan, tetapi juga menunjukkan posisi pastinya melalui bounding box.
-
-Dataset yang digunakan berasal dari sumber yang sama (Dicoding Academy), namun telah melalui tahap labeling di Roboflow dan diubah menjadi 640×640 piksel. Data ini kemudian dibagi menjadi 80% data latih, 10% validasi, dan 10% uji, agar model dapat memahami pola dari berbagai posisi dan sudut pandang tangan.
-
-Secara arsitektur, YOLOv8n terdiri atas tiga bagian utama:
-
-- Backbone, yang bertugas mengekstraksi fitur dari gambar menggunakan lapisan Conv, C2f, dan SPPF.
-- Neck, yang menggabungkan informasi dari berbagai level fitur melalui struktur Feature Pyramid Network (FPN) dan Path Aggregation Network (PAN), agar model mampu mendeteksi objek kecil maupun besar.
-- Head, bagian akhir yang menghasilkan prediksi posisi dan kelas objek secara langsung (anchor-free).
-
-Selama pelatihan, model dijalankan selama 100 epoch dan menunjukkan hasil yang stabil dengan metrik evaluasi sangat tinggi:
-
-- Precision = 0.9957
-- Recall = 1.000
-- mAP50 = 0.995
-- mAP50–95 = 0.9248
-
-Performa ini menunjukkan bahwa model mampu mendeteksi seluruh objek tangan dengan akurasi hampir sempurna. Pada pengujian, model juga sangat efisien — membutuhkan waktu rata-rata 17 milidetik per gambar, terdiri atas pra-proses (2,4 ms), inferensi (13,5 ms), dan pascaproses (1,3 ms).
-
-Selain itu, hasil inferensi menunjukkan bahwa model dapat mengenali bentuk tangan dengan tingkat keyakinan tinggi, misalnya label “paper” dengan confidence score 0,95. Nilai tersebut memperlihatkan kemampuan YOLOv8n dalam mengenali objek secara cepat dan akurat, cocok untuk digunakan dalam sistem deteksi real-time seperti kamera interaktif atau aplikasi berbasis gestur tangan.
-"""
-
-# === Render sesuai pilihan (judul di header card pakai ikon lucide, isi PERSIS)
-if model_choice == "Model Klasifikasi":
-    model_card("Model Klasifikasi (CNN)", ICON_BRAIN, cnn_body)
-else:
-    model_card("Model Deteksi (YOLOv8n)", ICON_TARGET, yolo_body)
+    
+    # === CSS kecil khusus tab ini (padding card lebih rapat + header dengan ikon)
+    st.markdown("""
+    <style>
+      [data-testid="stTabContent"] .card{
+        position:relative;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)) padding-box,
+          linear-gradient(90deg, rgba(114,38,255,.35), rgba(1,0,48,.35)) border-box;
+        border:1px solid transparent; border-radius:16px;
+        padding:14px 16px !important; margin-bottom:14px !important;
+        box-shadow:0 16px 44px rgba(0,0,0,.38);
+      }
+      .card-head{
+        display:flex; align-items:center; gap:12px; margin-bottom:.6rem;
+      }
+      .icon-bubble{
+        width:40px; height:40px; min-width:40px;
+        display:flex; align-items:center; justify-content:center;
+        border-radius:10px;
+        background:rgba(255,255,255,.09);
+        border:1px solid rgba(255,255,255,.12);
+      }
+      .icon-bubble svg{ width:22px; height:22px; color:#fff; opacity:.95; }
+      .card-title-mini{
+        font-weight:700; font-size:1.25rem; color:#fff; line-height:1.2;
+      }
+      .model-body{ color:#EAEAFF; line-height:1.6; }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    def model_card(title:str, icon_svg:str, body_md:str):
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.markdown(
+            f"""
+            <div class="card-head">
+              <div class="icon-bubble">
+                {icon_svg}
+              </div>
+              <div class="card-title-mini">{title}</div>
+            </div>
+            """, unsafe_allow_html=True
+        )
+        # >>> isi PERSIS seperti yang kamu kirim (tanpa perubahan redaksi)
+        st.markdown(f"<div class='model-body'>{body_md}</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+    
+    # === SVG ikon lucide (inline)
+    ICON_BRAIN = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 7a2 2 0 1 1 4 0"/><path d="M7.5 11.5A2.5 2.5 0 0 1 5 9V8a3 3 0 0 1 3-3"/>
+    <path d="M16 5a3 3 0 0 1 3 3v1a2.5 2.5 0 0 1-2.5 2.5"/>
+    <path d="M8 14a2 2 0 0 0-2 2v1a3 3 0 0 0 3 3h1"/><path d="M16 14a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3h-1"/>
+    <path d="M12 5v14"/></svg>"""
+    
+    ICON_TARGET = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+    <path d="M22 12h-4"/><path d="M6 12H2"/><path d="M12 6V2"/><path d="M12 22v-4"/></svg>"""
+    
+    # === Konten persis (markdown aman di-render; baris dibiarkan sesuai naskah)
+    cnn_body = """
+    **🧠 Model Klasifikasi (CNN)**
+    
+    Model ini digunakan untuk mengenali jenis tangan (batu, gunting, atau kertas) dari gambar statis. Sistem bekerja dengan cara mengekstraksi pola visual dari setiap gambar menggunakan lapisan-lapisan konvolusi, lalu menentukan kelas berdasarkan probabilitas tertinggi.
+    
+    Dataset yang digunakan berasal dari Dicoding Academy Rock–Paper–Scissors Dataset, yang berisi 2.188 gambar dengan tiga kelas utama, yaitu paper (712 gambar), rock (726 gambar), dan scissors (750 gambar). Seluruh gambar diseragamkan ke ukuran 224×224 piksel, kemudian dibagi menjadi 70% data latih, 20% validasi, dan 10% uji untuk memastikan proses pelatihan berjalan seimbang dan evaluasi akurat.
+    
+    Sebelum masuk ke model, dilakukan tahap preprocessing agar data seragam dan tidak menyebabkan overfitting, meliputi:
+    
+    - Resize gambar menjadi 224×224 piksel.
+    - Normalisasi nilai piksel ke skala 0–1 agar proses pembelajaran lebih stabil.
+    - Augmentasi pada data latih seperti rotasi ±10°, zoom 10%, dan horizontal flip untuk memperkaya variasi data.
+    
+    Model CNN ini terdiri atas beberapa lapisan utama:
+    
+    - Tiga lapisan konvolusi dan pooling yang bertugas mengekstraksi pola visual dari sederhana (tepi) hingga kompleks (bentuk tangan).
+    - Lapisan Flatten dan Dense (128 neuron, ReLU) untuk memahami representasi global dari gambar.
+    - Lapisan Dropout (0.5) agar model tidak overfitting.
+    - Lapisan output Softmax (3 neuron) untuk memprediksi probabilitas tiap kelas.
+    
+    Selama pelatihan, digunakan callback EarlyStopping untuk menghentikan proses jika tidak ada peningkatan validation loss, serta ModelCheckpoint untuk menyimpan bobot terbaik. Kombinasi ini membuat model efisien dan stabil.
+    
+    Hasil akhirnya menunjukkan performa yang sangat baik dengan akurasi total 94%. Setiap kelas juga menunjukkan nilai precision, recall, dan F1-score di atas 0.9, menandakan model mampu mengenali pola tangan dengan sangat baik tanpa bias antar kelas. Dengan hasil tersebut, model CNN ini cocok digunakan untuk sistem klasifikasi gambar sederhana berbasis tangan secara cepat dan akurat.
+    """
+    
+    yolo_body = """
+    **🎯 Model Deteksi (YOLOv8n)**
+    
+    Berbeda dari model sebelumnya, model YOLOv8n digunakan untuk mendeteksi sekaligus mengklasifikasikan objek tangan langsung di dalam gambar. Artinya, model tidak hanya menentukan jenis tangan, tetapi juga menunjukkan posisi pastinya melalui bounding box.
+    
+    Dataset yang digunakan berasal dari sumber yang sama (Dicoding Academy), namun telah melalui tahap labeling di Roboflow dan diubah menjadi 640×640 piksel. Data ini kemudian dibagi menjadi 80% data latih, 10% validasi, dan 10% uji, agar model dapat memahami pola dari berbagai posisi dan sudut pandang tangan.
+    
+    Secara arsitektur, YOLOv8n terdiri atas tiga bagian utama:
+    
+    - Backbone, yang bertugas mengekstraksi fitur dari gambar menggunakan lapisan Conv, C2f, dan SPPF.
+    - Neck, yang menggabungkan informasi dari berbagai level fitur melalui struktur Feature Pyramid Network (FPN) dan Path Aggregation Network (PAN), agar model mampu mendeteksi objek kecil maupun besar.
+    - Head, bagian akhir yang menghasilkan prediksi posisi dan kelas objek secara langsung (anchor-free).
+    
+    Selama pelatihan, model dijalankan selama 100 epoch dan menunjukkan hasil yang stabil dengan metrik evaluasi sangat tinggi:
+    
+    - Precision = 0.9957
+    - Recall = 1.000
+    - mAP50 = 0.995
+    - mAP50–95 = 0.9248
+    
+    Performa ini menunjukkan bahwa model mampu mendeteksi seluruh objek tangan dengan akurasi hampir sempurna. Pada pengujian, model juga sangat efisien — membutuhkan waktu rata-rata 17 milidetik per gambar, terdiri atas pra-proses (2,4 ms), inferensi (13,5 ms), dan pascaproses (1,3 ms).
+    
+    Selain itu, hasil inferensi menunjukkan bahwa model dapat mengenali bentuk tangan dengan tingkat keyakinan tinggi, misalnya label “paper” dengan confidence score 0,95. Nilai tersebut memperlihatkan kemampuan YOLOv8n dalam mengenali objek secara cepat dan akurat, cocok untuk digunakan dalam sistem deteksi real-time seperti kamera interaktif atau aplikasi berbasis gestur tangan.
+    """
+    
+    # === Render sesuai pilihan (judul di header card pakai ikon lucide, isi PERSIS)
+    if model_choice == "Model Klasifikasi":
+        model_card("Model Klasifikasi (CNN)", ICON_BRAIN, cnn_body)
+    else:
+        model_card("Model Deteksi (YOLOv8n)", ICON_TARGET, yolo_body)

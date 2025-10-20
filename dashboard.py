@@ -170,7 +170,7 @@ header[data-testid="stHeader"]{ display:none; }
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 1.4rem;
+  gap: 1rem;
   padding: 0.8rem 1.2rem;
   border-radius: 40px;
   background: linear-gradient(90deg, #1a0066, #4b00c7);
@@ -184,7 +184,7 @@ header[data-testid="stHeader"]{ display:none; }
   gap: 0.1rem;                        /* jarak ikon ↔ teks */
   color: #E0E2FF !important;
   font-weight: 500 !important;
-  font-size: 1.3rem !important;       /* ukuran teks tab */
+  font-size: 1rem !important;       /* ukuran teks tab */
   line-height: 1.25 !important;
   padding: 0.8rem 1.6rem;
   border: none;

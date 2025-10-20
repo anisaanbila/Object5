@@ -14,7 +14,7 @@ st.set_page_config(
     page_icon="icon.png",
     layout="wide",
 )
-)
+
 
 # =========================
 # THEME (gradient + Poppins + futuristic network)

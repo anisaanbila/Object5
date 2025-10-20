@@ -542,6 +542,29 @@ with tab_docs:
         ["Model Klasifikasi", "Model Deteksi"],
         index=0
     )
+    # ==== ubah warna teks di dropdown ====
+    st.markdown("""
+    <style>
+    /* Hanya teks di dalam dropdown */
+    .stSelectbox div[data-baseweb="select"] div[role="combobox"],
+    .stSelectbox div[data-baseweb="select"] div[role="combobox"] * {
+        color: #0F172A !important;     /* Warna teks di dropdown */
+        font-weight: 600 !important;
+    }
+    
+    /* Teks opsi saat dropdown dibuka */
+    div[data-baseweb="popover"] li,
+    div[data-baseweb="popover"] li * {
+        color: #0F172A !important;     /* Warna teks opsi */
+    }
+    
+    /* Ikon panah di sisi kanan */
+    .stSelectbox div[data-baseweb="select"] svg {
+        color: #0F172A !important;
+        opacity: 0.9 !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
     # ==== CSS full transparan ====
     st.markdown("""

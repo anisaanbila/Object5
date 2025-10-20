@@ -588,14 +588,7 @@ with tab_cls:
             </div>
             """, unsafe_allow_html=True)
             
-            # (opsional) bar kepercayaan singkat ala deteksi
-            st.markdown(f"""
-            <div class='prog-wrap' style='margin-top:10px;'>
-              <span class='lbl'>Confidence</span>
-              <div class='prog'><span style='--w:{conf_top:.2f}%;'></span></div>
-              <span class='val'>{conf_top:.1f}%</span>
-            </div>
-            """, unsafe_allow_html=True)
+
 
 
 

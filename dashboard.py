@@ -575,6 +575,8 @@ with tab_docs:
         background:transparent !important;
         padding:0 !important;
         margin:0 !important;
+        text-align: justify;     /* 🟢 Tambahkan ini */
+        text-justify: inter-word; /* opsional biar antar kata rata */
       }
     </style>
     """, unsafe_allow_html=True)

@@ -631,7 +631,7 @@ Proses kerjanya dapat dijelaskan sebagai berikut:
 • <b>Input gambar:</b> setiap gambar tangan diubah menjadi susunan angka berdasarkan nilai warna dan kecerahan piksel. 
 • <b>Ekstraksi pola:</b> lapisan konvolusi menganalisis bagian-bagian kecil dari gambar seperti tepi jari dan lekukan tangan untuk menemukan pola visual yang khas.
 • <b>Pembelajaran fitur:</b> semakin dalam lapisan jaringan, semakin kompleks pula pola yang dipelajari — dari garis sederhana hingga keseluruhan bentuk tangan.
-• <b>Klasifikasi akhir:</b> hasil pembelajaran dikirim ke lapisan akhir untuk menghitung peluang setiap kelas, kemudian model memilih kategori dengan nilai probabilitas tertinggi.
+• <b>Klasifikasi akhir:</b> hasil pembelajaran dikirim ke lapisan akhir untuk menghitung peluang setiap kelas, kemudian model memilih kategori dengan nilai probabilitas tertinggi.<br>
 
 Dengan tahapan ini, CNN mampu mengenali bentuk tangan secara otomatis tanpa perlu diberi tahu secara eksplisit bagaimana bentuk “batu”, “gunting”, atau “kertas”.
 
@@ -641,13 +641,13 @@ Cara kerja CNN dapat dianalogikan seperti seseorang yang belajar mengenali teman
 
     yolo_text = """
 Model deteksi digunakan untuk mengenali sekaligus menentukan posisi objek tangan di dalam gambar. 
-Model ini menggunakan algoritma YOLOv8n (You Only Look Once versi 8 – nano), yang dirancang untuk melakukan deteksi secara cepat dan efisien pada berbagai ukuran gambar.\n
+Model ini menggunakan algoritma YOLOv8n (You Only Look Once versi 8 – nano), yang dirancang untuk melakukan deteksi secara cepat dan efisien pada berbagai ukuran gambar.<br>
 
 Secara garis besar, cara kerjanya adalah sebagai berikut:
-• Pemindaian gambar: model membagi gambar menjadi banyak area kecil, masing-masing dianggap sebagai wilayah kandidat objek. 
-• Analisis fitur: setiap area diperiksa untuk melihat apakah pola visualnya menyerupai bentuk tangan.
-• Prediksi posisi dan kelas: jika ditemukan kecocokan, model menggambar kotak deteksi (bounding box) dan memberi label seperti “Rock” atau “Scissors”.
-• Perhitungan keyakinan: setiap hasil prediksi disertai nilai confidence yang menunjukkan tingkat keyakinan model terhadap deteksi tersebut.
+• <b>Pemindaian gambar:</b> model membagi gambar menjadi banyak area kecil, masing-masing dianggap sebagai wilayah kandidat objek. 
+• <b>Analisis fitur:</b> setiap area diperiksa untuk melihat apakah pola visualnya menyerupai bentuk tangan.
+• <b>Prediksi posisi dan kelas:</b> jika ditemukan kecocokan, model menggambar kotak deteksi (bounding box) dan memberi label seperti “Rock” atau “Scissors”.
+• <b>Perhitungan keyakinan:</b> setiap hasil prediksi disertai nilai confidence yang menunjukkan tingkat keyakinan model terhadap deteksi tersebut.<br>
 
 YOLOv8 dapat memproses gambar dalam waktu sangat singkat — hanya beberapa milidetik per gambar — sehingga memungkinkan penggunaan pada sistem real-time seperti kamera interaktif.
 

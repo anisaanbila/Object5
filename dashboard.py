@@ -652,8 +652,8 @@ with tab_docs:
     <style>
     /* Atur jarak di sekitar dropdown */
     [data-testid="stSelectbox"] {
-        margin-top: 15px !important;     /* jarak dari elemen di atas */
-        margin-bottom: 1px !important;  /* jarak ke elemen di bawah */
+        margin-top: 5px !important;     /* jarak dari elemen di atas */
+        margin-bottom: 0.1px !important;  /* jarak ke elemen di bawah */
         margin-left: 0 !important;
         margin-right: 0 !important;
     }

@@ -662,6 +662,25 @@ with tab_docs:
     }
     </style>
     """, unsafe_allow_html=True)
+    # ==== RAPATKAN JARAK: dropdown ↔ judul model ====
+    st.markdown("""
+    <style>
+    /* Hilangkan margin/padding bawaan selectbox agar tidak nyisa ruang di bawahnya */
+    [data-testid="stSelectbox"],
+    [data-testid="stSelectbox"] > div:first-child,
+    .stSelectbox [data-baseweb="select"],
+    .stSelectbox [data-baseweb="select"] > div {
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    
+    /* Tarik judul model sedikit ke atas (bisa 0 sampai -10px sesuai selera) */
+    .model-head {
+      margin-top: -6px !important;   /* coba -6; kalau masih kurang, ganti ke -8 atau -10 */
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 
 
 

@@ -81,7 +81,7 @@ header[data-testid="stHeader"]{ display:none; }
 .card:hover{ box-shadow:0 26px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06) inset; transform: translateY(-1px); }
 .card h1{
   font-weight:900;
-  margin-top:0.3rem;
+  margin-top:0rem;
   margin-left:0.8rem;
   font-size:3.3rem;
   color:#FFFFFF;

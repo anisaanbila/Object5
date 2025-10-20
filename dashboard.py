@@ -545,78 +545,44 @@ with tab_docs:
         index=0
     )
 
-    # --- BUAT KONTENER KHUSUS UNTUK SCOPE CSS
-    st.markdown("<div id='model-docs'>", unsafe_allow_html=True)
-
-    # --- CSS: kecilkan card HANYA di tab ini
+    # --- CSS (PASTIKAN sejajar dengan baris di atas)
     st.markdown("""
     <style>
       /* kecilkan semua .card di tab Penjelasan Model saja */
-      #model-docs .card{
+      [data-testid="stTabContent"] .card{
         padding: 12px 16px !important;
         margin-bottom: 14px !important;
         border-radius: 16px !important;
       }
       /* kecilkan judul card */
-      #model-docs .card-title{
+      [data-testid="stTabContent"] .card-title{
         font-size: 1.4rem !important;
         margin-bottom: .5rem !important;
       }
-      /* styling lain yang kamu butuhkan di tab ini */
-      #model-docs .model-intro{
+    </style>
+    """, unsafe_allow_html=True)
+
+    # --- Style kecil untuk intro & card kecil (masih di dalam tab_docs)
+    st.markdown("""
+    <style>
+      .model-intro{
         margin:10px 0 18px 0; padding:12px 16px; border-radius:12px;
         background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
         color:#EAEAFF; line-height:1.55;
       }
-      #model-docs .model-intro b{ color:#fff; }
-      #model-docs .card-small{ padding:12px 16px !important; }
-      #model-docs .icon-bubble{
+      .model-intro b{ color:#fff; }
+      .card-small{ padding:12px 16px !important; }
+      .icon-bubble{
         width:40px; height:40px; display:flex; align-items:center; justify-content:center;
         border-radius:10px; background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.12);
       }
-      #model-docs .icon-bubble svg{ width:22px; height:22px; color:#fff; opacity:.95; }
-      #model-docs .prog-wrap{ display:flex; align-items:center; gap:10px; margin:.35rem 0; }
-      #model-docs .prog-wrap .lbl{ width:190px; color:#E0E2FF; }
-      #model-docs .prog-wrap .prog{ flex:1; height:10px; border-radius:999px; background:rgba(255,255,255,.12); overflow:hidden; }
-      #model-docs .prog-wrap .prog span{ display:block; height:100%; width:var(--w,0%); background:linear-gradient(90deg,#602FFF,#8D3FFF); }
-      #model-docs .prog-wrap .val{ width:80px; text-align:right; color:#E0E2FF; }
+      .icon-bubble svg{ width:22px; height:22px; color:#fff; opacity:.95; }
+      .prog-wrap{ display:flex; align-items:center; gap:10px; margin:.35rem 0; }
+      .prog-wrap .lbl{ width:190px; color:#E0E2FF; }
+      .prog-wrap .prog{ flex:1; height:10px; border-radius:999px; background:rgba(255,255,255,.12); overflow:hidden; }
+      .prog-wrap .prog span{ display:block; height:100%; width:var(--w,0%); background:linear-gradient(90deg,#602FFF,#8D3FFF); }
+      .prog-wrap .val{ width:80px; text-align:right; color:#E0E2FF; }
     </style>
     """, unsafe_allow_html=True)
 
-    # --- Util untuk metrik bar
-    def metric_bar(label:str, value:float):
-        pct = max(0.0, min(1.0, float(value))) * 100
-        st.markdown(
-            f"<div class='prog-wrap'><span class='lbl'>{label}</span>"
-            f"<div class='prog'><span style='--w:{pct:.2f}%;'></span></div>"
-            f"<span class='val'>{pct:.1f}%</span></div>",
-            unsafe_allow_html=True
-        )
-
-    # --- Intro singkat
-    if model_choice == "Model Deteksi":
-        st.markdown("""
-        <div class="model-intro">
-          <b>Ringkasnya:</b> model deteksi (YOLOv8) mencari <i>posisi</i> tangan pada gambar, lalu memberi kotak (bounding box) dan label.
-          Ia memproses gambar sekali jalan (<i>single shot</i>) sehingga cepat dan cocok untuk real-time.
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        st.markdown("""
-        <div class="model-intro">
-          <b>Ringkasnya:</b> model klasifikasi (CNN) fokus pada <i>isi</i> gambar yang sudah rapi (crop) lalu menentukan kelas: batu, gunting, atau kertas.
-          Sederhana dan efisien untuk pengenalan satu gambar.
-        </div>
-        """, unsafe_allow_html=True)
-
-    # --- Renderer kartu (fungsi-fungsi milikmu tetap sama) ...
-    # def render_cards_deteksi(): ...
-    # def render_cards_klasifikasi(): ...
-
-    if model_choice == "Model Deteksi":
-        render_cards_deteksi()
-    else:
-        render_cards_klasifikasi()
-
-    # tutup kontainer
-    st.markdown("</div>", unsafe_allow_html=True)
+    # ... (lanjutkan definisi metric_bar, intro model, dan render_cards)

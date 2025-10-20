@@ -700,11 +700,11 @@ with tab_docs:
         # jika ada ilustrasi, tambahkan subjudul dengan ikon lampu
         if illus_part.strip():
             st.markdown(f"""
-            <div class='model-head' style='margin-top:28px;'>
+            <div class='model-head' style='margin-top:15px;'>
               <div class='icon-bubble'>{ICON_LIGHT}</div>
               <div class='model-title'>Analogi Sederhana</div>
             </div>
-            <div class='model-body'>{illus_part}</div>
+            <div class='model-body' style='margin-bottom:15px;'>{illus_part}</div>
             """, unsafe_allow_html=True)
 
     # ==== teks deskripsi ====

@@ -600,8 +600,38 @@ with tab_docs:
     <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
     <path d="M22 12h-4"/><path d="M6 12H2"/><path d="M12 6V2"/><path d="M12 22v-4"/></svg>"""
 
-    cnn_text = """(isi lengkap teks CNN milikmu tanpa diubah)"""
-    yolo_text = """(isi lengkap teks YOLOv8 milikmu tanpa diubah)"""
+    cnn_text = """
+Model klasifikasi ini digunakan untuk mengenali jenis tangan pada gambar dan menentukan apakah termasuk kategori batu (rock), gunting (scissors), atau kertas (paper). 
+Model ini bekerja dengan prinsip pengenalan pola visual melalui jaringan saraf tiruan (Convolutional Neural Network/CNN) yang meniru cara kerja otak manusia dalam mengenali bentuk dan pola.
+
+Proses kerjanya dapat dijelaskan sebagai berikut:
+• Input gambar: setiap gambar tangan diubah menjadi susunan angka berdasarkan nilai warna dan kecerahan piksel. 
+• Ekstraksi pola: lapisan konvolusi menganalisis bagian-bagian kecil dari gambar seperti tepi jari dan lekukan tangan untuk menemukan pola visual yang khas.
+• Pembelajaran fitur: semakin dalam lapisan jaringan, semakin kompleks pula pola yang dipelajari — dari garis sederhana hingga keseluruhan bentuk tangan.
+• Klasifikasi akhir: hasil pembelajaran dikirim ke lapisan akhir untuk menghitung peluang setiap kelas, kemudian model memilih kategori dengan nilai probabilitas tertinggi.
+
+Dengan tahapan ini, CNN mampu mengenali bentuk tangan secara otomatis tanpa perlu diberi tahu secara eksplisit bagaimana bentuk “batu”, “gunting”, atau “kertas”.
+
+Ilustrasi singkat:
+Cara kerja CNN dapat dianalogikan seperti seseorang yang belajar mengenali teman-temannya dari foto. Awalnya ia hanya mengenali ciri umum seperti warna rambut atau bentuk wajah, lalu seiring waktu ia mengingat detail seperti mata atau ekspresi. Begitu juga CNN — model mempelajari pola sederhana hingga kompleks sehingga mampu mengenali bentuk tangan yang berbeda secara akurat.
+"""
+
+    yolo_text = """
+Model deteksi digunakan untuk mengenali sekaligus menentukan posisi objek tangan di dalam gambar. 
+Model ini menggunakan algoritma YOLOv8n (You Only Look Once versi 8 – nano), yang dirancang untuk melakukan deteksi secara cepat dan efisien pada berbagai ukuran gambar.
+
+Secara garis besar, cara kerjanya adalah sebagai berikut:
+• Pemindaian gambar: model membagi gambar menjadi banyak area kecil, masing-masing dianggap sebagai wilayah kandidat objek. 
+• Analisis fitur: setiap area diperiksa untuk melihat apakah pola visualnya menyerupai bentuk tangan.
+• Prediksi posisi dan kelas: jika ditemukan kecocokan, model menggambar kotak deteksi (bounding box) dan memberi label seperti “Rock” atau “Scissors”.
+• Perhitungan keyakinan: setiap hasil prediksi disertai nilai confidence yang menunjukkan tingkat keyakinan model terhadap deteksi tersebut.
+
+YOLOv8 dapat memproses gambar dalam waktu sangat singkat — hanya beberapa milidetik per gambar — sehingga memungkinkan penggunaan pada sistem real-time seperti kamera interaktif.
+
+Ilustrasi singkat:
+Cara kerja YOLOv8 dapat dianalogikan seperti seseorang yang sedang mencari wajah temannya di tengah kerumunan. Ia memindai seluruh area pandang dengan cepat, mengenali ciri-ciri yang cocok, lalu menunjuk posisi orang yang dimaksud. Demikian pula YOLOv8 — model “melihat” seluruh gambar sekaligus, lalu menandai area yang sesuai dengan pola tangan yang telah ia pelajari.
+"""
+
 
     if model_choice == "Model Klasifikasi":
         render_model("Model Klasifikasi (CNN)", ICON_BRAIN, cnn_text)

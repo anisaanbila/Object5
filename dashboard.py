@@ -502,14 +502,14 @@ with tab_det:
                 st.markdown(f"<div class='big-result'>Gambar ini terdeteksi sebagai {names[dominant].capitalize()}</div>", unsafe_allow_html=True)
             else:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
-        # Tombol game online (Deteksi)
-        st.markdown("""
-        <div class='game-link'>
-          <a href='https://bloob.io/id/rps' target='_blank' rel='noopener'>
-            🎮 Mainkan Rock–Paper–Scissors Online
-          </a>
-        </div>
-        """, unsafe_allow_html=True)
+            # Tombol game online (Deteksi)
+            st.markdown("""
+            <div class='game-link'>
+              <a href='https://bloob.io/id/rps' target='_blank' rel='noopener'>
+                🎮 Mainkan Rock–Paper–Scissors Online
+              </a>
+            </div>
+            """, unsafe_allow_html=True)
 
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -553,14 +553,14 @@ with tab_cls:
             df = pd.DataFrame({"Kelas": [n.capitalize() for n in labels], "Probabilitas (%)": (probs*100).round(2)})
             st.markdown("<br>", unsafe_allow_html=True)
             st.dataframe(df, use_container_width=True, hide_index=True)
-        # Tombol game online (Deteksi)
-        st.markdown("""
-        <div class='game-link'>
-          <a href='https://bloob.io/id/rps' target='_blank' rel='noopener'>
-            🎮 Mainkan Rock–Paper–Scissors Online
-          </a>
-        </div>
-        """, unsafe_allow_html=True)
+            # Tombol game online (Deteksi)
+            st.markdown("""
+            <div class='game-link'>
+              <a href='https://bloob.io/id/rps' target='_blank' rel='noopener'>
+                🎮 Mainkan Rock–Paper–Scissors Online
+              </a>
+            </div>
+            """, unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
 

@@ -537,14 +537,14 @@ with tab_cls:
 # TAB: PENJELASAN MODEL (dropdown + per-box rapi)
 # =========================
 with tab_docs:
-    # --- Dropdown
+    # 1) Dropdown WAJIB punya options
     model_choice = st.selectbox(
         "Pilih jenis model yang ingin dijelaskan:",
         ["Model Deteksi", "Model Klasifikasi"],
         index=0
     )
 
-    # --- CSS KHUSUS TAB INI (langsung di bawah selectbox, masih di dalam with tab_docs:)
+    # 2) CSS khusus untuk tab ini (PASTIKAN tetap di dalam with tab_docs:)
     st.markdown("""
     <style>
       /* kecilkan box card & judul di tab ini */
@@ -578,159 +578,159 @@ with tab_docs:
     </style>
     """, unsafe_allow_html=True)
 
-    # ...lanjutkan fungsi metric_bar(), intro, dan render_cards_* di sini...
+    # 3) Util bar metrik (tetap di dalam with tab_docs:)
+    def metric_bar(label: str, value: float):
+        pct = max(0.0, min(1.0, float(value))) * 100
+        st.markdown(
+            f"<div class='prog-wrap'><span class='lbl'>{label}</span>"
+            f"<div class='prog'><span style='--w:{pct:.2f}%;'></span></div>"
+            f"<span class='val'>{pct:.1f}%</span></div>",
+            unsafe_allow_html=True
+        )
 
-
-    
-        # Util: progress bar
-        def metric_bar(label: str, value: float):
-            pct = max(0.0, min(1.0, float(value))) * 100
-            st.markdown(
-                f"<div class='prog-wrap'><span class='lbl'>{label}</span>"
-                f"<div class='prog'><span style='--w:{pct:.2f}%;'></span></div>"
-                f"<span class='val'>{pct:.1f}%</span></div>",
-                unsafe_allow_html=True
-            )
-
-        # Intro singkat di luar card
-        if model_choice == "Model Deteksi":
-            st.markdown("""
+    # 4) Intro singkat (bergantung pilihan)
+    if model_choice == "Model Deteksi":
+        st.markdown(
+            """
             <div class="model-intro">
               <b>Ringkasnya:</b> model deteksi (YOLOv8) mencari <i>posisi</i> tangan pada gambar, lalu memberi kotak (bounding box) dan label.
               Ia memproses gambar sekali jalan (<i>single shot</i>) sehingga cepat dan cocok untuk real-time.
             </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
+            """, unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            """
             <div class="model-intro">
               <b>Ringkasnya:</b> model klasifikasi (CNN) fokus pada <i>isi</i> gambar yang sudah rapi (crop) lalu menentukan kelas:
               batu, gunting, atau kertas. Sederhana dan efisien untuk pengenalan satu gambar.
             </div>
-            """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True
+        )
 
-        # Renderer DETEKSI
-        def render_cards_deteksi():
-            st.markdown("<div class='card'><div class='card-title'>Dataset</div>", unsafe_allow_html=True)
-            st.markdown("""
+    # 5) Renderer kartu DETEKSI
+    def render_cards_deteksi():
+        st.markdown("<div class='card'><div class='card-title'>Dataset</div>", unsafe_allow_html=True)
+        st.markdown("""
 **Sumber & Kelas.** Rock–Paper–Scissors (format YOLO/Roboflow) dengan anotasi bounding box.  
 **Resolusi.** 640×640 • **Split.** 80% train, 10% val, 10% test • **Format.** Anchor-free YOLOv8.
-            """)
-            counts = {"Rock":726, "Paper":712, "Scissors":750}
-            colc = st.columns(3)
-            icons = {
-              "Rock": """<path d="M18,30 c-4,0 -8,-3 -8,-7 v-8 c0-6 16-6 16,2 v6 c0,4 -4,7 -8,7z" stroke="white" stroke-width="3" fill="none"/>""",
-              "Paper": """<path d="M14,30 c-3,-10 2,-18 8,-18 5,0 6,5 6,10 v8" stroke="white" stroke-width="3" fill="none"/><path d="M10,26 c-2,-7 1,-12 6,-12" stroke="white" stroke-width="3" fill="none"/>""",
-              "Scissors": """<path d="M10,12 l8,12 M22,12 l-6,10 M12,26 c4,4 10,4 12,0" stroke="white" stroke-width="3" fill="none"/>"""
-            }
-            for (k,v), col in zip(counts.items(), colc):
-                col.markdown(f"""
-                <div style="display:flex;align-items:center;gap:14px;margin-top:10px;">
-                  <div class="icon-bubble"><svg viewBox="0 0 36 36">{icons[k]}</svg></div>
-                  <div>
-                    <div style="font-weight:700;font-size:1.05rem">{k}</div>
-                    <div style="font-weight:800;font-size:1.6rem">{v:,}</div>
-                  </div>
-                </div>
-                """, unsafe_allow_html=True)
+        """)
+        counts = {"Rock":726, "Paper":712, "Scissors":750}
+        colc = st.columns(3)
+        icons = {
+          "Rock": """<path d="M18,30 c-4,0 -8,-3 -8,-7 v-8 c0-6 16-6 16,2 v6 c0,4 -4,7 -8,7z" stroke="white" stroke-width="3" fill="none"/>""",
+          "Paper": """<path d="M14,30 c-3,-10 2,-18 8,-18 5,0 6,5 6,10 v8" stroke="white" stroke-width="3" fill="none"/><path d="M10,26 c-2,-7 1,-12 6,-12" stroke="white" stroke-width="3" fill="none"/>""",
+          "Scissors": """<path d="M10,12 l8,12 M22,12 l-6,10 M12,26 c4,4 10,4 12,0" stroke="white" stroke-width="3" fill="none"/>"""
+        }
+        for (k,v), col in zip(counts.items(), colc):
+            col.markdown(f"""
+            <div style="display:flex;align-items:center;gap:14px;margin-top:10px;">
+              <div class="icon-bubble"><svg viewBox="0 0 36 36">{icons[k]}</svg></div>
+              <div>
+                <div style="font-weight:700;font-size:1.05rem">{k}</div>
+                <div style="font-weight:800;font-size:1.6rem">{v:,}</div>
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        colA, colB = st.columns(2)
+        with colA:
+            st.markdown("<div class='card'><div class='card-title'>Arsitektur</div>", unsafe_allow_html=True)
+            st.markdown(
+                "<div class='flow'>"
+                "<div class='node'>Backbone (C2f, SiLU, SPPF)</div>"
+                "<div class='node'>Neck (FPN/PAN, multi-scale fusion)</div>"
+                "<div class='node'>Head (anchor-free; box + cls)</div>"
+                "</div>", unsafe_allow_html=True
+            )
+            st.markdown("Prediksi box & kelas dilakukan sekaligus (<i>single shot</i>) untuk kecepatan tinggi.")
+            st.markdown("</div>", unsafe_allow_html=True)
+        with colB:
+            st.markdown("<div class='card card-small'><div class='card-title'>Evaluasi</div>", unsafe_allow_html=True)
+            metric_bar("Precision", 0.996)
+            metric_bar("Recall", 1.00)
+            metric_bar("mAP@50", 0.995)
+            metric_bar("mAP@50–95", 0.925)
+            metric_bar("Latency (↓ ms → cepat)", 1-0.017)  # ~17ms
+            st.markdown("Akurat & cepat untuk penggunaan real-time.")
             st.markdown("</div>", unsafe_allow_html=True)
 
-            colA, colB = st.columns(2)
-            with colA:
-                st.markdown("<div class='card'><div class='card-title'>Arsitektur</div>", unsafe_allow_html=True)
-                st.markdown(
-                    "<div class='flow'>"
-                    "<div class='node'>Backbone (C2f, SiLU, SPPF)</div>"
-                    "<div class='node'>Neck (FPN/PAN, multi-scale fusion)</div>"
-                    "<div class='node'>Head (anchor-free; box + cls)</div>"
-                    "</div>", unsafe_allow_html=True
-                )
-                st.markdown("Prediksi box & kelas dilakukan sekaligus (<i>single shot</i>) untuk kecepatan tinggi.")
-                st.markdown("</div>", unsafe_allow_html=True)
-            with colB:
-                st.markdown("<div class='card card-small'><div class='card-title'>Evaluasi</div>", unsafe_allow_html=True)
-                metric_bar("Precision", 0.996)
-                metric_bar("Recall", 1.00)
-                metric_bar("mAP@50", 0.995)
-                metric_bar("mAP@50–95", 0.925)
-                metric_bar("Latency (↓ ms → cepat)", 1-0.017)
-                st.markdown("Akurat & cepat untuk penggunaan real-time.")
-                st.markdown("</div>", unsafe_allow_html=True)
-
-            st.markdown("<div class='card'><div class='card-title'>Konfigurasi Training</div>", unsafe_allow_html=True)
-            st.markdown("""
+        st.markdown("<div class='card'><div class='card-title'>Konfigurasi Training</div>", unsafe_allow_html=True)
+        st.markdown("""
 **Epoch/Batch.** 100 / 16 • **Optimizer.** SGD/AdamW • **LR.** cosine decay  
 **Augment.** mosaic, hsv, flip, scale • **Callback.** EarlyStopping & Checkpoint
-            """)
-            st.markdown("</div>", unsafe_allow_html=True)
+        """)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-            st.markdown("<div class='card card-small'><div class='card-title'>Kesimpulan</div>", unsafe_allow_html=True)
-            st.markdown("YOLOv8 presisi tinggi dengan latensi rendah — ideal untuk pipeline RPS real-time.")
-            st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<div class='card card-small'><div class='card-title'>Kesimpulan</div>", unsafe_allow_html=True)
+        st.markdown("YOLOv8 memberikan deteksi tangan yang presisi dengan latensi rendah — ideal untuk pipeline RPS real-time.")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        # Renderer KLASIFIKASI
-        def render_cards_klasifikasi():
-            st.markdown("<div class='card'><div class='card-title'>Dataset</div>", unsafe_allow_html=True)
-            st.markdown("""
+    # 6) Renderer kartu KLASIFIKASI
+    def render_cards_klasifikasi():
+        st.markdown("<div class='card'><div class='card-title'>Dataset</div>", unsafe_allow_html=True)
+        st.markdown("""
 **Sumber & Kelas.** Rock–Paper–Scissors (image classification).  
 **Resolusi.** 224×224 RGB • **Split.** 70/20/10 • **Preprocess.** normalisasi 0–1, augment ringan.
-            """)
-            counts = {"Rock":726, "Paper":712, "Scissors":750}
-            colc = st.columns(3)
-            icons = {
-              "Rock": """<path d="M18,30 c-4,0 -8,-3 -8,-7 v-8 c0-6 16-6 16,2 v6 c0,4 -4,7 -8,7z" stroke="white" stroke-width="3" fill="none"/>""",
-              "Paper": """<path d="M14,30 c-3,-10 2,-18 8,-18 5,0 6,5 6,10 v8" stroke="white" stroke-width="3" fill="none"/><path d="M10,26 c-2,-7 1,-12 6,-12" stroke="white" stroke-width="3" fill="none"/>""",
-              "Scissors": """<path d="M10,12 l8,12 M22,12 l-6,10 M12,26 c4,4 10,4 12,0" stroke="white" stroke-width="3" fill="none"/>"""
-            }
-            for (k,v), col in zip(counts.items(), colc):
-                col.markdown(f"""
-                <div style="display:flex;align-items:center;gap:14px;margin-top:10px;">
-                  <div class="icon-bubble"><svg viewBox="0 0 36 36">{icons[k]}</svg></div>
-                  <div>
-                    <div style="font-weight:700;font-size:1.05rem">{k}</div>
-                    <div style="font-weight:800;font-size:1.6rem">{v:,}</div>
-                  </div>
-                </div>
-                """, unsafe_allow_html=True)
+        """)
+        counts = {"Rock":726, "Paper":712, "Scissors":750}
+        colc = st.columns(3)
+        icons = {
+          "Rock": """<path d="M18,30 c-4,0 -8,-3 -8,-7 v-8 c0-6 16-6 16,2 v6 c0,4 -4,7 -8,7z" stroke="white" stroke-width="3" fill="none"/>""",
+          "Paper": """<path d="M14,30 c-3,-10 2,-18 8,-18 5,0 6,5 6,10 v8" stroke="white" stroke-width="3" fill="none"/><path d="M10,26 c-2,-7 1,-12 6,-12" stroke="white" stroke-width="3" fill="none"/>""",
+          "Scissors": """<path d="M10,12 l8,12 M22,12 l-6,10 M12,26 c4,4 10,4 12,0" stroke="white" stroke-width="3" fill="none"/>"""
+        }
+        for (k,v), col in zip(counts.items(), colc):
+            col.markdown(f"""
+            <div style="display:flex;align-items:center;gap:14px;margin-top:10px;">
+              <div class="icon-bubble"><svg viewBox="0 0 36 36">{icons[k]}</svg></div>
+              <div>
+                <div style="font-weight:700;font-size:1.05rem">{k}</div>
+                <div style="font-weight:800;font-size:1.6rem">{v:,}</div>
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        colA, colB = st.columns(2)
+        with colA:
+            st.markdown("<div class='card'><div class='card-title'>Arsitektur</div>", unsafe_allow_html=True)
+            st.markdown(
+                "<div class='flow'>"
+                "<div class='node'>Conv2D(32) → MaxPool</div>"
+                "<div class='node'>Conv2D(64) → MaxPool</div>"
+                "<div class='node'>Conv2D(128) → MaxPool</div>"
+                "<div class='node'>Flatten → Dense(128) → Dropout(0.5)</div>"
+                "<div class='node'>Dense(3, Softmax)</div>"
+                "</div>", unsafe_allow_html=True
+            )
+            st.markdown("Optimizer **Adam**, loss **categorical_crossentropy**; regularisasi **Dropout 0.5**.")
+            st.markdown("</div>", unsafe_allow_html=True)
+        with colB:
+            st.markdown("<div class='card card-small'><div class='card-title'>Evaluasi</div>", unsafe_allow_html=True)
+            metric_bar("Accuracy", 0.94)
+            metric_bar("Precision (macro)", 0.94)
+            metric_bar("Recall (macro)", 0.94)
+            metric_bar("F1-score (macro)", 0.94)
+            metric_bar("Val Loss (↓ skala)", 1-0.94)
+            st.markdown("Performa merata di tiga kelas; tidak tampak bias dominan.")
             st.markdown("</div>", unsafe_allow_html=True)
 
-            colA, colB = st.columns(2)
-            with colA:
-                st.markdown("<div class='card'><div class='card-title'>Arsitektur</div>", unsafe_allow_html=True)
-                st.markdown(
-                    "<div class='flow'>"
-                    "<div class='node'>Conv2D(32) → MaxPool</div>"
-                    "<div class='node'>Conv2D(64) → MaxPool</div>"
-                    "<div class='node'>Conv2D(128) → MaxPool</div>"
-                    "<div class='node'>Flatten → Dense(128) → Dropout(0.5)</div>"
-                    "<div class='node'>Dense(3, Softmax)</div>"
-                    "</div>", unsafe_allow_html=True
-                )
-                st.markdown("Optimizer **Adam**, loss **categorical_crossentropy**; regularisasi **Dropout 0.5**.")
-                st.markdown("</div>", unsafe_allow_html=True)
-            with colB:
-                st.markdown("<div class='card card-small'><div class='card-title'>Evaluasi</div>", unsafe_allow_html=True)
-                metric_bar("Accuracy", 0.94)
-                metric_bar("Precision (macro)", 0.94)
-                metric_bar("Recall (macro)", 0.94)
-                metric_bar("F1-score (macro)", 0.94)
-                metric_bar("Val Loss (↓ skala)", 1-0.94)
-                st.markdown("Performa merata di tiga kelas; tidak tampak bias dominan.")
-                st.markdown("</div>", unsafe_allow_html=True)
-
-            st.markdown("<div class='card'><div class='card-title'>Konfigurasi Training</div>", unsafe_allow_html=True)
-            st.markdown("""
+        st.markdown("<div class='card'><div class='card-title'>Konfigurasi Training</div>", unsafe_allow_html=True)
+        st.markdown("""
 **Epoch/Batch.** 50 / 32 • **Optimizer.** Adam (lr=1e-3) • **Callback.** EarlyStopping & Checkpoint  
-**Augment.** flip, rotasi kecil, brightness/contrast, slight zoom
-            """)
-            st.markdown("</div>", unsafe_allow_html=True)
+**Augment.** flip, rotation kecil, brightness/contrast, slight zoom
+        """)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-            st.markdown("<div class='card card-small'><div class='card-title'>Kesimpulan</div>", unsafe_allow_html=True)
-            st.markdown("CNN ringan (3 blok konvolusi) mencapai akurasi ~94% dan ideal sebagai pengklasifikasi akhir RPS.")
-            st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<div class='card card-small'><div class='card-title'>Kesimpulan</div>", unsafe_allow_html=True)
+        st.markdown("CNN ringan (3 blok konvolusi) mencapai akurasi ~94% dan ideal sebagai pengklasifikasi akhir RPS.")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        # Render sesuai pilihan
-        if model_choice == "Model Deteksi":
-            render_cards_deteksi()
-        else:
-            render_cards_klasifikasi()
+    # 7) Tampilkan sesuai pilihan
+    if model_choice == "Model Deteksi":
+        render_cards_deteksi()
+    else:
+        render_cards_klasifikasi()
 

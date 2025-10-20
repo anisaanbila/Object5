@@ -540,7 +540,7 @@ with tab_det:
                 res = yolo_model.predict(img, verbose=False)
                 plotted = res[0].plot()
                 plotted = cv2.cvtColor(plotted, cv2.COLOR_BGR2RGB)
-            st.image(plotted, use_container_width=True, caption="Bounding boxes")
+            st.image(plotted, use_container_width=True)
 
             names = res[0].names
             boxes = res[0].boxes

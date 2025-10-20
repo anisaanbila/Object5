@@ -386,6 +386,23 @@ header[data-testid="stHeader"]{ display:none; }
   opacity:.95;
 }
 
+/* Ajakan game */
+.game-lead{
+  text-align: justify;
+  text-justify: inter-word;
+  color:#EAEAFF;
+  font-size:1.05rem;
+  font-weight:600;            /* atur di sini: 500/600/700/800 */
+  margin-top:25px;
+  margin-bottom:16px;
+}
+
+/* Supaya <b>/<strong> di dalam .game-lead ikut bobot parent */
+.game-lead b,
+.game-lead strong{
+  font-weight: inherit !important;
+}
+
 
 </style>
 """, unsafe_allow_html=True)
@@ -544,10 +561,11 @@ with tab_det:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
                 
             st.markdown("""
-            <p style='text-align:justify; color:#EAEAFF; font-size:1.05rem; font-weight:300; margin-top:25px;'>
-            <b>Tertarik untuk mencoba game Rock–Paper–Scissors versi online?</b>
+            <p class='game-lead'>
+            Tertarik untuk mencoba game Rock–Paper–Scissors versi online?
             </p>
             """, unsafe_allow_html=True)
+
 
             # Tombol game online (Deteksi)
             st.markdown("""
@@ -595,8 +613,8 @@ with tab_cls:
             """, unsafe_allow_html=True)
                 
             st.markdown("""
-            <p style='text-align:justify; color:#EAEAFF; font-size:1.05rem; font-weight:300; margin-top:25px;'>
-            <b>Tertarik untuk mencoba game Rock–Paper–Scissors versi online?</b>
+            <p class='game-lead'>
+            Tertarik untuk mencoba game Rock–Paper–Scissors versi online?
             </p>
             """, unsafe_allow_html=True)
         

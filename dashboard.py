@@ -585,4 +585,40 @@ with tab_docs:
     </style>
     """, unsafe_allow_html=True)
 
-    # ... (lanjutkan definisi metric_bar, intro model, dan render_cards)
+# --- Util untuk metrik bar
+    def metric_bar(label:str, value:float):
+        pct = max(0.0, min(1.0, float(value))) * 100
+        st.markdown(
+            f"<div class='prog-wrap'><span class='lbl'>{label}</span>"
+            f"<div class='prog'><span style='--w:{pct:.2f}%;'></span></div>"
+            f"<span class='val'>{pct:.1f}%</span></div>",
+            unsafe_allow_html=True
+        )
+
+    # --- Intro singkat
+    if model_choice == "Model Deteksi":
+        st.markdown("""
+        <div class="model-intro">
+          <b>Ringkasnya:</b> model deteksi (YOLOv8) mencari <i>posisi</i> tangan pada gambar, lalu memberi kotak (bounding box) dan label.
+          Ia memproses gambar sekali jalan (<i>single shot</i>) sehingga cepat dan cocok untuk real-time.
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+        <div class="model-intro">
+          <b>Ringkasnya:</b> model klasifikasi (CNN) fokus pada <i>isi</i> gambar yang sudah rapi (crop) lalu menentukan kelas: batu, gunting, atau kertas.
+          Sederhana dan efisien untuk pengenalan satu gambar.
+        </div>
+        """, unsafe_allow_html=True)
+
+    # --- Renderer kartu (fungsi-fungsi milikmu tetap sama) ...
+    # def render_cards_deteksi(): ...
+    # def render_cards_klasifikasi(): ...
+
+    if model_choice == "Model Deteksi":
+        render_cards_deteksi()
+    else:
+        render_cards_klasifikasi()
+
+    # tutup kontainer
+    st.markdown("</div>", unsafe_allow_html=True)

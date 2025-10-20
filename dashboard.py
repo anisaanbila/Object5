@@ -341,8 +341,36 @@ header[data-testid="stHeader"]{ display:none; }
   color: #000000 !important;
   box-shadow: 0 0 10px rgba(255,255,255,0.3);
 }
-
-
+st.markdown("""
+<style>
+.model-plain {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin-top: 10px;
+}
+.model-body {
+  color:#EAEAFF;
+  line-height:1.6;
+  background:transparent !important;
+}
+.card-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:.6rem;
+}
+.icon-bubble{
+  width:40px; height:40px;
+  min-width:40px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:10px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.12);
+}
+.icon-bubble svg{ width:22px; height:22px; color:#fff; opacity:.95; }
+.card-title-mini{ font-weight:700; font-size:1.25rem; color:#fff; line-height:1.2; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -589,7 +617,8 @@ with tab_docs:
         )
         # >>> isi PERSIS seperti yang kamu kirim (tanpa perubahan redaksi)
         st.markdown(f"<div class='model-body'>{body_md}</div>", unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<div class='model-plain'>", unsafe_allow_html=True)
+
     
     # === SVG ikon lucide (inline)
     ICON_BRAIN = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"

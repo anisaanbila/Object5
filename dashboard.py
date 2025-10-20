@@ -573,7 +573,7 @@ with tab_docs:
         display:flex;
         align-items:center;
         gap:12px;
-        margin-top:-6px;
+        margin-top:-15px;
         margin-bottom:12px;
       }
       .icon-bubble{

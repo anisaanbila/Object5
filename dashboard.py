@@ -533,8 +533,9 @@ with tab_cls:
             st.dataframe(df, use_container_width=True, hide_index=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
+
 # =========================
-# TAB: PENJELASAN MODEL (dropdown + per-box)
+# TAB: PENJELASAN MODEL
 # =========================
 with tab_docs:
     model_choice = st.selectbox("Pilih model yang ingin dijelaskan", ["YOLOv8", "CNN"], index=0)

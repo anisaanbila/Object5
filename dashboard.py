@@ -543,43 +543,68 @@ with tab_docs:
         index=0
     )
 
-    # ==== CSS full transparan ====
+    # ==== CSS full transparan + tambahan styling dropdown ====
     st.markdown("""
     <style>
+      /* Label dropdown */
+      div[data-baseweb="select"] label, 
+      .stSelectbox label {
+          font-size: 1.1rem !important;
+          font-weight: 700 !important;
+          color: #FFFFFF !important;
+      }
+
+      /* Tulisan dalam dropdown (selected text dan opsi) */
+      .stSelectbox div[data-baseweb="select"] > div {
+          color: #111111 !important;
+          font-weight: 600 !important;
+          font-size: 1rem !important;
+      }
+
+      /* Warna teks opsi ketika dropdown dibuka */
+      div[data-baseweb="popover"] li {
+          color: #111111 !important;
+          font-weight: 500 !important;
+      }
+
+      /* Efek hover opsional */
+      div[data-baseweb="popover"] li:hover {
+          background-color: rgba(255, 255, 255, 0.15) !important;
+      }
+
+      /* CSS model-head & model-body tetap */
       .model-head{
-        display:flex;
-        align-items:center;
-        gap:12px;
-        margin-top:20px;
-        margin-bottom:12px;
+          display:flex;
+          align-items:center;
+          gap:12px;
+          margin-top:20px;
+          margin-bottom:12px;
       }
       .icon-bubble{
-        width:44px; height:44px; min-width:44px;
-        display:flex; align-items:center; justify-content:center;
-        border-radius:12px;
-        background:rgba(255,255,255,.09);
-        border:1px solid rgba(255,255,255,.12);
+          width:44px; height:44px; min-width:44px;
+          display:flex; align-items:center; justify-content:center;
+          border-radius:12px;
+          background:rgba(255,255,255,.09);
+          border:1px solid rgba(255,255,255,.12);
       }
       .icon-bubble svg{ width:24px; height:24px; color:#fff; opacity:.95; }
       .model-title{
-        font-weight:800;
-        font-size:1.5rem;
-        color:#FFFFFF;
-        text-shadow:0 0 8px rgba(255,255,255,.2);
+          font-weight:800;
+          font-size:1.5rem;
+          color:#FFFFFF;
+          text-shadow:0 0 8px rgba(255,255,255,.2);
       }
       .model-body{
-        color:#EAEAFF;
-        line-height:1.7;
-        font-size:1.05rem;
-        white-space:pre-wrap;
-        background:transparent !important;
-        padding:0 !important;
-        margin:0 !important;
-        text-align: justify;     /* 🟢 Tambahkan ini */
-        text-justify: inter-word; /* opsional biar antar kata rata */
+          color:#EAEAFF;
+          line-height:1.7;
+          font-size:1.05rem;
+          white-space:pre-wrap;
+          text-align:justify;
+          text-justify:inter-word;
       }
     </style>
     """, unsafe_allow_html=True)
+
 
     # ==== ikon lucide ====
     ICON_BRAIN = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"

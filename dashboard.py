@@ -183,8 +183,8 @@ header[data-testid="stHeader"]{ display:none; }
   align-items: center;
   gap: 0.1rem;                        /* jarak ikon ↔ teks */
   color: #E0E2FF !important;
-  font-weight: 500 !important;
-  font-size: 1rem !important;       /* ukuran teks tab */
+  font-weight: 600 !important;
+  font-size: 1.2rem !important;       /* ukuran teks tab */
   line-height: 1.25 !important;
   padding: 0.8rem 1.6rem;
   border: none;

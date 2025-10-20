@@ -537,11 +537,18 @@ with tab_cls:
 # TAB: PENJELASAN MODEL
 # =========================
 # === Dropdown model (gantikan selectbox lama) ===
-model_choice = st.selectbox(
-    "Pilih jenis model yang ingin dijelaskan:",
-    ["Model Deteksi", "Model Klasifikasi"],
-    index=0
-)
+with tab_docs:
+    model_choice = st.selectbox(...)
+
+    # ← taruh di sini, sebelum render_cards_* dipakai
+    def metric_bar(label: str, value: float):
+        pct = max(0.0, min(1.0, float(value))) * 100
+        st.markdown(
+            f"<div class='prog-wrap'><span class='lbl'>{label}</span>"
+            f"<div class='prog'><span style='--w:{pct:.2f}%;'></span></div>"
+            f"<span class='val'>{pct:.1f}%</span></div>",
+            unsafe_allow_html=True
+        )
 
 # (opsional) style intro singkat
 st.markdown("""

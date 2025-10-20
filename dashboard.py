@@ -551,19 +551,19 @@ with tab_docs:
       .stSelectbox label {
           font-size: 1.1rem !important;
           font-weight: 700 !important;
-          color: #FFFFFF !important;
+          color: #545454 !important;
       }
 
       /* Tulisan dalam dropdown (selected text dan opsi) */
       .stSelectbox div[data-baseweb="select"] > div {
-          color: #111111 !important;
+          color: #545454 !important;
           font-weight: 600 !important;
           font-size: 1rem !important;
       }
 
       /* Warna teks opsi ketika dropdown dibuka */
       div[data-baseweb="popover"] li {
-          color: #111111 !important;
+          color: #545454 !important;
           font-weight: 500 !important;
       }
 

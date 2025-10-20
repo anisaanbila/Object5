@@ -543,50 +543,43 @@ with tab_docs:
         index=0
     )
 
+    # ==== CSS full transparan ====
     st.markdown("""
     <style>
-    /* ========= Label di atas dropdown ========= */
-    .stSelectbox > label, 
-    div[data-baseweb="select"] label,
-    .stSelectbox label {
-      font-size: 1.2rem !important;   /* <> perbesar label */
-      font-weight: 800 !important;     /* <> tebalkan */
-      color: #FFFFFF !important;       /* <> putih (kontras dengan bg ungu) */
-    }
-    
-    /* ========= Teks yang tampil di kotak dropdown (selected value / placeholder) ========= */
-    /* combobox container + semua anaknya dipaksa pakai warna gelap */
-    .stSelectbox div[data-baseweb="select"] div[role="combobox"],
-    .stSelectbox div[data-baseweb="select"] div[role="combobox"] *,
-    .stSelectbox div[data-baseweb="select"] input,
-    .stSelectbox div[data-baseweb="select"] span {
-      color: #0F172A !important;       /* <> gelap (slate-900) agar tidak putih */
-      opacity: 1 !important;           /* <> jangan pudar */
-    }
-    
-    /* placeholder bawaan BaseWeb sering pakai class internal — paksa juga */
-    .stSelectbox div[data-baseweb="select"] [class*="placeholder"] {
-      color: #0F172A !important;
-      opacity: 1 !important;
-    }
-    
-    /* ikon caret (segitiga) */
-    .stSelectbox div[data-baseweb="select"] svg {
-      color: #0F172A !important;
-      opacity: .8 !important;
-    }
-    
-    /* ========= Menu opsi saat dropdown dibuka ========= */
-    div[data-baseweb="popover"] li,
-    div[data-baseweb="popover"] li * {
-      color: #0F172A !important;       /* teks opsi gelap */
-    }
-    div[data-baseweb="popover"] li:hover {
-      background: rgba(255,255,255,0.15) !important; /* efek hover opsional */
-    }
+      .model-head{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        margin-top:20px;
+        margin-bottom:12px;
+      }
+      .icon-bubble{
+        width:44px; height:44px; min-width:44px;
+        display:flex; align-items:center; justify-content:center;
+        border-radius:12px;
+        background:rgba(255,255,255,.09);
+        border:1px solid rgba(255,255,255,.12);
+      }
+      .icon-bubble svg{ width:24px; height:24px; color:#fff; opacity:.95; }
+      .model-title{
+        font-weight:800;
+        font-size:1.5rem;
+        color:#FFFFFF;
+        text-shadow:0 0 8px rgba(255,255,255,.2);
+      }
+      .model-body{
+          color:#EAEAFF;
+          line-height:1.7;
+          font-size:1.05rem;
+          white-space:pre-wrap;
+          background:transparent !important;
+          padding:0 !important;
+          margin:0 !important;
+          text-align: justify;     /* 🟢 Tambahkan ini */
+          text-justify: inter-word; /* opsional biar antar kata rata */
+      }
     </style>
     """, unsafe_allow_html=True)
-
 
 
     # ==== ikon lucide ====

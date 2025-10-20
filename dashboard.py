@@ -609,8 +609,8 @@ with tab_docs:
     def render_cards_deteksi():
         st.markdown("<div class='card'><div class='card-title'>Dataset</div>", unsafe_allow_html=True)
         st.markdown("""
-**Sumber & Kelas.** Rock–Paper–Scissors (format YOLO/Roboflow) dengan anotasi bounding box.  
-**Resolusi.** 640×640 • **Split.** 80% train, 10% val, 10% test • **Format.** Anchor-free YOLOv8.
+        **Sumber & Kelas.** Rock–Paper–Scissors (format YOLO/Roboflow) dengan anotasi bounding box.  
+        **Resolusi.** 640×640 • **Split.** 80% train, 10% val, 10% test • **Format.** Anchor-free YOLOv8.
         """)
         counts = {"Rock":726, "Paper":712, "Scissors":750}
         colc = st.columns(3)
@@ -655,8 +655,8 @@ with tab_docs:
 
         st.markdown("<div class='card'><div class='card-title'>Konfigurasi Training</div>", unsafe_allow_html=True)
         st.markdown("""
-**Epoch/Batch.** 100 / 16 • **Optimizer.** SGD/AdamW • **LR.** cosine decay  
-**Augment.** mosaic, hsv, flip, scale • **Callback.** EarlyStopping & Checkpoint
+        **Epoch/Batch.** 100 / 16 • **Optimizer.** SGD/AdamW • **LR.** cosine decay  
+        **Augment.** mosaic, hsv, flip, scale • **Callback.** EarlyStopping & Checkpoint
         """)
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -668,8 +668,8 @@ with tab_docs:
     def render_cards_klasifikasi():
         st.markdown("<div class='card'><div class='card-title'>Dataset</div>", unsafe_allow_html=True)
         st.markdown("""
-**Sumber & Kelas.** Rock–Paper–Scissors (image classification).  
-**Resolusi.** 224×224 RGB • **Split.** 70/20/10 • **Preprocess.** normalisasi 0–1, augment ringan.
+        **Sumber & Kelas.** Rock–Paper–Scissors (image classification).  
+        **Resolusi.** 224×224 RGB • **Split.** 70/20/10 • **Preprocess.** normalisasi 0–1, augment ringan.
         """)
         counts = {"Rock":726, "Paper":712, "Scissors":750}
         colc = st.columns(3)
@@ -716,8 +716,8 @@ with tab_docs:
 
         st.markdown("<div class='card'><div class='card-title'>Konfigurasi Training</div>", unsafe_allow_html=True)
         st.markdown("""
-**Epoch/Batch.** 50 / 32 • **Optimizer.** Adam (lr=1e-3) • **Callback.** EarlyStopping & Checkpoint  
-**Augment.** flip, rotasi kecil, brightness/contrast, slight zoom
+        **Epoch/Batch.** 50 / 32 • **Optimizer.** Adam (lr=1e-3) • **Callback.** EarlyStopping & Checkpoint  
+        **Augment.** flip, rotasi kecil, brightness/contrast, slight zoom
         """)
         st.markdown("</div>", unsafe_allow_html=True)
 

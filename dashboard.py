@@ -538,217 +538,125 @@ with tab_cls:
 # TAB: PENJELASAN MODEL — dropdown → deskripsi → cards (rapi)
 # ============================================================
 with tab_docs:
-    # Wrapper supaya CSS-nya hanya berlaku di tab ini
-    st.markdown("<div class='tab-docs'>", unsafe_allow_html=True)
+    # === Dropdown
+model_choice = st.selectbox(
+    "Pilih jenis model yang ingin dijelaskan:",
+    ["Model Klasifikasi", "Model Deteksi"],
+    index=0
+)
 
-    # CSS ringkas khusus tab ini
-    st.markdown("""
-    <style>
-      .tab-docs .card{
-        position:relative;
-        background:
-          linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)) padding-box,
-          linear-gradient(90deg, rgba(114,38,255,.35), rgba(1,0,48,.35)) border-box;
-        border:1px solid transparent; border-radius:16px;
-        padding:12px 16px; margin-bottom:14px;
-        box-shadow:0 16px 44px rgba(0,0,0,.38);
-      }
-      .tab-docs .card-title{ font-weight:700; font-size:1.4rem; margin:0 0 .5rem 0; color:#fff; }
-      .tab-docs .model-intro{
-        margin:10px 0 18px 0; padding:12px 16px; border-radius:12px;
-        background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
-        color:#EAEAFF; line-height:1.55;
-      }
-      .tab-docs .model-intro b{ color:#fff; }
-      .tab-docs .icon-bubble{
-        width:40px; height:40px; display:flex; align-items:center; justify-content:center;
-        border-radius:10px; background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.12);
-      }
-      .tab-docs .icon-bubble svg{ width:22px; height:22px; color:#fff; opacity:.95; }
+# === CSS kecil khusus tab ini (padding card lebih rapat + header dengan ikon)
+st.markdown("""
+<style>
+  [data-testid="stTabContent"] .card{
+    position:relative;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)) padding-box,
+      linear-gradient(90deg, rgba(114,38,255,.35), rgba(1,0,48,.35)) border-box;
+    border:1px solid transparent; border-radius:16px;
+    padding:14px 16px !important; margin-bottom:14px !important;
+    box-shadow:0 16px 44px rgba(0,0,0,.38);
+  }
+  .card-head{
+    display:flex; align-items:center; gap:12px; margin-bottom:.6rem;
+  }
+  .icon-bubble{
+    width:40px; height:40px; min-width:40px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:10px;
+    background:rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.12);
+  }
+  .icon-bubble svg{ width:22px; height:22px; color:#fff; opacity:.95; }
+  .card-title-mini{
+    font-weight:700; font-size:1.25rem; color:#fff; line-height:1.2;
+  }
+  .model-body{ color:#EAEAFF; line-height:1.6; }
+</style>
+""", unsafe_allow_html=True)
 
-      /* Progress bars */
-      .tab-docs .prog-wrap{ display:flex; align-items:center; gap:10px; margin:.35rem 0; }
-      .tab-docs .prog-wrap .lbl{ width:190px; color:#E0E2FF; }
-      .tab-docs .prog-wrap .prog{ flex:1; height:10px; border-radius:999px; background:rgba(255,255,255,.12); overflow:hidden; }
-      .tab-docs .prog-wrap .prog span{ display:block; height:100%; width:var(--w,0%); background:linear-gradient(90deg,#602FFF,#8D3FFF); }
-      .tab-docs .prog-wrap .val{ width:80px; text-align:right; color:#E0E2FF; }
-
-      /* Flow node arsitektur */
-      .tab-docs .flow{ display:grid; gap:8px; }
-      .tab-docs .node{
-        padding:10px 12px; border-radius:10px;
-        background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10);
-        color:#EAEAFF; font-weight:500;
-      }
-    </style>
-    """, unsafe_allow_html=True)
-
-    # Util: progress bar
-    def metric_bar(label: str, value: float):
-        pct = max(0.0, min(1.0, float(value))) * 100
-        st.markdown(
-            f"<div class='prog-wrap'><span class='lbl'>{label}</span>"
-            f"<div class='prog'><span style='--w:{pct:.2f}%;'></span></div>"
-            f"<span class='val'>{pct:.1f}%</span></div>",
-            unsafe_allow_html=True
-        )
-
-    # Ikon mini untuk counter per kelas
-    ICONS = {
-        "Rock": """<path d="M18,30 c-4,0 -8,-3 -8,-7 v-8 c0-6 16-6 16,2 v6 c0,4 -4,7 -8,7z" stroke="white" stroke-width="3" fill="none"/>""",
-        "Paper": """<path d="M14,30 c-3,-10 2,-18 8,-18 5,0 6,5 6,10 v8" stroke="white" stroke-width="3" fill="none"/><path d="M10,26 c-2,-7 1,-12 6,-12" stroke="white" stroke-width="3" fill="none"/>""",
-        "Scissors": """<path d="M10,12 l8,12 M22,12 l-6,10 M12,26 c4,4 10,4 12,0" stroke="white" stroke-width="3" fill="none"/>"""
-    }
-
-    # Renderer: KLASIFIKASI
-    def render_cards_klasifikasi():
-        # Dataset
-        st.markdown("<div class='card'><div class='card-title'>Dataset</div>", unsafe_allow_html=True)
-        st.markdown(
-            "**Sumber & Kelas.** Rock–Paper–Scissors (image classification).  \n"
-            "**Resolusi.** 224×224 RGB • **Split.** 70/20/10 • **Prepro.** normalisasi 0–1, augment ringan.",
-        )
-        counts = {"Rock": 726, "Paper": 712, "Scissors": 750}
-        colc = st.columns(3)
-        for (k, v), col in zip(counts.items(), colc):
-            col.markdown(
-                f"""
-                <div style="display:flex;align-items:center;gap:14px;margin-top:10px;">
-                  <div class="icon-bubble"><svg viewBox="0 0 36 36">{ICONS[k]}</svg></div>
-                  <div>
-                    <div style="font-weight:700;font-size:1.05rem">{k}</div>
-                    <div style="font-weight:800;font-size:1.6rem">{v:,}</div>
-                  </div>
-                </div>
-                """, unsafe_allow_html=True
-            )
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        # Arsitektur + Evaluasi
-        colA, colB = st.columns(2)
-        with colA:
-            st.markdown("<div class='card'><div class='card-title'>Arsitektur</div>", unsafe_allow_html=True)
-            st.markdown(
-                "<div class='flow'>"
-                "<div class='node'>Conv2D(32) → ReLU → MaxPool</div>"
-                "<div class='node'>Conv2D(64) → ReLU → MaxPool</div>"
-                "<div class='node'>Conv2D(128) → ReLU → MaxPool</div>"
-                "<div class='node'>Flatten → Dense(128) → Dropout(0.5)</div>"
-                "<div class='node'>Dense(3, Softmax)</div>"
-                "</div>", unsafe_allow_html=True
-            )
-            st.markdown("Optimizer **Adam**, loss **categorical_crossentropy**, regularisasi **Dropout 0.5**.")
-            st.markdown("</div>", unsafe_allow_html=True)
-        with colB:
-            st.markdown("<div class='card'><div class='card-title'>Evaluasi</div>", unsafe_allow_html=True)
-            metric_bar("Accuracy", 0.94)
-            metric_bar("Precision (macro)", 0.94)
-            metric_bar("Recall (macro)", 0.94)
-            metric_bar("F1-score (macro)", 0.94)
-            metric_bar("Val Loss (↓ skala)", 1-0.94)
-            st.markdown("Performa stabil di tiga kelas; tidak tampak bias dominan.")
-            st.markdown("</div>", unsafe_allow_html=True)
-
-        # Training
-        st.markdown("<div class='card'><div class='card-title'>Konfigurasi Training</div>", unsafe_allow_html=True)
-        st.markdown(
-            "**Epoch/Batch.** 50 / 32 • **Optimizer.** Adam (lr=1e-3) • **Callback.** EarlyStopping, Checkpoint  \n"
-            "**Augment.** flip, rotasi kecil, brightness/contrast, slight zoom"
-        )
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        # Kesimpulan
-        st.markdown("<div class='card'><div class='card-title'>Kesimpulan</div>", unsafe_allow_html=True)
-        st.markdown("CNN ringan (3 blok konvolusi) mencapai akurasi ~**94%**; cocok sebagai pengklasifikasi akhir RPS.")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    # Renderer: DETEKSI
-    def render_cards_deteksi():
-        # Dataset
-        st.markdown("<div class='card'><div class='card-title'>Dataset</div>", unsafe_allow_html=True)
-        st.markdown(
-            "**Sumber & Kelas.** Rock–Paper–Scissors (YOLO/Roboflow) dengan anotasi bounding box.  \n"
-            "**Resolusi.** 640×640 • **Split.** 80% train, 10% val, 10% test • **Format.** Anchor-free YOLOv8."
-        )
-        counts = {"Rock": 726, "Paper": 712, "Scissors": 750}
-        colc = st.columns(3)
-        for (k, v), col in zip(counts.items(), colc):
-            col.markdown(
-                f"""
-                <div style="display:flex;align-items:center;gap:14px;margin-top:10px;">
-                  <div class="icon-bubble"><svg viewBox="0 0 36 36">{ICONS[k]}</svg></div>
-                  <div>
-                    <div style="font-weight:700;font-size:1.05rem">{k}</div>
-                    <div style="font-weight:800;font-size:1.6rem">{v:,}</div>
-                  </div>
-                </div>
-                """, unsafe_allow_html=True
-            )
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        # Arsitektur + Evaluasi
-        colA, colB = st.columns(2)
-        with colA:
-            st.markdown("<div class='card'><div class='card-title'>Arsitektur</div>", unsafe_allow_html=True)
-            st.markdown(
-                "<div class='flow'>"
-                "<div class='node'>Backbone (C2f, SiLU, SPPF)</div>"
-                "<div class='node'>Neck (FPN/PAN, multi-scale fusion)</div>"
-                "<div class='node'>Head (anchor-free; box + cls)</div>"
-                "</div>", unsafe_allow_html=True
-            )
-            st.markdown("Prediksi box & kelas sekali jalan (<i>single shot</i>) → sangat cepat untuk real-time.")
-            st.markdown("</div>", unsafe_allow_html=True)
-        with colB:
-            st.markdown("<div class='card'><div class='card-title'>Evaluasi</div>", unsafe_allow_html=True)
-            metric_bar("Precision", 0.996)
-            metric_bar("Recall", 1.00)
-            metric_bar("mAP@50", 0.995)
-            metric_bar("mAP@50–95", 0.925)
-            metric_bar("Latency (↓ ms → cepat)", 1-0.017)  # ~17ms
-            st.markdown("Akurat & cepat — layak untuk **real-time**.")
-            st.markdown("</div>", unsafe_allow_html=True)
-
-        # Training
-        st.markdown("<div class='card'><div class='card-title'>Konfigurasi Training</div>", unsafe_allow_html=True)
-        st.markdown(
-            "**Epoch/Batch.** 100 / 16 • **Optimizer.** SGD/AdamW • **LR.** cosine decay  \n"
-            "**Augment.** mosaic, hsv, flip, scale • **Callback.** EarlyStopping & Checkpoint"
-        )
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        # Kesimpulan
-        st.markdown("<div class='card'><div class='card-title'>Kesimpulan</div>", unsafe_allow_html=True)
-        st.markdown("**YOLOv8n** presisi tinggi (**mAP@50 ≈ 0.995**) dengan latensi ~**17 ms/gambar** — ideal untuk deteksi tangan RPS real-time.")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    # ===== UI: Dropdown → deskripsi → cards =====
-    model_choice = st.selectbox(
-        "Pilih model yang ingin dijelaskan:",
-        ["Model Klasifikasi", "Model Deteksi"],
-        index=0
+def model_card(title:str, icon_svg:str, body_md:str):
+    st.markdown("<div class='card'>", unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <div class="card-head">
+          <div class="icon-bubble">
+            {icon_svg}
+          </div>
+          <div class="card-title-mini">{title}</div>
+        </div>
+        """, unsafe_allow_html=True
     )
+    # >>> isi PERSIS seperti yang kamu kirim (tanpa perubahan redaksi)
+    st.markdown(f"<div class='model-body'>{body_md}</div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
-    # Deskripsi singkat (di luar card)
-    if model_choice == "Model Klasifikasi":
-        st.markdown("""
-        <div class="model-intro">
-          <b>Model:</b> CNN (Convolutional Neural Network).<br>
-          <b>Sistem kerja:</b> gambar tangan (crop) dinormalisasi dan diubah ke ukuran tetap,
-          lalu diekstrak fiturnya lewat <i>Conv → ReLU → Pooling</i>; diakhiri <i>Dense + Softmax</i> untuk memilih
-          <b>Batu / Gunting / Kertas</b>. Cocok untuk input tunggal yang rapi.
-        </div>
-        """, unsafe_allow_html=True)
-        render_cards_klasifikasi()
-    else:
-        st.markdown("""
-        <div class="model-intro">
-          <b>Model:</b> YOLOv8 (object detection).<br>
-          <b>Sistem kerja:</b> dalam satu inferensi (<i>single shot</i>) model memprediksi lokasi (bounding box)
-          dan label tangan. Rangka <i>Backbone → Neck (FPN/PAN) → Head anchor-free</i> membuatnya cepat dan stabil
-          untuk <b>real-time</b>.
-        </div>
-        """, unsafe_allow_html=True)
-        render_cards_deteksi()
+# === SVG ikon lucide (inline)
+ICON_BRAIN = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M10 7a2 2 0 1 1 4 0"/><path d="M7.5 11.5A2.5 2.5 0 0 1 5 9V8a3 3 0 0 1 3-3"/>
+<path d="M16 5a3 3 0 0 1 3 3v1a2.5 2.5 0 0 1-2.5 2.5"/>
+<path d="M8 14a2 2 0 0 0-2 2v1a3 3 0 0 0 3 3h1"/><path d="M16 14a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3h-1"/>
+<path d="M12 5v14"/></svg>"""
 
-    st.markdown("</div>", unsafe_allow_html=True)  # tutup .tab-docs
+ICON_TARGET = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+<path d="M22 12h-4"/><path d="M6 12H2"/><path d="M12 6V2"/><path d="M12 22v-4"/></svg>"""
+
+# === Konten persis (markdown aman di-render; baris dibiarkan sesuai naskah)
+cnn_body = """
+**🧠 Model Klasifikasi (CNN)**
+
+Model ini digunakan untuk mengenali jenis tangan (batu, gunting, atau kertas) dari gambar statis. Sistem bekerja dengan cara mengekstraksi pola visual dari setiap gambar menggunakan lapisan-lapisan konvolusi, lalu menentukan kelas berdasarkan probabilitas tertinggi.
+
+Dataset yang digunakan berasal dari Dicoding Academy Rock–Paper–Scissors Dataset, yang berisi 2.188 gambar dengan tiga kelas utama, yaitu paper (712 gambar), rock (726 gambar), dan scissors (750 gambar). Seluruh gambar diseragamkan ke ukuran 224×224 piksel, kemudian dibagi menjadi 70% data latih, 20% validasi, dan 10% uji untuk memastikan proses pelatihan berjalan seimbang dan evaluasi akurat.
+
+Sebelum masuk ke model, dilakukan tahap preprocessing agar data seragam dan tidak menyebabkan overfitting, meliputi:
+
+- Resize gambar menjadi 224×224 piksel.
+- Normalisasi nilai piksel ke skala 0–1 agar proses pembelajaran lebih stabil.
+- Augmentasi pada data latih seperti rotasi ±10°, zoom 10%, dan horizontal flip untuk memperkaya variasi data.
+
+Model CNN ini terdiri atas beberapa lapisan utama:
+
+- Tiga lapisan konvolusi dan pooling yang bertugas mengekstraksi pola visual dari sederhana (tepi) hingga kompleks (bentuk tangan).
+- Lapisan Flatten dan Dense (128 neuron, ReLU) untuk memahami representasi global dari gambar.
+- Lapisan Dropout (0.5) agar model tidak overfitting.
+- Lapisan output Softmax (3 neuron) untuk memprediksi probabilitas tiap kelas.
+
+Selama pelatihan, digunakan callback EarlyStopping untuk menghentikan proses jika tidak ada peningkatan validation loss, serta ModelCheckpoint untuk menyimpan bobot terbaik. Kombinasi ini membuat model efisien dan stabil.
+
+Hasil akhirnya menunjukkan performa yang sangat baik dengan akurasi total 94%. Setiap kelas juga menunjukkan nilai precision, recall, dan F1-score di atas 0.9, menandakan model mampu mengenali pola tangan dengan sangat baik tanpa bias antar kelas. Dengan hasil tersebut, model CNN ini cocok digunakan untuk sistem klasifikasi gambar sederhana berbasis tangan secara cepat dan akurat.
+"""
+
+yolo_body = """
+**🎯 Model Deteksi (YOLOv8n)**
+
+Berbeda dari model sebelumnya, model YOLOv8n digunakan untuk mendeteksi sekaligus mengklasifikasikan objek tangan langsung di dalam gambar. Artinya, model tidak hanya menentukan jenis tangan, tetapi juga menunjukkan posisi pastinya melalui bounding box.
+
+Dataset yang digunakan berasal dari sumber yang sama (Dicoding Academy), namun telah melalui tahap labeling di Roboflow dan diubah menjadi 640×640 piksel. Data ini kemudian dibagi menjadi 80% data latih, 10% validasi, dan 10% uji, agar model dapat memahami pola dari berbagai posisi dan sudut pandang tangan.
+
+Secara arsitektur, YOLOv8n terdiri atas tiga bagian utama:
+
+- Backbone, yang bertugas mengekstraksi fitur dari gambar menggunakan lapisan Conv, C2f, dan SPPF.
+- Neck, yang menggabungkan informasi dari berbagai level fitur melalui struktur Feature Pyramid Network (FPN) dan Path Aggregation Network (PAN), agar model mampu mendeteksi objek kecil maupun besar.
+- Head, bagian akhir yang menghasilkan prediksi posisi dan kelas objek secara langsung (anchor-free).
+
+Selama pelatihan, model dijalankan selama 100 epoch dan menunjukkan hasil yang stabil dengan metrik evaluasi sangat tinggi:
+
+- Precision = 0.9957
+- Recall = 1.000
+- mAP50 = 0.995
+- mAP50–95 = 0.9248
+
+Performa ini menunjukkan bahwa model mampu mendeteksi seluruh objek tangan dengan akurasi hampir sempurna. Pada pengujian, model juga sangat efisien — membutuhkan waktu rata-rata 17 milidetik per gambar, terdiri atas pra-proses (2,4 ms), inferensi (13,5 ms), dan pascaproses (1,3 ms).
+
+Selain itu, hasil inferensi menunjukkan bahwa model dapat mengenali bentuk tangan dengan tingkat keyakinan tinggi, misalnya label “paper” dengan confidence score 0,95. Nilai tersebut memperlihatkan kemampuan YOLOv8n dalam mengenali objek secara cepat dan akurat, cocok untuk digunakan dalam sistem deteksi real-time seperti kamera interaktif atau aplikasi berbasis gestur tangan.
+"""
+
+# === Render sesuai pilihan (judul di header card pakai ikon lucide, isi PERSIS)
+if model_choice == "Model Klasifikasi":
+    model_card("Model Klasifikasi (CNN)", ICON_BRAIN, cnn_body)
+else:
+    model_card("Model Deteksi (YOLOv8n)", ICON_TARGET, yolo_body)

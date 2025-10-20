@@ -356,6 +356,37 @@ header[data-testid="stHeader"]{ display:none; }
   transform: translateY(-1px);
 }
 
+/* ===== Hasil Prediksi Futuristik ===== */
+.pred-result{
+  text-align:center;
+  margin-top:10px;
+  padding:14px 20px;
+  border-radius:14px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.15);
+  box-shadow:0 0 18px rgba(114,38,255,0.3), inset 0 0 12px rgba(255,255,255,0.05);
+  transition: all 0.3s ease;
+}
+.pred-result:hover{
+  box-shadow:0 0 28px rgba(114,38,255,0.55), 0 0 0 1px rgba(255,255,255,0.08) inset;
+  transform: translateY(-1px);
+}
+.pred-label{
+  font-size:2rem;
+  font-weight:800;
+  color:#FFFFFF;
+  letter-spacing:1px;
+  text-shadow:0 0 8px rgba(255,255,255,0.25), 0 0 18px rgba(114,38,255,0.45);
+}
+.pred-acc{
+  font-size:1.05rem;
+  color:#C7D2FE;
+  margin-top:4px;
+  font-weight:500;
+  opacity:.95;
+}
+
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -498,10 +529,20 @@ with tab_det:
             boxes = res[0].boxes
             if boxes is not None and len(boxes) > 0:
                 cls_ids = [int(c) for c in boxes.cls.tolist()]
+                confs = [float(c) for c in boxes.conf.tolist()]   # ambil nilai confidence
                 dominant = Counter(cls_ids).most_common(1)[0][0]
-                st.markdown(f"<div class='big-result'>Gambar ini terdeteksi sebagai {names[dominant].capitalize()}</div>", unsafe_allow_html=True)
+                conf_mean = np.mean(confs) * 100                  # rata-rata confidence (persentase)
+                conf_top  = max(confs) * 100                      # ambil yang tertinggi (opsional)
+                
+                st.markdown(f"""
+                <div class='pred-result'>
+                    <div class='pred-label'>{names[dominant].capitalize()}</div>
+                    <div class='pred-acc'>Akurasi Deteksi: {conf_top:.1f}%</div>
+                </div>
+                """, unsafe_allow_html=True)
             else:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
+
             # Tombol game online (Deteksi)
             st.markdown("""
             <div class='game-link'>

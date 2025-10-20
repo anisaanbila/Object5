@@ -504,8 +504,8 @@ with tab_det:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
         # Tombol game online (Deteksi)
         st.markdown("""
-        <div class='https://bloob.io/id/rps'>
-          <a href='https://www.rpsgame.org/' target='_blank' rel='noopener'>
+        <div class='game-link'>
+          <a href='https://bloob.io/id/rps' target='_blank' rel='noopener'>
             🎮 Mainkan Rock–Paper–Scissors Online
           </a>
         </div>
@@ -555,8 +555,8 @@ with tab_cls:
             st.dataframe(df, use_container_width=True, hide_index=True)
         # Tombol game online (Deteksi)
         st.markdown("""
-        <div class='https://bloob.io/id/rps'>
-          <a href='https://www.rpsgame.org/' target='_blank' rel='noopener'>
+        <div class='game-link'>
+          <a href='https://bloob.io/id/rps' target='_blank' rel='noopener'>
             🎮 Mainkan Rock–Paper–Scissors Online
           </a>
         </div>

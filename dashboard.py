@@ -543,6 +543,22 @@ with tab_docs:
         ["Model Deteksi", "Model Klasifikasi"],
         index=0
     )
+    
+st.markdown("""
+    <style>
+      /* kecilkan semua .card di tab Penjelasan Model saja */
+      [data-testid="stTabContent"] .card{
+        padding: 12px 16px !important;   /* << ubah angka ini untuk makin tipis */
+        margin-bottom: 14px !important;
+        border-radius: 16px !important;
+      }
+      /* kecilkan judul card */
+      [data-testid="stTabContent"] .card-title{
+        font-size: 1.4rem !important;
+        margin-bottom: .5rem !important;
+      }
+    </style>
+    """, unsafe_allow_html=True)
 
     # --- Style kecil untuk intro & card kecil (sekali saja di sini)
     st.markdown("""

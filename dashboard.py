@@ -388,12 +388,12 @@ header[data-testid="stHeader"]{ display:none; }
 
 /* Ajakan game */
 .game-lead{
-  text-align: justify;
+  text-align: center;
   text-justify: inter-word;
   color:#EAEAFF;
   font-size:1.05rem;
   font-weight:500;            /* atur di sini: 500/600/700/800 */
-  margin-top:40px;
+  margin-top:100px;
   margin-bottom:16px;
 }
 

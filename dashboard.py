@@ -542,6 +542,12 @@ with tab_det:
                 """, unsafe_allow_html=True)
             else:
                 st.info("Tidak ada objek terdeteksi pada gambar ini.")
+                
+            st.markdown("""
+            <p style='text-align:center; color:#EAEAFF; font-size:1.05rem; margin-top:25px;'>
+            🎮 <b>Tertarik untuk mencoba game Rock–Paper–Scissors versi online?</b>
+            </p>
+            """, unsafe_allow_html=True)
 
             # Tombol game online (Deteksi)
             st.markdown("""
@@ -587,11 +593,13 @@ with tab_cls:
               <div class='pred-acc'>Akurasi Klasifikasi: {conf_top:.1f}%</div>
             </div>
             """, unsafe_allow_html=True)
-            
-
-
-
-
+                
+            st.markdown("""
+            <p style='text-align:center; color:#EAEAFF; font-size:1.05rem; margin-top:25px;'>
+            🎮 <b>Tertarik untuk mencoba game Rock–Paper–Scissors versi online?</b>
+            </p>
+            """, unsafe_allow_html=True)
+        
             # Tombol game online (Deteksi)
             st.markdown("""
             <div class='game-link'>

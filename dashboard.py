@@ -656,6 +656,7 @@ with tab_docs:
         margin-bottom: 0.1px !important;  /* jarak ke elemen di bawah */
         margin-left: 0 !important;
         margin-right: 0 !important;
+        padding-bottom: 0 !important;
     }
     </style>
     """, unsafe_allow_html=True)

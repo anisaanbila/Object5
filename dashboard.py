@@ -541,6 +541,7 @@ with tab_det:
                 res = yolo_model.predict(img, verbose=False)
                 plotted = res[0].plot()
                 plotted = cv2.cvtColor(plotted, cv2.COLOR_BGR2RGB)
+                time.sleep(0.35)
             st.image(plotted, use_container_width=True)
 
             names = res[0].names
@@ -601,6 +602,7 @@ with tab_cls:
             arr = image.img_to_array(img_resized); arr = np.expand_dims(arr,0)/255.0
             with st.spinner("Mengklasifikasikan..."):
                 pred = classifier.predict(arr)
+                time.sleep(0.35)
             probs = pred[0].astype(float)
             labels = ["paper","rock","scissors"] if len(pred[0])==3 else [f"class_{i}" for i in range(len(pred[0]))]
             top_idx = int(np.argmax(probs)); top_name = labels[top_idx]; top_prob = float(probs[top_idx])

@@ -822,7 +822,7 @@ Cara kerja CNN dapat dianalogikan seperti seseorang yang belajar mengenali teman
 """
 
     yolo_text = """
-Model deteksi digunakan untuk mengenali sekaligus menentukan posisi objek tangan di dalam gambar. Model ini menggunakan algoritma YOLOv8n (<i>You Only Look Once</i> versi 8 – nano), yang dirancang untuk melakukan deteksi secara cepat dan efisien pada berbagai ukuran gambar.<br>
+Model deteksi digunakan untuk mengenali sekaligus menentukan posisi objek tangan di dalam gambar. Model ini menggunakan algoritma <b>YOLOv8n (<i>You Only Look Once</i> versi 8 – nano)</b>, yang dirancang untuk melakukan deteksi secara cepat dan efisien pada berbagai ukuran gambar.<br>
 
 Secara garis besar, cara kerjanya adalah sebagai berikut:
 • <b>Pemindaian gambar:</b> model membagi gambar menjadi banyak area kecil, masing-masing dianggap sebagai wilayah kandidat objek. 

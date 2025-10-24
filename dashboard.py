@@ -410,6 +410,18 @@ header[data-testid="stHeader"]{ display:none; }
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+/* Pastikan spinner Streamlit tidak ketutup komponen lain */
+[data-testid="stSpinner"]{
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%,-50%) !important;
+  z-index: 9999 !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # =========================
 # LOAD MODELS

@@ -6,8 +6,10 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 from PIL import Image
 import cv2
+import time
 import pandas as pd
 from collections import Counter
+
 
 st.set_page_config(
     page_title="DETEKSI DAN KLASIFIKASI GAMBAR BATU, GUNTING, DAN KERTAS",
